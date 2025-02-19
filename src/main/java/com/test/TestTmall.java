@@ -20,7 +20,7 @@ public class TestTmall
 
         try (
                 Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/tmall_springboot?useUnicode=true&characterEncoding=utf8",
-                        "root", "262518");
+                        "root", "2oo21oo1");
                 Statement s = c.createStatement();
         )
         {
