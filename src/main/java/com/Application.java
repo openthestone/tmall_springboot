@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 //@EnableElasticsearchRepositories(basePackages = "com.es")
 //@EnableJpaRepositories(basePackages = {"com.dao", "com.pojo"})
 public class Application {
-//    static {
+    //    static {
 //        PortUtil.checkPort(9300,"ElasticSearch 服务端",true);
 //        PortUtil.checkPort(5601,"Kibana 工具", true);
 //    }

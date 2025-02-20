@@ -34,19 +34,7 @@ public class ProductService {
         return new Page4Navigator<>(pageFromJPA, navigatePages);
     }
 
-    public List<String> test1(List a) {
-        System.out.println(a);
-        List<String> list = new ArrayList<>();
-        list.add("1.zip");
-        list.add("2.zip");
-        list.add("11.zip");
-        list.add("12.zip");
-        list.add("22.zip");
-        list.add("32.zip");
-        list.add("33.zip");
-        list.add("34.zip");
-        return list;
-    }
+
 
     public List<Integer> queryFile(List<Map<String, String>> selectValue) {
         Map<String, String> map = new HashMap<>();
@@ -162,5 +150,8 @@ public class ProductService {
             //下载
             ZipFilesUtil.downloadFile(new File(path), tempName, request, response);
         }
+    }
+    public void upload(){
+
     }
 }

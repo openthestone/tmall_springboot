@@ -15,12 +15,23 @@ public class AdminPageController {
         return "admin/listProduct";
     }
 
+    @GetMapping(value = "/admin_temp_product_list")
+    public String listTempCategory() {
+        return "admin/listTempProduct";
+    }
+
     @GetMapping(value = "/admin_product_edit")
     public String editCategory() {
         return "admin/editProduct";
     }
-    @GetMapping(value="/admin_user_list")
-    public String listUser(){
+
+    @GetMapping(value = "/admin_temp_product_edit")
+    public String editTempCategory() {
+        return "admin/editTempProduct";
+    }
+
+    @GetMapping(value = "/admin_user_list")
+    public String listUser() {
         return "admin/listUser";
 
     }

@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
-<head th:include="include/admin/adminHeader::html('数据管理')">
-    <meta charset="UTF-8">
-</head>
+<meta charset="UTF-8">
+<head th:include="include/admin/adminHeader::html('数据管理')"></head>
 <body>
 <div th:replace="include/admin/adminNavigator::html"></div>
 <script>
@@ -11,11 +9,26 @@
         var data4Vue = {
             uri: 'products',
             pagination: {},
-            bean: {id: 0, name: '', sizex: '', sizey: '', sizez: '',nX:'',nY:'',strainX:'',strainY:'',elecX:'',elecY:'',
-                elecZ:'',dataType:'',Doi:'',SupplmentaryInfo:''},
+            bean: {
+                id: 0,
+                name: '',
+                sizex: '',
+                sizey: '',
+                sizez: '',
+                nX: '',
+                nY: '',
+                strainX: '',
+                strainY: '',
+                elecX: '',
+                elecY: '',
+                elecZ: '',
+                dataType: '',
+                Doi: '',
+                SupplmentaryInfo: ''
+            },
             beans: [],
             //Imagfile: null,
-           // file:null,
+            // file:null,
         };
 
         //ViewModel
@@ -39,7 +52,7 @@
                     if (!checkEmpty(this.bean.name, "数据名称"))
                         return;
                     //TODO 禁止添加重复数据
-                    var url = this.uri;
+
                     //axios.js 上传文件要用 formData 这种方式
                     var formData = new FormData();
                     // bean: {id: 0, name: '', sizex: '', sizey: '', sizez: '',nX:'',nY:'',strainX:'',strainY:'',elecX:'',elecY:'',
@@ -58,24 +71,36 @@
                     formData.append("dataType", this.bean.dataType);
                     formData.append("Doi", this.bean.Doi);
                     formData.append("SupplmentaryInfo", this.bean.SupplmentaryInfo);
-                    //TODO 不懂什么意思
-                    axios.post(url, formData).then(function (response) {
+                    axios.post("add_products", formData).then(function (response) {
                         vue.list(0);
-                        vue.bean ={id: 0, name: '', sizex: '', sizey: '', sizez: '',nX:'',nY:'',strainX:'',strainY:'',ElecX:'',ElecY:'',ElecZ:'',datetype:''};
+                        vue.bean = {
+                            id: 0,
+                            name: '',
+                            sizex: '',
+                            sizey: '',
+                            sizez: '',
+                            nX: '',
+                            nY: '',
+                            strainX: '',
+                            strainY: '',
+                            ElecX: '',
+                            ElecY: '',
+                            ElecZ: '',
+                            datetype: ''
+                        };
                         // $("#categoryPic").val('');
                         // vue.file = null;
                     });
                 },
                 //删除数据
                 deleteBean: function (id) {
-                    if(!checkDeleteLink())
+                    if (!checkDeleteLink())
                         return;
-                    var url = this.uri+"/"+id;
-                    axios.delete(url).then(function(response){
-                        if(0!=response.data.length){
+                    var url = this.uri + "/" + id;
+                    axios.delete(url).then(function (response) {
+                        if (0 != response.data.length) {
                             alert(response.data);
-                        }
-                        else{
+                        } else {
                             vue.list(0);
                         }
                     });
@@ -118,8 +143,8 @@
             </tr>
             </thead>
             <tbody>
-<!--              bean: {id: 0, name: '', sizex: '', sizey: '', sizez: '',
-NX:'',NY:'',strainX:'',strainY:'',ElecX:'',ElecY:'',ElecZ:'',datetype:''},-->
+            <!--              bean: {id: 0, name: '', sizex: '', sizey: '', sizez: '',
+            NX:'',NY:'',strainX:'',strainY:'',ElecX:'',ElecY:'',ElecZ:'',datetype:''},-->
             <tr v-for="bean in beans ">
                 <td>{{bean.id}}</td>
                 <td>
@@ -157,8 +182,9 @@ NX:'',NY:'',strainX:'',strainY:'',ElecX:'',ElecY:'',ElecZ:'',datetype:''},-->
                 </td>
                 <td>
                     {{bean.dataType}}
-<!--TODO  -->
+
                 </td>
+                <!--TODO  -->
                 <td>
 
                 </td>
@@ -233,7 +259,8 @@ NX:'',NY:'',strainX:'',strainY:'',ElecX:'',ElecY:'',ElecZ:'',datetype:''},-->
                 </tr>
                 <tr>
                     <td>SupplmentaryInfo:</td>
-                    <td><input @keyup.enter="add" v-model.trim="bean.SupplmentaryInfo" type="text" class="form-control"></td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.SupplmentaryInfo" type="text" class="form-control">
+                    </td>
                 </tr>
                 <tr class="submitTR">
                     <td colspan="2" align="center">

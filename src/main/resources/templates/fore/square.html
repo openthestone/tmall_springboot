@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<meta charset="UTF-8">
 <head>
     <meta charset="utf-8"/>
     <!--    <link rel="apple-touch-icon" sizes="76x76" href="DB/assets/img/favicon.ico">-->
@@ -89,13 +89,17 @@
                 <!-- 结果展示 -->
                 <div class="col-md-6 pt-6 pb-6 align-self-center">
                     <h4 class="secondfont mb-3">Results</h4>
-
+                    <ul v-if="fileList == null || fileList.length <= 0 " >
+                        查无此数据！
+                    </ul>
                     <ol class="list-featured">
                         <li>
                             <el-checkbox-group v-model="checkedList" @change="handleCheckedFiles">
+
                                 <el-checkbox v-for="choice in fileList" :label="choice" :key="choice"
                                              style="display: block;">{{choice}}
                                 </el-checkbox>
+
                             </el-checkbox-group>
                         </li>
 
@@ -126,23 +130,72 @@
                 </div>
                 <div class="form-group">
                     <div class="form-inline">
-                        <label for="Size" style="width: 200px;"> Size </label>
+                        <label for="SizeX" style="width: 200px;"> SizeX </label>
                         <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
-                               v-model="formObj.size">
+                               v-model="formObj.sizex">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="form-inline">
-                        <label for="Substrate" style="width: 200px;"> Substrate Info </label>
+                        <label for="SizeY" style="width: 200px;"> SizeY </label>
                         <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
-                               v-model="formObj.substrate">
+                               v-model="formObj.sizey">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="form-inline">
-                        <label for="Eletical" style="width: 200px;"> Eletical Info </label>
+                        <label for="SizeZ" style="width: 200px;"> SizeZ </label>
                         <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
-                               v-model="formObj.eletical">
+                               v-model="formObj.sizez">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-inline">
+                        <label for="NX" style="width: 200px;"> NX </label>
+                        <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
+                               v-model="formObj.nX">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-inline">
+                        <label for="NY" style="width: 200px;"> NY </label>
+                        <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
+                               v-model="formObj.nY">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-inline">
+                        <label for="StrainX" style="width: 200px;"> StrainX </label>
+                        <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
+                               v-model="formObj.strainX">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-inline">
+                        <label for="StrainY" style="width: 200px;"> StrainY </label>
+                        <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
+                               v-model="formObj.strainY">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-inline">
+                        <label for="ElecX" style="width: 200px;"> ElecX </label>
+                        <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
+                               v-model="formObj.elecX">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-inline">
+                        <label for="ElecY" style="width: 200px;"> ElecY </label>
+                        <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
+                               v-model="formObj.elecY">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-inline">
+                        <label for="ElecZ" style="width: 200px;"> ElecZ </label>
+                        <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
+                               v-model="formObj.elecZ">
                     </div>
                 </div>
                 <div class="form-group">
@@ -155,7 +208,7 @@
                     <div class="form-inline">
                         <label for="Supplmentary" style="width: 200px;"> Supplmentary Info </label>
                         <textarea name="" id="" cols="50" rows="3" class="form-control mr-2 mb-2"
-                                  v-model="formObj.supplment"></textarea>
+                                  v-model="formObj.SupplmentaryInfo"></textarea>
                     </div>
                 </div>
                 <div class="form-group" style="margin-top: 1.3333rem;">
@@ -166,6 +219,7 @@
             </form>
         </div>
     </div>
+
 </div>
 <!-- End Header -->
 
@@ -241,6 +295,7 @@
                 value: 'id_9',
                 label: 'NY'
             }],
+            //下拉列表值
             options: [[{
                 value: '10',  //sizex
                 label: '10'
@@ -306,16 +361,23 @@
             count: 0,
             list: [{attribute: '', value: '', val_options: [], id: this.count, flag: false}],
             // 符合筛选条件的文件名
-            fileList: [],
+            fileList: ["示例数据"],
             // 勾选下载文件名
             checkedList: [],
             formObj: {
                 name: '',
-                size: '',
-                substrate: '',
-                eletical: '',
+                sizeX: '',
+                sizeY: '',
+                sizeZ: '',
+                nX: '',
+                nY: '',
+                strainX: '',
+                strainY: '',
+                elecX: '',
+                elecY: '',
+                elecZ: '',
                 inputFile: '',
-                supplment: '',
+                SupplmentaryInfo: ''
             },
             formData: new FormData(),
 
@@ -329,8 +391,11 @@
                 obj.val_options = this.options[arr[1]];
                 // this.val_options = this.options[arr[1]];
             },
-
-            // checkedList: [],
+            /**
+             *
+             *下载查询结果值
+             **/
+            checkedList: [],
             downloadFile: function () {
                 var downloadList = this.checkedList;
                 axios({
@@ -342,9 +407,7 @@
                     }
                 ).then(function (response) {
                     const link=document.createElement('a');
-                    console.log(response);
                     let blob = new Blob([response.data], {type: "application/octet-stream"});
-                    console.log(blob);
                     //文件名，中文无法解析的时候会显示 _(下划线),生产环境获取不到
                     let _fileName = response.headers['content-disposition'].split(';')[1].split('=')[1];
                     link.style.display='none';
@@ -358,6 +421,9 @@
                     url.revokeObjectURL(link.href);//销毁url对象
                 });
             },
+            /**
+             * 查询
+             */
             query: function () {
                 var newlist = this.list;
                 var this_vue = this;
@@ -391,7 +457,7 @@
                 // console.log(index);
                 this.list.splice(index, 1);
             },
-            listClear: function () {
+            listClear: function () { //TODO 逻辑有问题
                 var length = this.list.length;
                 this.list.splice(1, length - 1);
             },
@@ -405,12 +471,23 @@
                 this.formObj.inputFile = event.target.files[0];
                 // console.log(this.formData);
             },
+            /**
+             * 上传文件
+             * @param event
+             */
             submitForm: function (event) {
                 // console.log(this.formObj);
                 this.formData.delete('name');
-                this.formData.delete('size');       //防止二次修改表单后重复添加
-                this.formData.delete('substrate');
-                this.formData.delete('eletical');
+                this.formData.delete('sizeX');       //防止二次修改表单后重复添加
+                this.formData.delete('sizeY');       //防止二次修改表单后重复添加
+                this.formData.delete('sizeZ');       //防止二次修改表单后重复添加
+                this.formData.delete('nX');
+                this.formData.delete('nY');
+                this.formData.delete('strainX');
+                this.formData.delete('strainY');
+                this.formData.delete('elecX');
+                this.formData.delete('elecY');
+                this.formData.delete('elecZ');
                 this.formData.delete('inputFile');
                 this.formData.delete('supplment');
                 for (let key in this.formObj) {
@@ -422,14 +499,16 @@
 
                 axios({
                     method: "post",
-                    url: "xxxxxxx",
+                    url: "add_temp_products",
                     headers: {
                         "Content-Type": "multipart/form-data"
                     },
                     withCredentials: true,
                     data: this.formData
                 }).then(({data}) => {
+
                     if (data.code === 0) {
+
                         this.$message({
                             showClose: true,
                             message: "上传成功",
