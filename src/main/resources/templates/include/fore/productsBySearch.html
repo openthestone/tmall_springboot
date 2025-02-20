@@ -1,4 +1,5 @@
 <div class th:fragment="html">
+    <meta charset="UTF-8">
     <div class="searchProducts">
         <div class="productUnit" price="${p.promotePrice}" v-for="p in products" >
             <a :href="'product?pid='+p.id">
