@@ -4,15 +4,15 @@
 <head th:include="include/fore/header::html" ></head>
 <body>
 <script>
-    <!--    sizex,sizey, sizez, nx,ny,strainx,strainy,elecx,elecy,elecz-->
+    <!--    sizex,sizey, sizez,strainx,strainy,nx,ny,elecx,elecy,elecz-->
     $(function () {
         var sizex = getUrlParms("sizex");
         var sizey = getUrlParms("sizey");
         var sizez = getUrlParms("sizez");
-        var NY = getUrlParms("nx");
-        var NX= getUrlParms("ny");
         var strainX= getUrlParms("strainx");
         var strainY = getUrlParms("strainy");
+        var NX = getUrlParms("nx");
+        var NY= getUrlParms("ny");
         var elecX = getUrlParms("elecx");
         var elecY = getUrlParms("elecy");
         var elecZ = getUrlParms("elecz");
@@ -30,10 +30,10 @@
             },
             methods: {
                 search1: function () {
-                    //tring sizex, String sizey, String sizez, String NX, String NY String strainX, String strainY, String ElecX, String ElecY,String ElecZ, Pageable pageable
-                    // var url = this.uri + "sizex",sizey, sizez, nx,ny,strainx,strainy,elecx,elecy,elecz" + keyword;
-                    var url = this.uri + "?sizex=" + sizex + "?sizey=" + sizey + "?sizez=" + sizez + "?nx=" + NX + "?ny=" + NY + "?strainx=" + strainX
-                        + "?strainy=" + strainY + "?elecx=" + elecX + "?elecy=" + elecY + "?elecz=" + elecZ;
+                    //tring sizex, String sizey, String sizez, String strainX, String strainY, String NX, String NY, String ElecX, String ElecY, String ElecZ, Pageable pageable
+                    // var url = this.uri + "sizex,sizey,sizez,nx,ny,strainx,strainy,elecx,elecy,elecz" + keyword;
+                    var url = this.uri + "?sizex=" + sizex + "?sizey=" + sizey + "?sizez=" + sizez + "?strainx=" + strainX
+                        + "?strainy=" + strainY + "?nx=" + NX + "?ny=" + NY  + "?elecx=" + elecX + "?elecy=" + elecY + "?elecz=" + elecZ;
                     axios.post(url).then(function (response) {
                         vue.products = response.data;
                         v
@@ -115,20 +115,20 @@
                             </li>
                             <li>
                                 <span class="font-weight-normal text-dark">
+                                    <strong> NX: </strong> <input type="text" placeholder="20" class="input-num"
+                                                                  style="margin-right: 20px;" name="nx">
+                                    <strong> NY: </strong> <input type="text" placeholder="20" class="input-num"
+                                                                  name="ny">
+                                </span>
+                            </li>
+                            <li>
+                                <span class="font-weight-normal text-dark">
                                     <strong> ElecX: </strong> <input type="text" placeholder="20" class="input-num"
                                                                      style="margin-right: 20px;" name="elecx">
                                     <strong> ElecY: </strong> <input type="text" placeholder="20" class="input-num"
                                                                      style="margin-right: 20px;" name="elecy">
                                     <strong> ElecZ: </strong> <input type="text" placeholder="20" class="input-num"
                                                                      name="elecz">
-                                </span>
-                            </li>
-                            <li>
-                                <span class="font-weight-normal text-dark">
-                                    <strong> NX: </strong> <input type="text" placeholder="20" class="input-num"
-                                                                  style="margin-right: 20px;" name="nx">
-                                    <strong> NY: </strong> <input type="text" placeholder="20" class="input-num"
-                                                                  name="ny">
                                 </span>
                             </li>
                         </ol>

@@ -25,7 +25,7 @@ public class TestTmall
         )
         {
             for (int i = 1; i <=10 ; i++) {
-                String sqlFormat = "insert into product values (null,"+i+",2.0,3.0,4.0)";
+                String sqlFormat = "insert into product values (null,"+i+",2.0,3.0,4.0,5.0)";
                 String sql = String.format(sqlFormat, i);
                 s.execute(sql);
             }

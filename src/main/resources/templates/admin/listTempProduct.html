@@ -16,10 +16,10 @@
                 sizex: '',
                 sizey: '',
                 sizez: '',
-                nX: '',
-                nY: '',
                 strainX: '',
                 strainY: '',
+                nX: '',
+                nY: '',
                 elecX: '',
                 elecY: '',
                 elecZ: '',
@@ -52,16 +52,16 @@
                     axios.get(url).then(function (response) {
                         vue.bean= response.data;
                         var formData = new FormData();
-                        // bean: {id: 0, name: '', sizex: '', sizey: '', sizez: '',nX:'',nY:'',strainX:'',strainY:'',elecX:'',elecY:'',
+                        // bean: {id: 0, name: '', sizex: '', sizey: '', sizez: '',strainX:'',strainY:'',nX:'',nY:'',elecX:'',elecY:'',
                         //elecZ:'',datetype:'',Doi:'',SupplmentaryInfo:''},
                         formData.append("name", vue.bean.name);
                         formData.append("sizex", vue.bean.sizex);
                         formData.append("sizey", vue.bean.sizey);
                         formData.append("sizez", vue.bean.sizez);
-                        formData.append("nX", vue.bean.nX);
-                        formData.append("nY", vue.bean.nY);
                         formData.append("strainX", vue.bean.strainX);
                         formData.append("strainY", vue.bean.strainY);
+                        formData.append("nX", vue.bean.nX);
+                        formData.append("nY", vue.bean.nY);
                         formData.append("elecX", vue.bean.elecX);
                         formData.append("elecY", vue.bean.elecY);
                         formData.append("elecZ", vue.bean.elecZ);
@@ -77,10 +77,10 @@
                                 sizex: '',
                                 sizey: '',
                                 sizez: '',
-                                nX: '',
-                                nY: '',
                                 strainX: '',
                                 strainY: '',
+                                nX: '',
+                                nY: '',
                                 ElecX: '',
                                 ElecY: '',
                                 ElecZ: '',
@@ -127,10 +127,10 @@
                 <th>sizex</th>
                 <th>sizey</th>
                 <th>sizez</th>
-                <th>NX</th>
-                <th>NY</th>
                 <th>strainX</th>
                 <th>strainY</th>
+                <th>NX</th>
+                <th>NY</th>
                 <th>ElecX</th>
                 <th>ElecY</th>
                 <th>ElecZ</th>
@@ -158,16 +158,16 @@
                     {{bean.sizez}}
                 </td>
                 <td>
-                    {{bean.nX}}
-                </td>
-                <td>
-                    {{bean.nY}}
-                </td>
-                <td>
                     {{bean.strainX}}
                 </td>
                 <td>
                     {{bean.strainY}}
+                </td>
+                <td>
+                    {{bean.nX}}
+                </td>
+                <td>
+                    {{bean.nY}}
                 </td>
                 <td>
                     {{bean.elecX}}

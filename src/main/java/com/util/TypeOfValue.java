@@ -28,27 +28,27 @@ public enum TypeOfValue {
     },
     id_5 {
         public String getType() {
-            return "elecX";
+            return "nX";
         }
     },
     id_6 {
         public String getType() {
-            return "elecY";
+            return "nY";
         }
     },
     id_7 {
         public String getType() {
-            return "elecZ";
+            return "elecX";
         }
     },
     id_8 {
         public String getType() {
-            return "nX";
+            return "elecY";
         }
     },
     id_9 {
         public String getType() {
-            return "nY";
+            return "elecZ";
         }
     },
 }

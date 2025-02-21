@@ -86,10 +86,10 @@ public class TempProductController {
         String sizex = request.getParameter("sizex");
         String sizey = request.getParameter("sizey");
         String sizez = request.getParameter("sizez");
-        String NX = request.getParameter("nX");
-        String NY = request.getParameter("nY");
         String strainX = request.getParameter("strainX");
         String strainY = request.getParameter("strainY");
+        String NX = request.getParameter("nX");
+        String NY = request.getParameter("nY");
         String ElecX = request.getParameter("elecX");
         String ElecY = request.getParameter("elecY");
         String ElecZ = request.getParameter("elecZ");
@@ -100,10 +100,10 @@ public class TempProductController {
         bean.setSizex(sizex);
         bean.setSizey(sizey);
         bean.setSizez(sizez);
-        bean.setnX(NX);
-        bean.setnY(NY);
         bean.setStrainX(strainX);
         bean.setStrainY(strainY);
+        bean.setnX(NX);
+        bean.setnY(NY);
         bean.setElecX(ElecX);
         bean.setElecY(ElecY);
         bean.setElecZ(ElecZ);

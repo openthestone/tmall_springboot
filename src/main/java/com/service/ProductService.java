@@ -43,53 +43,52 @@ public class ProductService {
         String sizez = "";
         String strainX = "";
         String strainY = "";
+        String nX = "";
+        String nY = "";
         String elecX = "";
         String elecY = "";
         String elecZ = "";
-        String nX = "";
-        String nY = "";
-        for (int i = 0; i < selectValue.size(); i++) {
-            switch (selectValue.get(i).get("attribute")) {
+        for (Map<String, String> stringStringMap : selectValue) {
+            switch (stringStringMap.get("attribute")) {
                 case "id_0":
-                    sizex = selectValue.get(i).get("value");
+                    sizex = stringStringMap.get("value");
                     break;
                 case "id_1":
-                    sizey = selectValue.get(i).get("value");
+                    sizey = stringStringMap.get("value");
                     break;
                 case "id_2":
-                    sizez = selectValue.get(i).get("value");
+                    sizez = stringStringMap.get("value");
                     break;
                 case "id_3":
-                    strainX = selectValue.get(i).get("value");
+                    strainX = stringStringMap.get("value");
                     break;
                 case "id_4":
-                    strainY = selectValue.get(i).get("value");
+                    strainY = stringStringMap.get("value");
                     break;
                 case "id_5":
-                    elecX = selectValue.get(i).get("value");
+                    nX = stringStringMap.get("value");
                     break;
                 case "id_6":
-                    elecY = selectValue.get(i).get("value");
+                    nY = stringStringMap.get("value");
                     break;
                 case "id_7":
-                    elecZ = selectValue.get(i).get("value");
+                    elecX = stringStringMap.get("value");
                     break;
                 case "id_8":
-                    nX = selectValue.get(i).get("value");
+                    elecY = stringStringMap.get("value");
                     break;
                 case "id_9":
-                    nY = selectValue.get(i).get("value");
+                    elecZ = stringStringMap.get("value");
                     break;
-
             }
         }
-        List<Integer> products = productDao.find(sizex, sizey, sizez, nX, nY, strainX, strainY, elecX, elecY, elecZ);
+        List<Integer> products = productDao.find(sizex, sizey, sizez, strainX, strainY, nX, nY, elecX, elecY, elecZ);
         return products;
     }
 //    public Page4Navigator<Product> listFile(int start, int size, int navigatePages) {
 //        Sort sort = new Sort(Sort.Direction.DESC, "id");
 //        Pageable pageable = new PageRequest(start, size, sort);
-//     //   Page pageFromJPA = productDao.find(sizex, sizey, sizez, nX, nY,  strainX, strainY, elecX, elecY, elecZ,pageable);
+//     //   Page pageFromJPA = productDao.find(sizex, sizey, sizez, strainX, strainY, nX, nY, elecX, elecY, elecZ, pageable);
 //
 //        return new Page4Navigator<>(pageFromJPA, navigatePages);
 //    }
@@ -117,11 +116,11 @@ public class ProductService {
         productDao.save(bean);
     }
 
-    public List<Product> search(String sizex, String sizey, String sizez, String NX, String NY, String strainX, String strainY, String elecX, String elecY,
+    public List<Product> search(String sizex, String sizey, String sizez, String strainX, String strainY, String NX, String NY, String elecX, String elecY,
                                 String elecZ, int start, int size) {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = new PageRequest(start, size, sort);
-        List<Product> products = productDao.findBySizexAndSizeyAndSizezAndNXAndNYAndStrainXAndStrainYAndElecXAndElecYAndElecZ(sizex, sizey, sizez, NX, NY, strainX, strainY, elecX, elecY, elecZ
+        List<Product> products = productDao.findBySizexAndSizeyAndSizezAndNXAndNYAndStrainXAndStrainYAndElecXAndElecYAndElecZ(sizex, sizey, sizez, strainX, strainY, NX, NY, elecX, elecY, elecZ
                 , pageable);
         System.out.println(products);
         return products;

@@ -16,10 +16,10 @@ public class TempProduct {
     String sizex;
     String sizey;
     String sizez;
-    String nX;
-    String nY;
     String strainX;
     String strainY;
+    String nX;
+    String nY;
     String elecX;
     String elecY;
     String elecZ;
@@ -67,22 +67,6 @@ public class TempProduct {
         this.sizez = sizez;
     }
 
-    public String getnX() {
-        return nX;
-    }
-
-    public void setnX(String nX) {
-        this.nX = nX;
-    }
-
-    public String getnY() {
-        return nY;
-    }
-
-    public void setnY(String nY) {
-        this.nY = nY;
-    }
-
     public String getStrainX() {
         return strainX;
     }
@@ -99,6 +83,21 @@ public class TempProduct {
         this.strainY = strainY;
     }
 
+    public String getnX() {
+        return nX;
+    }
+
+    public void setnX(String nX) {
+        this.nX = nX;
+    }
+
+    public String getnY() {
+        return nY;
+    }
+
+    public void setnY(String nY) {
+        this.nY = nY;
+    }
 
     public String getElecX() {
         return elecX;

@@ -9,6 +9,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.aspectj.bridge.IMessage;
 
 @Entity
 @Table(name = "user")
@@ -21,7 +22,9 @@ public class  User {
     private int id;
 
     private String password;
+
     private String name;
+
     private String salt;
 
     @Transient

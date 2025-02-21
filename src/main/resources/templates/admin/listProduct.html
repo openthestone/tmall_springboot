@@ -15,10 +15,10 @@
                 sizex: '',
                 sizey: '',
                 sizez: '',
-                nX: '',
-                nY: '',
                 strainX: '',
                 strainY: '',
+                nX: '',
+                nY: '',
                 elecX: '',
                 elecY: '',
                 elecZ: '',
@@ -55,16 +55,16 @@
 
                     //axios.js 上传文件要用 formData 这种方式
                     var formData = new FormData();
-                    // bean: {id: 0, name: '', sizex: '', sizey: '', sizez: '',nX:'',nY:'',strainX:'',strainY:'',elecX:'',elecY:'',
+                    // bean: {id: 0, name: '', sizex: '', sizey: '', sizez: '',strainX:'',strainY:'',nX:'',nY:'',elecX:'',elecY:'',
                     //elecZ:'',datetype:'',Doi:'',SupplmentaryInfo:''},
                     formData.append("name", this.bean.name);
                     formData.append("sizex", this.bean.sizex);
                     formData.append("sizey", this.bean.sizey);
                     formData.append("sizez", this.bean.sizez);
-                    formData.append("nX", this.bean.nX);
-                    formData.append("nY", this.bean.nY);
                     formData.append("strainX", this.bean.strainX);
                     formData.append("strainY", this.bean.strainY);
+                    formData.append("nX", this.bean.nX);
+                    formData.append("nY", this.bean.nY);
                     formData.append("elecX", this.bean.elecX);
                     formData.append("elecY", this.bean.elecY);
                     formData.append("elecZ", this.bean.elecZ);
@@ -79,10 +79,10 @@
                             sizex: '',
                             sizey: '',
                             sizez: '',
-                            nX: '',
-                            nY: '',
                             strainX: '',
                             strainY: '',
+                            nX: '',
+                            nY: '',
                             ElecX: '',
                             ElecY: '',
                             ElecZ: '',
@@ -129,10 +129,10 @@
                 <th>sizex</th>
                 <th>sizey</th>
                 <th>sizez</th>
-                <th>NX</th>
-                <th>NY</th>
                 <th>strainX</th>
                 <th>strainY</th>
+                <th>NX</th>
+                <th>NY</th>
                 <th>ElecX</th>
                 <th>ElecY</th>
                 <th>ElecZ</th>
@@ -144,7 +144,7 @@
             </thead>
             <tbody>
             <!--              bean: {id: 0, name: '', sizex: '', sizey: '', sizez: '',
-            NX:'',NY:'',strainX:'',strainY:'',ElecX:'',ElecY:'',ElecZ:'',datetype:''},-->
+            strainX:'',strainY:'',NX:'',NY:'',ElecX:'',ElecY:'',ElecZ:'',datetype:''},-->
             <tr v-for="bean in beans ">
                 <td>{{bean.id}}</td>
                 <td>
@@ -160,16 +160,16 @@
                     {{bean.sizez}}
                 </td>
                 <td>
-                    {{bean.nX}}
-                </td>
-                <td>
-                    {{bean.nY}}
-                </td>
-                <td>
                     {{bean.strainX}}
                 </td>
                 <td>
                     {{bean.strainY}}
+                </td>
+                <td>
+                    {{bean.nX}}
+                </td>
+                <td>
+                    {{bean.nY}}
                 </td>
                 <td>
                     {{bean.elecX}}
@@ -222,20 +222,20 @@
                     <td><input @keyup.enter="add" v-model.trim="bean.sizez" type="text" class="form-control"></td>
                 </tr>
                 <tr>
-                    <td>nX:</td>
-                    <td><input @keyup.enter="add" v-model.trim="bean.nX" type="text" class="form-control"></td>
-                </tr>
-                <tr>
-                    <td>nY:</td>
-                    <td><input @keyup.enter="add" v-model.trim="bean.nY" type="text" class="form-control"></td>
-                </tr>
-                <tr>
                     <td>strainX:</td>
                     <td><input @keyup.enter="add" v-model.trim="bean.strainX" type="text" class="form-control"></td>
                 </tr>
                 <tr>
                     <td>strainY:</td>
                     <td><input @keyup.enter="add" v-model.trim="bean.strainY" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>nX:</td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.nX" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>nY:</td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.nY" type="text" class="form-control"></td>
                 </tr>
                 <tr>
                     <td>ElecX:</td>

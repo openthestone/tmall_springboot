@@ -151,20 +151,6 @@
                 </div>
                 <div class="form-group">
                     <div class="form-inline">
-                        <label for="NX" style="width: 200px;"> NX </label>
-                        <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
-                               v-model="formObj.nX">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="form-inline">
-                        <label for="NY" style="width: 200px;"> NY </label>
-                        <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
-                               v-model="formObj.nY">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="form-inline">
                         <label for="StrainX" style="width: 200px;"> StrainX </label>
                         <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
                                v-model="formObj.strainX">
@@ -175,6 +161,20 @@
                         <label for="StrainY" style="width: 200px;"> StrainY </label>
                         <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
                                v-model="formObj.strainY">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-inline">
+                        <label for="NX" style="width: 200px;"> NX </label>
+                        <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
+                               v-model="formObj.nX">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-inline">
+                        <label for="NY" style="width: 200px;"> NY </label>
+                        <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
+                               v-model="formObj.nY">
                     </div>
                 </div>
                 <div class="form-group">
@@ -275,82 +275,64 @@
                 label: 'SizeZ'
             }, {
                 value: 'id_3',
-                label: 'StrianX'
+                label: 'StrainX'
             }, {
                 value: 'id_4',
-                label: 'StrianY'
+                label: 'StrainY'
             }, {
                 value: 'id_5',
-                label: 'ElecX'
-            }, {
-                value: 'id_6',
-                label: 'ElecY'
-            }, {
-                value: 'id_7',
-                label: 'ElecZ'
-            }, {
-                value: 'id_8',
                 label: 'NX'
             }, {
-                value: 'id_9',
+                value: 'id_6',
                 label: 'NY'
+            }, {
+                value: 'id_7',
+                label: 'ElecX'
+            }, {
+                value: 'id_8',
+                label: 'ElecY'
+            }, {
+                value: 'id_9',
+                label: 'ElecZ'
             }],
-            //下拉列表值
-            options: [[{
-                value: '10',  //sizex
-                label: '10'
-            }, {
-                value: '1000',
-                label: '1000',
-            }], [{
-                value: '1000',
-                label: '10'
-            }, {
-                value: '1000',
-                label: '1000',
-            }], [{
+            // 下拉列表值
+            options: [[{            // SizeX
+                value: '40.0',
+                label: '40.0'
+            }], [{                  // SizeY
+                value: '40.0',
+                label: '40.0'
+            }], [{                  // SizeZ, changeable
                 value: '10',
                 label: '10'
             }, {
                 value: '400',
                 label: '400',
-            }], [{
-                value: '3.0',  //strainX
-                label: '3.0'
-            }, {
-                value: '5.0',
-                label: '5.0',
-            }], [{
-                value: '3.0',
-                label: '3.0'
-            }, {
-                value: '5.0',
-                label: '5.0',
-            }], [{
-                value: '0.0',  //ElecX
-                label: '0.0'
-            }, {
-                value: '3000.0',
-                label: '3000.0',
-            }], [{
+            }], [{                  // StrainX, changeable
                 value: '0.0',
                 label: '0.0'
             }, {
                 value: '3000.0',
                 label: '3000.0',
-            }], [{
+            }], [{                  // StrainY, changeable
                 value: '0.0',
                 label: '0.0'
             }, {
                 value: '3000.0',
                 label: '3000.0',
-            }], [{
-                value: '3',  //NX
-                label: '3'
-            }, {
-                value: '25',
-                label: '25',
-            }], [{
+            }], [{                  // NX
+                value: '4.0',
+                label: '4.0'
+            }], [{                  // NY
+                value: '4.0',
+                label: '4.0'
+            }], [{                  // ElecX
+                value: '0.0',
+                label: '0.0'
+            }], [{                  // ElecY
+                value: '0.0',
+                label: '0.0'
+            }], [{                  // ElecZ, changeable
                 value: '3',
                 label: '3'
             }, {
@@ -369,10 +351,10 @@
                 sizeX: '',
                 sizeY: '',
                 sizeZ: '',
-                nX: '',
-                nY: '',
                 strainX: '',
                 strainY: '',
+                nX: '',
+                nY: '',
                 elecX: '',
                 elecY: '',
                 elecZ: '',
@@ -481,10 +463,10 @@
                 this.formData.delete('sizeX');       //防止二次修改表单后重复添加
                 this.formData.delete('sizeY');       //防止二次修改表单后重复添加
                 this.formData.delete('sizeZ');       //防止二次修改表单后重复添加
-                this.formData.delete('nX');
-                this.formData.delete('nY');
                 this.formData.delete('strainX');
                 this.formData.delete('strainY');
+                this.formData.delete('nX');
+                this.formData.delete('nY');
                 this.formData.delete('elecX');
                 this.formData.delete('elecY');
                 this.formData.delete('elecZ');

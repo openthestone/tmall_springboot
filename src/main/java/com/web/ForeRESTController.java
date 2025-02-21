@@ -62,9 +62,9 @@ public class ForeRESTController {
         }
     }
     @PostMapping("foresearch")
-    public Object search(String sizex, String sizey, String sizez, String NX,String NY,String strainX, String strainY, String elecX, String elecY,
+    public Object search(String sizex, String sizey, String sizez, String strainX, String strainY, String NX, String NY, String elecX, String elecY,
                          String elecZ){
-        List<Product> ps= productService.search(sizex,sizey, sizez, NX,NY,strainX,strainY,elecX,elecY,elecZ,0,20);
+        List<Product> ps= productService.search(sizex,sizey, sizez, strainX, strainY, NX, NY, elecX, elecY, elecZ,0,20);
         return ps;
     }
 }
