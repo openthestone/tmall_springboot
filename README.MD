@@ -11,7 +11,7 @@
 
     4. web 中的 controller 为后端和前端数据传递的桥梁
 
-    5. 启动方法：APPlication
+    5. 启动方法: APPlication
 
     TODO 
         gen 接口待完成
