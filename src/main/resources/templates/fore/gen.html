@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<head th:include="include/fore/header::html" ></head>
+<body>
+<script>
+    <!--    sizex,sizey, sizez, nx,ny,strainx,strainy,elecx,elecy,elecz-->
+    $(function () {
+        var sizex = getUrlParms("sizex");
+        var sizey = getUrlParms("sizey");
+        var sizez = getUrlParms("sizez");
+        var NY = getUrlParms("nx");
+        var NX= getUrlParms("ny");
+        var strainX= getUrlParms("strainx");
+        var strainY = getUrlParms("strainy");
+        var elecX = getUrlParms("elecx");
+        var elecY = getUrlParms("elecy");
+        var elecZ = getUrlParms("elecz");
+        var data4Vue = {
+            uri: 'foresearch',
+            products: [],
+            id: 0
+        };
+        //ViewModel
+        var vue = new Vue({
+            el: '#workingArea',
+            data: data4Vue,
+            mounted: function () { //mounted　表示这个 Vue 对象加载成功了
+                this.search1();
+            },
+            methods: {
+                search1: function () {
+                    //tring sizex, String sizey, String sizez, String NX, String NY String strainX, String strainY, String ElecX, String ElecY,String ElecZ, Pageable pageable
+                    // var url = this.uri + "sizex",sizey, sizez, nx,ny,strainx,strainy,elecx,elecy,elecz" + keyword;
+                    var url = this.uri + "?sizex=" + sizex + "?sizey=" + sizey + "?sizez=" + sizez + "?nx=" + NX + "?ny=" + NY + "?strainx=" + strainX
+                        + "?strainy=" + strainY + "?elecx=" + elecX + "?elecy=" + elecY + "?elecz=" + elecZ;
+                    axios.post(url).then(function (response) {
+                        vue.products = response.data;
+                        v
+                        console.log(vue.products);
+                        vue.$nextTick(function () {
+                            linkDefaultActions();
+                        })
+                    });
+                }
+            }
+        });
+    })
+
+    function pageIndex() {
+        window.location.assign('home');
+    }
+
+    function pageGen() {
+        window.location.assign('gen');
+    }
+
+    function pageApi() {
+        window.location.assign('api');
+    }
+
+    function pageSquare() {
+        window.location.assign('square');
+    }
+</script>
+<!--------------------------------------NAVBAR--------------------------------------->
+<nav class="topnav navbar navbar-expand-lg navbar-light bg-white fixed-top">
+    <div class="container">
+        <a class="navbar-brand" onclick="pageIndex()"><strong>Superlattice DataBase</strong></a>
+        <div class="navbar-collapse collapse" id="navbarColor02" style="">
+            <ul class="navbar-nav mr-auto d-flex align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link" onclick="pageGen()"> Generate Structure <span
+                            class="sr-only">(current)</span> </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="pageApi()">REST API Docs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="pageSquare()">Data Square</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- End Navbar -->
+
+
+<!--------------------------------------HEADER--------------------------------------->
+<div class="container">
+    <div class="jumbotron jumbotron-fluid mb-3 pt-0 pb-0 bg-lightblue position-relative">
+        <div class="pl-4 pr-0 h-100 tofront">
+            <div class="row justify-content-between">
+                <div class="col-md-6 pt-6 pb-6 align-self-center">
+                    <h4 class="secondfont mb-3 font-weight-bold">Parameters for Generate initial Struture</h4>
+                    <form action="search" method="get">
+                        <ol class="list-featured">
+                            <li>
+                                <span class="font-weight-normal text-dark">
+                                    <strong> Size: </strong>
+                                    <!--                                      sizex,sizey, sizez, nx,ny,strainx,strainy,elecx,elecy,elecz-->
+                                    <input type="text" placeholder="20" class="input-num" name="sizex"> nm *
+                                    <input type="text" placeholder="20" class="input-num" name="sizey"> nm *
+                                    <input type="text" placeholder="20" class="input-num" name="sizez"> nm
+                                </span>
+                            </li>
+                            <li>
+                                <span class="font-weight-normal text-dark">
+                                    <strong> StrianX: </strong>
+                                    <input type="text" placeholder="20" class="input-num"
+                                           style="margin-right: 20px;" name="strainx">
+                                    <strong> StrianY: </strong> <input type="text" placeholder="20" class="input-num"
+                                                                       name="strainy">
+                                </span>
+                            </li>
+                            <li>
+                                <span class="font-weight-normal text-dark">
+                                    <strong> ElecX: </strong> <input type="text" placeholder="20" class="input-num"
+                                                                     style="margin-right: 20px;" name="elecx">
+                                    <strong> ElecY: </strong> <input type="text" placeholder="20" class="input-num"
+                                                                     style="margin-right: 20px;" name="elecy">
+                                    <strong> ElecZ: </strong> <input type="text" placeholder="20" class="input-num"
+                                                                     name="elecz">
+                                </span>
+                            </li>
+                            <li>
+                                <span class="font-weight-normal text-dark">
+                                    <strong> NX: </strong> <input type="text" placeholder="20" class="input-num"
+                                                                  style="margin-right: 20px;" name="nx">
+                                    <strong> NY: </strong> <input type="text" placeholder="20" class="input-num"
+                                                                  name="ny">
+                                </span>
+                            </li>
+                        </ol>
+
+                        <button class="btn btn-dark" @click="search1">Generate!</button>
+                    </form>
+
+                </div>
+                <!-- 图片展示 -->
+                <div v-if="0 < products.length" class="noMatch" v-for="p in products">
+                    <img class="col-md-6 d-none d-md-block pr-0"
+                        style="background-size:cover;"
+                        :src="img/product/+'{{p.id}}'+.jpg">
+                </div>
+                <div v-if="0 == products.length" class="noMatch"> <img class="col-md-6 d-none d-md-block pr-0"
+                                                                       style="background-size:cover;"
+                                                                       :src="img/product/3.jpg"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Header -->
+
+
+<!--------------------------------------FOOTER--------------------------------------->
+<div class="container mt-5">
+    <footer class="bg-white border-top p-3 text-muted big">
+        <div class="row align-items-center justify-content-between">
+            <div>
+                <span class="navbar-brand mr-2"><strong>SuperDB</strong></span> Copyright &copy;
+                <script>
+                    document.write(new Date().getFullYear())
+                </script>
+                . All rights reserved.
+            </div>
+            <div>
+                Tex: xxxx E-mail: xxx
+            </div>
+        </div>
+    </footer>
+</div>
+<!-- End Footer -->
+
+<!--------------------------------------JAVASCRIPTS--------------------------------------->
+
+</body>
+
+</html>

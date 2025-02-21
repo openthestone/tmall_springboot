@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<head th:include="include/fore/header::html" ></head>
+
+<body>
+<script>
+        function pageIndex() {
+        window.location.assign('home');
+    }
+        function pageGen() {
+            window.location.assign('gen');
+        }
+        function pageApi() {
+            window.location.assign('api');
+        }
+        function pageSquare() {
+            window.location.assign('square');
+        }
+        console.log(s)
+</script>
+
+<!--------------------------------------NAVBAR--------------------------------------->
+<nav class="topnav navbar navbar-expand-lg navbar-light bg-white fixed-top">
+    <div th:replace="include/fore/top::html" ></div>
+
+    <div class="container">
+        <a class="navbar-brand" onclick="pageIndex()"><strong>Superlattice DataBase</strong></a>
+        <div class="navbar-collapse collapse" id="navbarColor02" style="">
+            <ul class="navbar-nav mr-auto d-flex align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link" onclick="pageGen()" > Generate Structure <span
+                            class="sr-only">(current)</span> </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="pageApi()">REST API Docs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="pageSquare()">Data Square</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- End Navbar -->
+
+
+<!--------------------------------------MAIN--------------------------------------->
+
+<div class="container pt-4 pb-4">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card border-0 mb-4 box-shadow h-xl-300">
+                <div class="card-body px-0 pb-0 d-flex flex-column align-items-start">
+                    <h2 class="h3 font-weight-bold">
+                        <a class="text-dark" href="./article.html">Introduction</a>
+                    </h2>
+                    <p class="card-text">
+                        Researchers have found an effective target in the brain for electrical stimulation to improve
+                        mood in people suffering from depression.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="flex-md-row mb-4 box-shadow h-xl-300">
+                <br>
+                <h2 class="h4 font-weight-bold">
+                    <a class="text-dark" href="./article.html">Team Member</a>
+                </h2>
+                <br>
+                <div class="mb-3 d-flex align-items-center">
+                    <img height="80" src="DB/assets/img/demo/blog4.jpg">
+                    <div class="pl-3">
+                        <h2 class="mb-2 h6 font-weight-bold">
+                            <a class="text-dark" href="./article.html">Nasa's IceSat space laser makes height maps of
+                                Earth</a>
+                        </h2>
+                        <div class="card-text text-muted small">
+                            Jake Bittle in LOVE/HATE
+                        </div>
+                        <small class="text-muted">Dec 12 &middot; 5 min read</small>
+                    </div>
+                </div>
+                <div class="mb-3 d-flex align-items-center">
+                    <img height="80" src="DB/assets/img/demo/blog5.jpg">
+                    <div class="pl-3">
+                        <h2 class="mb-2 h6 font-weight-bold">
+                            <a class="text-dark" href="./article.html">Underwater museum brings hope to Lake
+                                Titicaca</a>
+                        </h2>
+                        <div class="card-text text-muted small">
+                            Jake Bittle in LOVE/HATE
+                        </div>
+                        <small class="text-muted">Dec 12 &middot; 5 min read</small>
+                    </div>
+                </div>
+                <div class="mb-3 d-flex align-items-center">
+                    <img height="80" src="DB/assets/img/demo/blog6.jpg">
+                    <div class="pl-3">
+                        <h2 class="mb-2 h6 font-weight-bold">
+                            <a class="text-dark" href="./article.html">Sun-skimming probe starts calling home</a>
+                        </h2>
+                        <div class="card-text text-muted small">
+                            Jake Bittle in LOVE/HATE
+                        </div>
+                        <small class="text-muted">Dec 12 &middot; 5 min read</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--------------------------------------FOOTER--------------------------------------->
+<div class="container mt-5">
+    <footer class="bg-white border-top p-3 text-muted big">
+        <div class="row align-items-center justify-content-between">
+            <div>
+                <span class="navbar-brand mr-2"><strong>SuperDB</strong></span> Copyright &copy;
+                <script>
+                    document.write(new Date().getFullYear())
+                </script>
+                . All rights reserved.
+            </div>
+            <div>
+                Tex: xxxx E-mail: xxx
+            </div>
+        </div>
+    </footer>
+</div>
+<!-- End Footer -->
+
+
+</body>
+
+</html>

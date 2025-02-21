@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<head th:include="include/admin/adminHeader::html('数据管理')"></head>
+<body>
+<div th:replace="include/admin/adminNavigator::html"></div>
+<script>
+    $(function () {
+        var data4Vue = {
+            uri: 'products',
+            pagination: {},
+            bean: {
+                id: 0,
+                name: '',
+                sizex: '',
+                sizey: '',
+                sizez: '',
+                nX: '',
+                nY: '',
+                strainX: '',
+                strainY: '',
+                elecX: '',
+                elecY: '',
+                elecZ: '',
+                dataType: '',
+                Doi: '',
+                SupplmentaryInfo: ''
+            },
+            beans: [],
+            //Imagfile: null,
+            // file:null,
+        };
+
+        //ViewModel
+        var vue = new Vue({
+            el: '#workingArea',
+            data: data4Vue,
+            mounted: function () { //mounted　表示这个 Vue 对象加载成功了
+                this.list(0);
+            },
+            methods: {
+                list: function (start) {
+                    var url = this.uri + "?start=" + start;
+                    axios.get(url).then(function (response) {
+                        vue.pagination = response.data;
+                        vue.beans = response.data.content;
+                        console.log(vue.beans);
+                    });
+                },
+                //添加数据
+                add: function () {
+                    if (!checkEmpty(this.bean.name, "数据名称"))
+                        return;
+                    //TODO 禁止添加重复数据
+
+                    //axios.js 上传文件要用 formData 这种方式
+                    var formData = new FormData();
+                    // bean: {id: 0, name: '', sizex: '', sizey: '', sizez: '',nX:'',nY:'',strainX:'',strainY:'',elecX:'',elecY:'',
+                    //elecZ:'',datetype:'',Doi:'',SupplmentaryInfo:''},
+                    formData.append("name", this.bean.name);
+                    formData.append("sizex", this.bean.sizex);
+                    formData.append("sizey", this.bean.sizey);
+                    formData.append("sizez", this.bean.sizez);
+                    formData.append("nX", this.bean.nX);
+                    formData.append("nY", this.bean.nY);
+                    formData.append("strainX", this.bean.strainX);
+                    formData.append("strainY", this.bean.strainY);
+                    formData.append("elecX", this.bean.elecX);
+                    formData.append("elecY", this.bean.elecY);
+                    formData.append("elecZ", this.bean.elecZ);
+                    formData.append("dataType", this.bean.dataType);
+                    formData.append("Doi", this.bean.Doi);
+                    formData.append("SupplmentaryInfo", this.bean.SupplmentaryInfo);
+                    axios.post("add_products", formData).then(function (response) {
+                        vue.list(0);
+                        vue.bean = {
+                            id: 0,
+                            name: '',
+                            sizex: '',
+                            sizey: '',
+                            sizez: '',
+                            nX: '',
+                            nY: '',
+                            strainX: '',
+                            strainY: '',
+                            ElecX: '',
+                            ElecY: '',
+                            ElecZ: '',
+                            datetype: ''
+                        };
+                        // $("#categoryPic").val('');
+                        // vue.file = null;
+                    });
+                },
+                //删除数据
+                deleteBean: function (id) {
+                    if (!checkDeleteLink())
+                        return;
+                    var url = this.uri + "/" + id;
+                    axios.delete(url).then(function (response) {
+                        if (0 != response.data.length) {
+                            alert(response.data);
+                        } else {
+                            vue.list(0);
+                        }
+                    });
+                },
+                jump: function (page) {
+                    jump(page, vue); //定义在adminHeader.html 中
+                },
+                jumpByNumber: function (start) {
+                    jumpByNumber(start, vue);
+                }
+            }
+        });
+    });
+
+</script>
+<div id="workingArea">
+    <h1 class="label label-info">数据管理</h1>
+    <br>
+    <br>
+    <div class="listDataTableDiv">
+        <table class="table table-striped table-bordered table-hover  table-condensed">
+            <thead>
+            <tr class="success">
+                <th>ID</th>
+                <th>名字</th>
+                <th>sizex</th>
+                <th>sizey</th>
+                <th>sizez</th>
+                <th>NX</th>
+                <th>NY</th>
+                <th>strainX</th>
+                <th>strainY</th>
+                <th>ElecX</th>
+                <th>ElecY</th>
+                <th>ElecZ</th>
+                <th>Datatype</th>
+                <th>图片</th>
+                <th>编辑</th>
+                <th>删除</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--              bean: {id: 0, name: '', sizex: '', sizey: '', sizez: '',
+            NX:'',NY:'',strainX:'',strainY:'',ElecX:'',ElecY:'',ElecZ:'',datetype:''},-->
+            <tr v-for="bean in beans ">
+                <td>{{bean.id}}</td>
+                <td>
+                    {{bean.name}}
+                </td>
+                <td>
+                    {{bean.sizex}}
+                </td>
+                <td>
+                    {{bean.sizey}}
+                </td>
+                <td>
+                    {{bean.sizez}}
+                </td>
+                <td>
+                    {{bean.nX}}
+                </td>
+                <td>
+                    {{bean.nY}}
+                </td>
+                <td>
+                    {{bean.strainX}}
+                </td>
+                <td>
+                    {{bean.strainY}}
+                </td>
+                <td>
+                    {{bean.elecX}}
+                </td>
+                <td>
+                    {{bean.elecY}}
+                </td>
+                <td>
+                    {{bean.elecZ}}
+                </td>
+                <td>
+                    {{bean.dataType}}
+
+                </td>
+                <!--TODO  -->
+                <td>
+
+                </td>
+
+                <td>
+                    <a :href="'admin_product_edit?id='+ bean.id"><span class="glyphicon glyphicon-edit"></span></a>
+                </td>
+                <td>
+                    <a href="#nowhere" @click="deleteBean(bean.id)"><span
+                            class="   glyphicon glyphicon-trash"></span></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:replace="include/admin/adminPage::html"></div>
+    <div class="panel panel-warning addDiv">
+        <div class="panel-heading">新增数据</div>
+        <div class="panel-body">
+            <table class="addTable">
+                <tr>
+                    <td>数据名称:</td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.name" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>sizex:</td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.sizex" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>sizey:</td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.sizey" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>sizez:</td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.sizez" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>nX:</td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.nX" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>nY:</td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.nY" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>strainX:</td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.strainX" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>strainY:</td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.strainY" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>ElecX:</td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.elecX" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>ElecY:</td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.elecY" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>ElecZ:</td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.elecZ" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>dataType:</td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.dataType" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>Doi:</td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.Doi" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>SupplmentaryInfo:</td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.SupplmentaryInfo" type="text" class="form-control">
+                    </td>
+                </tr>
+                <tr class="submitTR">
+                    <td colspan="2" align="center">
+                        <a href="#nowhere" @click="add" class="btn btn-success">提交</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<div th:replace="include/admin/adminFooter::html"></div>
+</body>
+</html>
