@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<head>
+    <meta charset="utf-8"/>
+    <!--    <link rel="apple-touch-icon" sizes="76x76" href="DB/assets/img/favicon.ico">-->
+    <!--    <link rel="icon" type="image/png" href="DB/assets/img/favicon.ico">-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>Mundana Template by WowThemesNet</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+          name='viewport'/>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700|Source+Sans+Pro:400,600,700"
+          rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <!-- Main CSS -->
+    <link href="assets/css/main.css" rel="stylesheet">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+
+<body>
+
+<!--------------------------------------NAVBAR--------------------------------------->
+<nav class="topnav navbar navbar-expand-lg navbar-light bg-white fixed-top">
+    <div class="container">
+        <a class="navbar-brand" onclick="pageIndex()"><strong>Superlattice DataBase</strong></a>
+        <div class="navbar-collapse collapse" id="navbarColor02" style="">
+            <ul class="navbar-nav mr-auto d-flex align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link" onclick="pageGen()"> Generate Structure <span
+                            class="sr-only">(current)</span> </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="pageApi()">REST API Docs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="pageSquare()">Data Square</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- End Navbar -->
+
+
+<!--------------------------------------HEADER--------------------------------------->
+<div id="app" class="container">
+    <div class="jumbotron jumbotron-fluid mb-3 pt-0 pb-0 bg-lightblue position-relative">
+        <div class="pl-4 pr-0 h-100 tofront">
+            <div class="row justify-content-between">
+                <!-- 查询数据 -->
+                <div class="col-md-6 pt-5 pb-3 align-self-center">
+                    <h4 class="secondfont mb-3 font-weight-bold" style="margin-left:50px;">Download your data</h4>
+
+                    <ol class="list-featured">
+                        <li v-for="item in list" :key="item.id">
+                            <i v-show="item.flag" class="el-icon-remove-outline" style="line-height: 40px;"
+                               @click="listDel(item)"></i>
+                            <el-select v-model="item.attribute" @change="arrtibuteChange(item)" placeholder="请选择"
+                                       style="width: 9.375rem;">
+                                <el-option v-for="it in attriS" :key="it.value" :label="it.label" :value="it.value"
+                                           :disabled="it.disabled">
+                                </el-option>
+                            </el-select>
+                            <el-select v-model="item.value" placeholder="请选择" style="width: 18.75rem;">
+                                <el-option v-for="it in item.val_options" :key="it.value" :label="it.label"
+                                           :value="it.value" :disabled="it.disabled">
+                                </el-option>
+                            </el-select>
+                        </li>
+
+                        <li>
+                            <button class="btn btn-primary w-25 btn-round"
+                                    @click="listAdd">Add
+                            </button>
+                            <button class="btn btn-primary w-25 btn-round"
+                                    @click="listClear">Clear
+                            </button>
+                            <button @click="query" class="btn btn-primary w-25 btn-round">
+                                Query
+                            </button>
+                        </li>
+                    </ol>
+                </div>
+
+                <!-- 结果展示 -->
+                <div class="col-md-6 pt-6 pb-6 align-self-center">
+                    <h4 class="secondfont mb-3">Results</h4>
+                    <ul v-if="fileList == null || fileList.length <= 0 " >
+                        查无此数据！
+                    </ul>
+                    <ol class="list-featured">
+                        <li>
+                            <el-checkbox-group v-model="checkedList" @change="handleCheckedFiles">
+
+                                <el-checkbox v-for="choice in fileList" :label="choice" :key="choice"
+                                             style="display: block;">{{choice}}
+                                </el-checkbox>
+
+                            </el-checkbox-group>
+                        </li>
+
+                        <li>
+                            <button class="btn btn-primary w-50 btn-round" style="margin-left:100px;"
+                                    @click="downloadFile">Download
+                            </button>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 上传数据 -->
+    <div class="jumbotron jumbotron-fluid mb-3 pt-0 pb-0 bg-lightblue position-relative">
+        <div class="pl-4 pr-0 h-100 tofront pt-5 pb-3">
+            <h4 class="secondfont mb-3 font-weight-bold" style="margin-left:50px;">Upload your data</h4>
+            <br>
+            <!-- action目的地址；提交方式；编码方式 -->
+
+            <form action="">
+                <div class="form-group">
+                    <div class="form-inline">
+                        <label for="InputName" style="width: 200px;"> Data Name </label>
+                        <input type="text" name="" id="" class="form-control mr-2 mb-2" v-model="formObj.name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-inline">
+                        <label for="SizeX" style="width: 200px;"> SizeX </label>
+                        <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
+                               v-model="formObj.sizex">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-inline">
+                        <label for="SizeY" style="width: 200px;"> SizeY </label>
+                        <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
+                               v-model="formObj.sizey">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-inline">
+                        <label for="SizeZ" style="width: 200px;"> SizeZ </label>
+                        <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
+                               v-model="formObj.sizez">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-inline">
+                        <label for="StrainX" style="width: 200px;"> StrainX </label>
+                        <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
+                               v-model="formObj.strainX">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-inline">
+                        <label for="StrainY" style="width: 200px;"> StrainY </label>
+                        <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
+                               v-model="formObj.strainY">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-inline">
+                        <label for="NX" style="width: 200px;"> NX </label>
+                        <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
+                               v-model="formObj.nX">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-inline">
+                        <label for="NY" style="width: 200px;"> NY </label>
+                        <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
+                               v-model="formObj.nY">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-inline">
+                        <label for="ElecX" style="width: 200px;"> ElecX </label>
+                        <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
+                               v-model="formObj.elecX">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-inline">
+                        <label for="ElecY" style="width: 200px;"> ElecY </label>
+                        <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
+                               v-model="formObj.elecY">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-inline">
+                        <label for="ElecZ" style="width: 200px;"> ElecZ </label>
+                        <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
+                               v-model="formObj.elecZ">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-inline">
+                        <label for="DOI" style="width: 200px;"> DOI </label>
+                        <input type="file" accept="" @change="getFile($event)">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-inline">
+                        <label for="Supplmentary" style="width: 200px;"> Supplmentary Info </label>
+                        <textarea name="" id="" cols="50" rows="3" class="form-control mr-2 mb-2"
+                                  v-model="formObj.SupplmentaryInfo"></textarea>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top: 1.3333rem;">
+                    <button type="button" class="btn btn-primary w-25 btn-round" style="margin-left: 200px;"
+                            @click="submitForm($event)">Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+<!-- End Header -->
+
+</div>
+<!-- End Header -->
+
+
+<!--------------------------------------FOOTER--------------------------------------->
+<div class="container mt-5">
+    <footer class="bg-white border-top p-3 text-muted big">
+        <div class="row align-items-center justify-content-between">
+            <div>
+                <span class="navbar-brand mr-2"><strong>SuperDB</strong></span> Copyright &copy;
+                <script>
+                    document.write(new Date().getFullYear())
+                </script>
+                . All rights reserved.
+            </div>
+            <div>
+                Tex: xxxx E-mail: xxx
+            </div>
+        </div>
+    </footer>
+</div>
+<!-- End Footer -->
+
+
+<!--------------------------------------JAVASCRIPTS--------------------------------------->
+<script src="assets/js/vendor/jquery.min.js" type="text/javascript"></script>
+<script src="assets/js/vendor/popper.min.js" type="text/javascript"></script>
+<script src="assets/js/vendor/bootstrap.min.js" type="text/javascript"></script>
+<script src="assets/js/functions.js" type="text/javascript"></script>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+<!-- 官网提供的 axios 在线地址 -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: {
+
+            attriS: [{
+                value: 'id_0',
+                label: 'SizeX'
+            }, {
+                value: 'id_1',
+                label: 'SizeY',
+                // disabled: true
+            }, {
+                value: 'id_2',
+                label: 'SizeZ'
+            }, {
+                value: 'id_3',
+                label: 'StrainX'
+            }, {
+                value: 'id_4',
+                label: 'StrainY'
+            }, {
+                value: 'id_5',
+                label: 'NX'
+            }, {
+                value: 'id_6',
+                label: 'NY'
+            }, {
+                value: 'id_7',
+                label: 'ElecX'
+            }, {
+                value: 'id_8',
+                label: 'ElecY'
+            }, {
+                value: 'id_9',
+                label: 'ElecZ'
+            }],
+            // 下拉列表值
+            options: [[{            // SizeX
+                value: '40.0',
+                label: '40.0'
+            }], [{                  // SizeY
+                value: '40.0',
+                label: '40.0'
+            }], [{                  // SizeZ, changeable
+                value: '10',
+                label: '10'
+            }, {
+                value: '400',
+                label: '400',
+            }], [{                  // StrainX, changeable
+                value: '0.0',
+                label: '0.0'
+            }, {
+                value: '3000.0',
+                label: '3000.0',
+            }], [{                  // StrainY, changeable
+                value: '0.0',
+                label: '0.0'
+            }, {
+                value: '3000.0',
+                label: '3000.0',
+            }], [{                  // NX
+                value: '4.0',
+                label: '4.0'
+            }], [{                  // NY
+                value: '4.0',
+                label: '4.0'
+            }], [{                  // ElecX
+                value: '0.0',
+                label: '0.0'
+            }], [{                  // ElecY
+                value: '0.0',
+                label: '0.0'
+            }], [{                  // ElecZ, changeable
+                value: '3',
+                label: '3'
+            }, {
+                value: '25',
+                label: '25',
+            }]],
+            isShow: false,
+            count: 0,
+            list: [{attribute: '', value: '', val_options: [], id: this.count, flag: false}],
+            // 符合筛选条件的文件名
+            fileList: ["示例数据"],
+            // 勾选下载文件名
+            checkedList: [],
+            formObj: {
+                name: '',
+                sizeX: '',
+                sizeY: '',
+                sizeZ: '',
+                strainX: '',
+                strainY: '',
+                nX: '',
+                nY: '',
+                elecX: '',
+                elecY: '',
+                elecZ: '',
+                inputFile: '',
+                SupplmentaryInfo: ''
+            },
+            formData: new FormData(),
+
+        },
+
+        methods: {
+            arrtibuteChange: function (obj) {
+                // console.log(this.list.length);
+                // console.log(obj);
+                var arr = obj.attribute.split('_');
+                obj.val_options = this.options[arr[1]];
+                // this.val_options = this.options[arr[1]];
+            },
+            /**
+             *
+             *下载查询结果值
+             **/
+            checkedList: [],
+            downloadFile: function () {
+                var downloadList = this.checkedList;
+                axios({
+                        method: "post",
+                        url: "download",
+                        responseType: 'blob',//设置返回类型
+                        withCredentials: true,
+                        data: downloadList
+                    }
+                ).then(function (response) {
+                    const link=document.createElement('a');
+                    let blob = new Blob([response.data], {type: "application/octet-stream"});
+                    //文件名，中文无法解析的时候会显示 _(下划线),生产环境获取不到
+                    let _fileName = response.headers['content-disposition'].split(';')[1].split('=')[1];
+                    link.style.display='none';
+                    // 兼容不同浏览器的URL对象
+                    const url = window.URL || window.webkitURL || window.moxURL;
+                    link.href=url.createObjectURL(blob);
+                    link.setAttribute('download', _fileName.substring(_fileName.lastIndexOf('_')+1));
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    url.revokeObjectURL(link.href);//销毁url对象
+                });
+            },
+            /**
+             * 查询
+             */
+            query: function () {
+                var newlist = this.list;
+                var this_vue = this;
+                for (var k = 0; k < newlist.length; k++) {
+                    delete newlist[k].val_options;
+                }
+                // let Obj = JSON.stringify(list);
+                axios({
+                        method: "post",
+                        url: "queryData",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        withCredentials: true,
+                        data: newlist
+                    }
+                ).then(function (response) {
+                    this_vue.fileList = response.data;
+                });
+            },
+            listAdd: function () {
+                this.count++;
+                this.list.push({attribute: '', value: '', val_options: [], id: this.count, flag: true});
+
+            },
+            listDel: function (obj) {
+                console.log(obj);
+                var index = this.list.findIndex(function (e) {
+                    return e.id == obj.id;
+                })
+                // console.log(index);
+                this.list.splice(index, 1);
+            },
+            listClear: function () { //TODO 逻辑有问题
+                var length = this.list.length;
+                this.list.splice(1, length - 1);
+            },
+            handleCheckedFiles: function (value) {      //todo
+                let checkedCount = value.length;
+                console.log(checkedCount);
+                console.log(this.checkedList);
+            },
+            getFile: function (event) {
+                // console.log(event);
+                this.formObj.inputFile = event.target.files[0];
+                // console.log(this.formData);
+            },
+            /**
+             * 上传文件
+             * @param event
+             */
+            submitForm: function (event) {
+                // console.log(this.formObj);
+                this.formData.delete('name');
+                this.formData.delete('sizeX');       //防止二次修改表单后重复添加
+                this.formData.delete('sizeY');       //防止二次修改表单后重复添加
+                this.formData.delete('sizeZ');       //防止二次修改表单后重复添加
+                this.formData.delete('strainX');
+                this.formData.delete('strainY');
+                this.formData.delete('nX');
+                this.formData.delete('nY');
+                this.formData.delete('elecX');
+                this.formData.delete('elecY');
+                this.formData.delete('elecZ');
+                this.formData.delete('inputFile');
+                this.formData.delete('supplment');
+                for (let key in this.formObj) {
+                    this.formData.append(key, this.formObj[key]);
+                }
+                // for (let [a, b] of this.formData.entries()) {
+                //     console.log(a, b, '-------------');
+                // }
+
+                axios({
+                    method: "post",
+                    url: "add_temp_products",
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    },
+                    withCredentials: true,
+                    data: this.formData
+                }).then(({data}) => {
+
+                    if (data.code === 0) {
+
+                        this.$message({
+                            showClose: true,
+                            message: "上传成功",
+                            type: "success"
+                        });
+                    } else {
+                        this.$notify({
+                            title: "失败",
+                            message: "上传失败",
+                            type: "danger",
+                            duration: 2000
+                        });
+                    }
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            test: function () {
+                console.log('111');
+            }
+        },
+    });
+
+    function pageIndex() {
+        window.location.assign('home');
+    }
+
+    function pageGen() {
+        window.location.assign('gen');
+    }
+
+    function pageApi() {
+        window.location.assign('api');
+    }
+
+    function pageSquare() {
+        window.location.assign('square');
+    }
+</script>
+</body>
+
+</html>

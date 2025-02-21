@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="include/admin/adminHeader::html('编辑数据')"></head>
+<body>
+<div th:replace="include/admin/adminNavigator::html"></div>
+<script>
+    $(function () {
+        var data4Vue = {
+            uri: 'temp_products',
+            listURL: 'admin_temp_product_list',
+            bean: {
+                id: 0,
+                name: '',
+                sizex: '',
+                sizey: '',
+                sizez: '',
+                strainX: '',
+                strainY: '',
+                nX: '',
+                nY: '',
+                elecX: '',
+                elecY: '',
+                elecZ: '',
+                dataType: '',
+                Doi: '',
+                SupplmentaryInfo: ''
+            },
+        };
+
+        //ViewModel
+        var vue = new Vue({
+            el: '#workingArea',
+            data: data4Vue,
+            mounted: function () { //mounted　表示这个 Vue 对象加载成功了
+                this.get();
+            },
+            methods: {
+                get: function () {
+                    var id = getUrlParms("id");
+                    var url = this.uri + "/" + id;
+                    axios.get(url).then(function (response) {
+                        vue.bean = response.data;
+                    })
+                },
+                update: function () {
+                    // if(!checkEmpty(this.bean.name, "数据名称"))
+                    //     return;
+                    var url = this.uri + "/" + this.bean.id;
+                    var formData = new FormData();
+                    formData.set("name", this.bean.name);
+                    formData.set("sizex", this.bean.sizex);
+                    formData.set("sizey", this.bean.sizey);
+                    formData.set("sizez", this.bean.sizez);
+                    formData.set("strainX", this.bean.strainX);
+                    formData.set("strainY", this.bean.strainY);
+                    formData.set("nX", this.bean.nX);
+                    formData.set("nY", this.bean.nY);
+                    formData.set("elecX", this.bean.elecX);
+                    formData.set("elecY", this.bean.elecY);
+                    formData.set("elecZ", this.bean.elecZ);
+                    formData.set("dataType", this.bean.dataType);
+                    formData.set("Doi", this.bean.Doi);
+                    formData.set("SupplmentaryInfo", this.bean.SupplmentaryInfo);
+                    axios.post(url,formData).then(function (response) {
+                        location.href=vue.listURL;
+                    });
+                },
+            }
+        });
+    });
+</script>
+
+<div id="workingArea">
+
+    <ol class="breadcrumb">
+        <li><a href="admin_product_list">所有数据</a></li>
+        <li class="active">编辑数据</li>
+    </ol>
+
+    <div class="panel panel-warning editDiv">
+        <div class="panel-heading">编辑分类</div>
+        <div class="panel-body">
+            <table class="editTable">
+                <tr>
+                    <td>数据名称:</td>
+                    <td><input @keyup.enter="update" v-model.trim="bean.name" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>sizex:</td>
+                    <td><input @keyup.enter="update" v-model.trim="bean.sizex" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>sizey:</td>
+                    <td><input @keyup.enter="update" v-model.trim="bean.sizey" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>sizez:</td>
+                    <td><input @keyup.enter="update" v-model.trim="bean.sizez" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>strainX:</td>
+                    <td><input @keyup.enter="update" v-model.trim="bean.strainX" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>strainY:</td>
+                    <td><input @keyup.enter="update" v-model.trim="bean.strainY" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>nX:</td>
+                    <td><input @keyup.enter="update" v-model.trim="bean.nX" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>nY:</td>
+                    <td><input @keyup.enter="update" v-model.trim="bean.nY" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>ElecX:</td>
+                    <td><input @keyup.enter="update" v-model.trim="bean.elecX" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>ElecY:</td>
+                    <td><input @keyup.enter="update" v-model.trim="bean.elecY" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>ElecZ:</td>
+                    <td><input @keyup.enter="update" v-model.trim="bean.elecZ" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>dataType:</td>
+                    <td><input @keyup.enter="update" v-model.trim="bean.dataType" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>Doi:</td>
+                    <td><input @keyup.enter="update" v-model.trim="bean.Doi" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>SupplmentaryInfo:</td>
+                    <td><input @keyup.enter="update" v-model.trim="bean.SupplmentaryInfo" type="text" class="form-control">
+                    </td>
+                </tr>
+                <tr class="submitTR">
+                    <td colspan="2" align="center">
+                        <input type="hidden" name="id" v-model.trim="bean.id">
+                        <a href="#nowhere" class="btn btn-success" @click="update">提 交</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="include/admin/adminFooter::html"></div>
+</body>
+</html>
