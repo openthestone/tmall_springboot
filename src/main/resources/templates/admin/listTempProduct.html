@@ -13,19 +13,21 @@
             bean: {
                 id: 0,
                 name: '',
-                sizex: '',
-                sizey: '',
-                sizez: '',
+                dataType: '',
+                sizeX: '',
+                sizeY: '',
+                sizeZ: '',
                 strainX: '',
                 strainY: '',
-                nX: '',
-                nY: '',
+                NX: '',
+                NY: '',
                 elecX: '',
                 elecY: '',
                 elecZ: '',
-                dataType: '',
-                Doi: '',
-                SupplmentaryInfo: ''
+                xY_Fig: '',
+                xZ_Fig: '',
+                xYZ_Fig: '',
+                data_File: ''
             },
             beans: [],
             //Imagfile: null,
@@ -52,39 +54,41 @@
                     axios.get(url).then(function (response) {
                         vue.bean= response.data;
                         var formData = new FormData();
-                        // bean: {id: 0, name: '', sizex: '', sizey: '', sizez: '',strainX:'',strainY:'',nX:'',nY:'',elecX:'',elecY:'',
-                        //elecZ:'',datetype:'',Doi:'',SupplmentaryInfo:''},
+                        // bean: {id: 0, name: '', dateType:'', sizeX: '', sizeY: '', sizeZ: '', strainX:'', strainY:'',
+                        // NX:'', NY:'', elecX:'', elecY:'', elecZ:'', Doi:'', SupplmentaryInfo:''}
                         formData.append("name", vue.bean.name);
-                        formData.append("sizex", vue.bean.sizex);
-                        formData.append("sizey", vue.bean.sizey);
-                        formData.append("sizez", vue.bean.sizez);
+                        formData.append("dataType", vue.bean.dataType);
+                        formData.append("sizeX", vue.bean.sizeX);
+                        formData.append("sizeY", vue.bean.sizeY);
+                        formData.append("sizeZ", vue.bean.sizeZ);
                         formData.append("strainX", vue.bean.strainX);
                         formData.append("strainY", vue.bean.strainY);
-                        formData.append("nX", vue.bean.nX);
-                        formData.append("nY", vue.bean.nY);
+                        formData.append("NX", vue.bean.NX);
+                        formData.append("NY", vue.bean.NY);
                         formData.append("elecX", vue.bean.elecX);
                         formData.append("elecY", vue.bean.elecY);
                         formData.append("elecZ", vue.bean.elecZ);
-                        formData.append("dataType", vue.bean.dataType);
-                        formData.append("Doi", vue.bean.Doi);
-                        formData.append("SupplmentaryInfo", vue.bean.SupplmentaryInfo);
+                        formData.append("xY_Fig", vue.bean.xY_Fig);
+                        formData.append("xZ_Fig", vue.bean.xZ_Fig);
+                        formData.append("xYZ_Fig", vue.bean.xYZ_Fig);
+                        formData.append("data_File", vue.bean.data_File);
                         console.log(formData)
                         axios.post("add_products/", formData).then(function (response) {
                             vue.list(0);
                             vue.bean = {
                                 id: 0,
                                 name: '',
-                                sizex: '',
-                                sizey: '',
-                                sizez: '',
+                                datetype: '',
+                                sizeX: '',
+                                sizeY: '',
+                                sizeZ: '',
                                 strainX: '',
                                 strainY: '',
-                                nX: '',
-                                nY: '',
-                                ElecX: '',
-                                ElecY: '',
-                                ElecZ: '',
-                                datetype: ''
+                                NX: '',
+                                NY: '',
+                                elecX: '',
+                                elecY: '',
+                                elecZ: ''
                             };
                         });
                     });
@@ -124,18 +128,19 @@
             <tr class="success">
                 <th>ID</th>
                 <th>名字</th>
-                <th>sizex</th>
-                <th>sizey</th>
-                <th>sizez</th>
-                <th>strainX</th>
-                <th>strainY</th>
+                <th>DataType</th>
+                <th>SizeX</th>
+                <th>SizeY</th>
+                <th>SizeZ</th>
+                <th>StrainX</th>
+                <th>StrainY</th>
                 <th>NX</th>
                 <th>NY</th>
                 <th>ElecX</th>
                 <th>ElecY</th>
                 <th>ElecZ</th>
-                <th>Datatype</th>
                 <th>图片</th>
+                <th>文件</th>
                 <th>添加至标准库</th>
                 <th>编辑</th>
                 <th>删除</th>
@@ -147,6 +152,9 @@
                 <td>{{bean.id}}</td>
                 <td>
                     {{bean.name}}
+                </td>
+                <td>
+                    {{bean.dataType}}
                 </td>
                 <td>
                     {{bean.sizex}}
@@ -178,13 +186,12 @@
                 <td>
                     {{bean.elecZ}}
                 </td>
-                <td>
-                    {{bean.dataType}}
-
-                </td>
                 <!--TODO  -->
                 <td>
 
+                </td>
+                <td>
+                    {{bean.data_File}}
                 </td>
                 <td>
                     <a href="#nowhere" @click="add(bean.id)"><span class="glyphicon glyphicon-plus"></span></a>

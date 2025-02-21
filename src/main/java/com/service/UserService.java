@@ -28,7 +28,7 @@ public class UserService {
         return null != user;
     }
     public User get(String name, String password) {
-        return userDao.getByNameAndPassword(name,password);
+        return userDao.getByNameAndPassword(name, password);
     }
     public User getByName(String name) {
         return userDao.findByName(name);

@@ -38,9 +38,10 @@ public class ProductService {
 
     public List<Integer> queryFile(List<Map<String, String>> selectValue) {
         Map<String, String> map = new HashMap<>();
-        String sizex = "";
-        String sizey = "";
-        String sizez = "";
+        String dataType = "";
+        String sizeX = "";
+        String sizeY = "";
+        String sizeZ = "";
         String strainX = "";
         String strainY = "";
         String nX = "";
@@ -51,44 +52,47 @@ public class ProductService {
         for (Map<String, String> stringStringMap : selectValue) {
             switch (stringStringMap.get("attribute")) {
                 case "id_0":
-                    sizex = stringStringMap.get("value");
+                    dataType = stringStringMap.get("value");
                     break;
                 case "id_1":
-                    sizey = stringStringMap.get("value");
+                    sizeX = stringStringMap.get("value");
                     break;
                 case "id_2":
-                    sizez = stringStringMap.get("value");
+                    sizeY = stringStringMap.get("value");
                     break;
                 case "id_3":
-                    strainX = stringStringMap.get("value");
+                    sizeZ = stringStringMap.get("value");
                     break;
                 case "id_4":
-                    strainY = stringStringMap.get("value");
+                    strainX = stringStringMap.get("value");
                     break;
                 case "id_5":
-                    nX = stringStringMap.get("value");
+                    strainY = stringStringMap.get("value");
                     break;
                 case "id_6":
-                    nY = stringStringMap.get("value");
+                    nX = stringStringMap.get("value");
                     break;
                 case "id_7":
-                    elecX = stringStringMap.get("value");
+                    nY = stringStringMap.get("value");
                     break;
                 case "id_8":
-                    elecY = stringStringMap.get("value");
+                    elecX = stringStringMap.get("value");
                     break;
                 case "id_9":
+                    elecY = stringStringMap.get("value");
+                    break;
+                case "id_10":
                     elecZ = stringStringMap.get("value");
                     break;
             }
         }
-        List<Integer> products = productDao.find(sizex, sizey, sizez, strainX, strainY, nX, nY, elecX, elecY, elecZ);
+        List<Integer> products = productDao.find(dataType, sizeX, sizeY, sizeZ, strainX, strainY, nX, nY, elecX, elecY, elecZ);
         return products;
     }
 //    public Page4Navigator<Product> listFile(int start, int size, int navigatePages) {
 //        Sort sort = new Sort(Sort.Direction.DESC, "id");
 //        Pageable pageable = new PageRequest(start, size, sort);
-//     //   Page pageFromJPA = productDao.find(sizex, sizey, sizez, strainX, strainY, nX, nY, elecX, elecY, elecZ, pageable);
+//     //   Page pageFromJPA = productDao.find(dataType, sizeX, sizeY, sizeZ, strainX, strainY, nX, nY, elecX, elecY, elecZ, pageable);
 //
 //        return new Page4Navigator<>(pageFromJPA, navigatePages);
 //    }
@@ -116,11 +120,11 @@ public class ProductService {
         productDao.save(bean);
     }
 
-    public List<Product> search(String sizex, String sizey, String sizez, String strainX, String strainY, String NX, String NY, String elecX, String elecY,
+    public List<Product> search(String dataType, String sizeX, String sizeY, String sizeZ, String strainX, String strainY, String nX, String nY, String elecX, String elecY,
                                 String elecZ, int start, int size) {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = new PageRequest(start, size, sort);
-        List<Product> products = productDao.findBySizexAndSizeyAndSizezAndNXAndNYAndStrainXAndStrainYAndElecXAndElecYAndElecZ(sizex, sizey, sizez, strainX, strainY, NX, NY, elecX, elecY, elecZ
+        List<Product> products = productDao.findByDataTypeAndSizeXAndSizeYAndSizeZAndStrainXAndStrainYAndNXAndNYAndElecXAndElecYAndElecZ(dataType, sizeX, sizeY, sizeZ, strainX, strainY, nX, nY, elecX, elecY, elecZ
                 , pageable);
         System.out.println(products);
         return products;
@@ -131,16 +135,16 @@ public class ProductService {
         List<File> files = new ArrayList<>();
 
         for (Integer id : ids) {
-            File file = new File(filePath + "/" + id+".txt");
+            File file = new File(filePath + "/" + id + ".txt");
             if (file.exists()) {
                 files.add(file);
             } else {
-                throw new Exception("文件 :" +id + ".txt 不存在,请联系管理员!");
+                throw new Exception("文件 :" +id + ".npz 不存在,请联系管理员！");
             }
         }
 
         if (files.isEmpty()) {
-            throw new Exception("当前选择文件不存在,请联系管理员!");
+            throw new Exception("当前选择文件不存在，请联系管理员！");
         } else {
             String tempName = "temp.zip";
             String path = filePath + "/" + tempName;

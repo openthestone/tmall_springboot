@@ -4,20 +4,21 @@
 <head th:include="include/fore/header::html" ></head>
 <body>
 <script>
-    <!--    sizex,sizey, sizez,strainx,strainy,nx,ny,elecx,elecy,elecz-->
+    <!--    dataType,sizeX,sizeY,sizeZ,strainX,strainY,NX,NY,elecX,elecY,elecZ    -->
     $(function () {
-        var sizex = getUrlParms("sizex");
-        var sizey = getUrlParms("sizey");
-        var sizez = getUrlParms("sizez");
-        var strainX= getUrlParms("strainx");
-        var strainY = getUrlParms("strainy");
-        var NX = getUrlParms("nx");
-        var NY= getUrlParms("ny");
-        var elecX = getUrlParms("elecx");
-        var elecY = getUrlParms("elecy");
-        var elecZ = getUrlParms("elecz");
+        var dataType = getUrlParms("datatype");
+        var sizeX = getUrlParms("sizeX");
+        var sizeY = getUrlParms("sizeY");
+        var sizeZ = getUrlParms("sizeZ");
+        var strainX= getUrlParms("strainX");
+        var strainY = getUrlParms("strainY");
+        var nX = getUrlParms("nX");
+        var nY= getUrlParms("nY");
+        var elecX = getUrlParms("elecX");
+        var elecY = getUrlParms("elecY");
+        var elecZ = getUrlParms("elecZ");
         var data4Vue = {
-            uri: 'foresearch',
+            uri: 'foreSearch',
             products: [],
             id: 0
         };
@@ -30,10 +31,10 @@
             },
             methods: {
                 search1: function () {
-                    //tring sizex, String sizey, String sizez, String strainX, String strainY, String NX, String NY, String ElecX, String ElecY, String ElecZ, Pageable pageable
+                    // String dataType, String sizeX, String sizeY, String sizeZ, String strainX, String strainY, String NX, String NY, String elecX, String elecY, String elecZ, Pageable pageable
                     // var url = this.uri + "sizex,sizey,sizez,nx,ny,strainx,strainy,elecx,elecy,elecz" + keyword;
-                    var url = this.uri + "?sizex=" + sizex + "?sizey=" + sizey + "?sizez=" + sizez + "?strainx=" + strainX
-                        + "?strainy=" + strainY + "?nx=" + NX + "?ny=" + NY  + "?elecx=" + elecX + "?elecy=" + elecY + "?elecz=" + elecZ;
+                    var url = this.uri + "?dataType=" + dataType + "?sizeX=" + sizeX + "?sizeY=" + sizeY + "?sizeZ=" + sizeZ + "?strainX=" + strainX
+                        + "?strainY=" + strainY + "?nX=" + nX + "?nY=" + nY  + "?elecX=" + elecX + "?elecY=" + elecY + "?elecZ=" + elecZ;
                     axios.post(url).then(function (response) {
                         vue.products = response.data;
                         v
@@ -99,36 +100,36 @@
                                 <span class="font-weight-normal text-dark">
                                     <strong> Size: </strong>
                                     <!--                                      sizex,sizey, sizez, nx,ny,strainx,strainy,elecx,elecy,elecz-->
-                                    <input type="text" placeholder="20" class="input-num" name="sizex"> nm *
-                                    <input type="text" placeholder="20" class="input-num" name="sizey"> nm *
-                                    <input type="text" placeholder="20" class="input-num" name="sizez"> nm
+                                    <input type="text" placeholder="20" class="input-num" name="sizeX"> nm *
+                                    <input type="text" placeholder="20" class="input-num" name="sizeY"> nm *
+                                    <input type="text" placeholder="20" class="input-num" name="sizeZ"> nm
                                 </span>
                             </li>
                             <li>
                                 <span class="font-weight-normal text-dark">
-                                    <strong> StrianX: </strong>
+                                    <strong> StrainX: </strong>
                                     <input type="text" placeholder="20" class="input-num"
-                                           style="margin-right: 20px;" name="strainx">
-                                    <strong> StrianY: </strong> <input type="text" placeholder="20" class="input-num"
-                                                                       name="strainy">
+                                           style="margin-right: 20px;" name="strainX">
+                                    <strong> StrainY: </strong> <input type="text" placeholder="20" class="input-num"
+                                                                       name="strainY">
                                 </span>
                             </li>
                             <li>
                                 <span class="font-weight-normal text-dark">
                                     <strong> NX: </strong> <input type="text" placeholder="20" class="input-num"
-                                                                  style="margin-right: 20px;" name="nx">
+                                                                  style="margin-right: 20px;" name="nX">
                                     <strong> NY: </strong> <input type="text" placeholder="20" class="input-num"
-                                                                  name="ny">
+                                                                  name="nY">
                                 </span>
                             </li>
                             <li>
                                 <span class="font-weight-normal text-dark">
                                     <strong> ElecX: </strong> <input type="text" placeholder="20" class="input-num"
-                                                                     style="margin-right: 20px;" name="elecx">
+                                                                     style="margin-right: 20px;" name="elecX">
                                     <strong> ElecY: </strong> <input type="text" placeholder="20" class="input-num"
-                                                                     style="margin-right: 20px;" name="elecy">
+                                                                     style="margin-right: 20px;" name="elecY">
                                     <strong> ElecZ: </strong> <input type="text" placeholder="20" class="input-num"
-                                                                     name="elecz">
+                                                                     name="elecZ">
                                 </span>
                             </li>
                         </ol>

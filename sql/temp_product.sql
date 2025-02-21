@@ -4,25 +4,26 @@ MySQL - 8.0.31
 *********************************************************************
 */
 /*!40101 SET NAMES utf8 */;
-
+use tmall_springboot;
+drop table if exists `temp_product`;
 create table `temp_product` (
-	`id` int (11),
-	`name` varchar (765),
-	`sizex` varchar (765),
-	`sizey` varchar (765),
-	`sizez` varchar (765),
-	`nX` varchar (765),
-	`nY` varchar (765),
-	`strainX` varchar (765),
-	`strainY` varchar (765),
-	`elecX` varchar (765),
-	`elecY` varchar (765),
-	`elecZ` varchar (765),
+	`id` int not null auto_increment,
+	`name` varchar (150) not null,
+	`dataType` varchar (30) not null,
+	`sizeX` varchar (30) not null,
+	`sizeY` varchar (30) not null,
+	`sizeZ` varchar (30) not null,
+	`strainX` varchar (30) not null,
+	`strainY` varchar (30) not null,
+	`NX` varchar (30) not null,
+	`NY` varchar (30) not null,
+	`elecX` varchar (30) not null,
+	`elecY` varchar (30) not null,
+	`elecZ` varchar (30) not null,
 	`XY_fig` varchar (765),
 	`XZ_fig` varchar (765),
+	`XYZ_fig` varchar (765),
 	`data_file` varchar (765),
-	`dataType` varchar (765),
-	`Doi` varchar (765),
-	`SupplmentaryInfo` varchar (765)
-); 
-insert into `temp_product` (`id`, `name`, `sizex`, `sizey`, `sizez`, `nX`, `nY`, `strainX`, `strainY`, `elecX`, `elecY`, `elecZ`, `XY_fig`, `XZ_fig`, `data_file`, `dataType`, `Doi`, `SupplmentaryInfo`) values('57','1','1','1','1','1','1','1','1','1','1','1',NULL,NULL,'财务截图.docx',NULL,NULL,'1');
+    primary key (`id`)
+) engine=innodb charset=utf8mb4;
+insert into `temp_product` (`id`, `name`, `dataType`, `sizeX`, `sizeY`, `sizeZ`, `strainX`, `strainY`, `NX`, `NY`, `elecX`, `elecY`, `elecZ`, `XY_fig`, `XZ_fig`, `XYZ_fig`, `data_file`) values('57','1','1','1','1','1','1','1','1','1','1','1','1',NULL,NULL,NULL,NULL);

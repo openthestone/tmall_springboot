@@ -12,9 +12,10 @@
             bean: {
                 id: 0,
                 name: '',
-                sizex: '',
-                sizey: '',
-                sizez: '',
+                dataType: '',
+                sizeX: '',
+                sizeY: '',
+                sizeZ: '',
                 strainX: '',
                 strainY: '',
                 nX: '',
@@ -22,9 +23,10 @@
                 elecX: '',
                 elecY: '',
                 elecZ: '',
-                dataType: '',
-                Doi: '',
-                SupplmentaryInfo: ''
+                xY_Fig: '',
+                xZ_Fig: '',
+                xYZ_Fig: '',
+                data_File: ''
             },
             beans: [],
             //Imagfile: null,
@@ -55,12 +57,13 @@
 
                     //axios.js 上传文件要用 formData 这种方式
                     var formData = new FormData();
-                    // bean: {id: 0, name: '', sizex: '', sizey: '', sizez: '',strainX:'',strainY:'',nX:'',nY:'',elecX:'',elecY:'',
-                    //elecZ:'',datetype:'',Doi:'',SupplmentaryInfo:''},
+                    // bean: {id: 0, name: '', dateType:'', sizeX: '', sizeY: '', sizeZ: '', strainX:'', strainY:'',
+                    // NX:'', NY:'',elecX:'', elecY:'', elecZ:'', Doi:'', SupplmentaryInfo:''}
                     formData.append("name", this.bean.name);
-                    formData.append("sizex", this.bean.sizex);
-                    formData.append("sizey", this.bean.sizey);
-                    formData.append("sizez", this.bean.sizez);
+                    formData.append("dataType", this.bean.dataType);
+                    formData.append("sizeX", this.bean.sizeX);
+                    formData.append("sizeY", this.bean.sizeY);
+                    formData.append("sizeZ", this.bean.sizeZ);
                     formData.append("strainX", this.bean.strainX);
                     formData.append("strainY", this.bean.strainY);
                     formData.append("nX", this.bean.nX);
@@ -68,25 +71,26 @@
                     formData.append("elecX", this.bean.elecX);
                     formData.append("elecY", this.bean.elecY);
                     formData.append("elecZ", this.bean.elecZ);
-                    formData.append("dataType", this.bean.dataType);
-                    formData.append("Doi", this.bean.Doi);
-                    formData.append("SupplmentaryInfo", this.bean.SupplmentaryInfo);
+                    formData.append("xY_Fig", this.bean.xY_Fig);
+                    formData.append("xZ_Fig", this.bean.xZ_Fig);
+                    formData.append("xYZ_Fig", this.bean.xYZ_Fig);
+                    formData.append("data_File", this.bean.data_File);
                     axios.post("add_products", formData).then(function (response) {
                         vue.list(0);
                         vue.bean = {
                             id: 0,
                             name: '',
-                            sizex: '',
-                            sizey: '',
-                            sizez: '',
+                            dateType: '',
+                            sizeX: '',
+                            sizeY: '',
+                            sizeZ: '',
                             strainX: '',
                             strainY: '',
                             nX: '',
                             nY: '',
-                            ElecX: '',
-                            ElecY: '',
-                            ElecZ: '',
-                            datetype: ''
+                            elecX: '',
+                            elecY: '',
+                            elecZ: ''
                         };
                         // $("#categoryPic").val('');
                         // vue.file = null;
@@ -126,38 +130,43 @@
             <tr class="success">
                 <th>ID</th>
                 <th>名字</th>
-                <th>sizex</th>
-                <th>sizey</th>
-                <th>sizez</th>
-                <th>strainX</th>
-                <th>strainY</th>
+                <th>DataType</th>
+                <th>SizeX</th>
+                <th>SizeY</th>
+                <th>SizeZ</th>
+                <th>StrainX</th>
+                <th>StrainY</th>
                 <th>NX</th>
                 <th>NY</th>
                 <th>ElecX</th>
                 <th>ElecY</th>
                 <th>ElecZ</th>
-                <th>Datatype</th>
                 <th>图片</th>
+                <th>文件</th>
                 <th>编辑</th>
                 <th>删除</th>
             </tr>
             </thead>
             <tbody>
-            <!--              bean: {id: 0, name: '', sizex: '', sizey: '', sizez: '',
-            strainX:'',strainY:'',NX:'',NY:'',ElecX:'',ElecY:'',ElecZ:'',datetype:''},-->
+            <!--              bean: {id: 0, dateType:'', name: '', sizeX: '', sizeY: '', sizeZ: '',
+            strainX:'', strainY:'', NX:'', NY:'', elecX:'', elecY:'', elecZ:''} -->
             <tr v-for="bean in beans ">
                 <td>{{bean.id}}</td>
                 <td>
                     {{bean.name}}
                 </td>
                 <td>
-                    {{bean.sizex}}
+                    {{bean.dataType}}
+
                 </td>
                 <td>
-                    {{bean.sizey}}
+                    {{bean.sizeX}}
                 </td>
                 <td>
-                    {{bean.sizez}}
+                    {{bean.sizeY}}
+                </td>
+                <td>
+                    {{bean.sizeZ}}
                 </td>
                 <td>
                     {{bean.strainX}}
@@ -180,13 +189,13 @@
                 <td>
                     {{bean.elecZ}}
                 </td>
-                <td>
-                    {{bean.dataType}}
-
-                </td>
                 <!--TODO  -->
                 <td>
 
+                </td>
+
+                <td>
+                    {{bean.data_File}}
                 </td>
 
                 <td>
@@ -210,31 +219,35 @@
                     <td><input @keyup.enter="add" v-model.trim="bean.name" type="text" class="form-control"></td>
                 </tr>
                 <tr>
-                    <td>sizex:</td>
-                    <td><input @keyup.enter="add" v-model.trim="bean.sizex" type="text" class="form-control"></td>
+                    <td>DataType:</td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.dataType" type="text" class="form-control"></td>
                 </tr>
                 <tr>
-                    <td>sizey:</td>
-                    <td><input @keyup.enter="add" v-model.trim="bean.sizey" type="text" class="form-control"></td>
+                    <td>SizeX:</td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.sizeX" type="text" class="form-control"></td>
                 </tr>
                 <tr>
-                    <td>sizez:</td>
-                    <td><input @keyup.enter="add" v-model.trim="bean.sizez" type="text" class="form-control"></td>
+                    <td>SizeY:</td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.sizeY" type="text" class="form-control"></td>
                 </tr>
                 <tr>
-                    <td>strainX:</td>
+                    <td>SizeZ:</td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.sizeZ" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>StrainX:</td>
                     <td><input @keyup.enter="add" v-model.trim="bean.strainX" type="text" class="form-control"></td>
                 </tr>
                 <tr>
-                    <td>strainY:</td>
+                    <td>StrainY:</td>
                     <td><input @keyup.enter="add" v-model.trim="bean.strainY" type="text" class="form-control"></td>
                 </tr>
                 <tr>
-                    <td>nX:</td>
+                    <td>NX:</td>
                     <td><input @keyup.enter="add" v-model.trim="bean.nX" type="text" class="form-control"></td>
                 </tr>
                 <tr>
-                    <td>nY:</td>
+                    <td>NY:</td>
                     <td><input @keyup.enter="add" v-model.trim="bean.nY" type="text" class="form-control"></td>
                 </tr>
                 <tr>
@@ -250,17 +263,20 @@
                     <td><input @keyup.enter="add" v-model.trim="bean.elecZ" type="text" class="form-control"></td>
                 </tr>
                 <tr>
-                    <td>dataType:</td>
-                    <td><input @keyup.enter="add" v-model.trim="bean.dataType" type="text" class="form-control"></td>
+                    <td>XY_Fig:</td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.xY_Fig" type="text" class="form-control"></td>
                 </tr>
                 <tr>
-                    <td>Doi:</td>
-                    <td><input @keyup.enter="add" v-model.trim="bean.Doi" type="text" class="form-control"></td>
+                    <td>XZ_Fig:</td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.xZ_Fig" type="text" class="form-control"></td>
                 </tr>
                 <tr>
-                    <td>SupplmentaryInfo:</td>
-                    <td><input @keyup.enter="add" v-model.trim="bean.SupplmentaryInfo" type="text" class="form-control">
-                    </td>
+                    <td>XYZ_Fig:</td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.xYZ_Fig" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>data_File:</td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.data_File" type="text" class="form-control"></td>
                 </tr>
                 <tr class="submitTR">
                     <td colspan="2" align="center">

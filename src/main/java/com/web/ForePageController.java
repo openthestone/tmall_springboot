@@ -34,7 +34,7 @@ public class ForePageController {
         return "fore/registerSuccess";
     }
 
-    @GetMapping("/forelogout")
+    @GetMapping("/foreLogout")
     public String logout(HttpSession session) {
         session.removeAttribute("user");
         return "redirect:home";

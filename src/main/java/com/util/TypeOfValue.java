@@ -3,50 +3,55 @@ package com.util;
 public enum TypeOfValue {
     id_0 {
         public String getType() {
-            return "sizex";
+            return "dataType";
         }
     },
     id_1 {
         public String getType() {
-            return "sizey";
+            return "sizeX";
         }
     },
     id_2 {
         public String getType() {
-            return "sizez";
+            return "sizeY";
         }
     },
     id_3 {
         public String getType() {
-            return "strainX";
+            return "sizeZ";
         }
     },
     id_4 {
         public String getType() {
-            return "strainY";
+            return "strainX";
         }
     },
     id_5 {
         public String getType() {
-            return "nX";
+            return "strainY";
         }
     },
     id_6 {
         public String getType() {
-            return "nY";
+            return "nX";
         }
     },
     id_7 {
         public String getType() {
-            return "elecX";
+            return "nY";
         }
     },
     id_8 {
         public String getType() {
-            return "elecY";
+            return "elecX";
         }
     },
     id_9 {
+        public String getType() {
+            return "elecY";
+        }
+    },
+    id_10 {
         public String getType() {
             return "elecZ";
         }

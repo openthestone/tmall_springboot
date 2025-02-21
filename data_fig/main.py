@@ -88,6 +88,3 @@ if __name__ == "__main__":
 
                         # 提交任务
                         os.system(f'cd {folderName} && sbatch V-3.sh && cd ..')
-
-
-

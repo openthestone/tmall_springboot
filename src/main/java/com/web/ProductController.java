@@ -129,33 +129,37 @@ public class ProductController {
     @PostMapping("/products/{id}")
     public Object update(Product bean, HttpServletRequest request) throws Exception {
         String name = request.getParameter("name");
-        String sizex = request.getParameter("sizex");
-        String sizey = request.getParameter("sizey");
-        String sizez = request.getParameter("sizez");
+        String dataType = request.getParameter("dataType");
+        String sizeX = request.getParameter("sizeX");
+        String sizeY = request.getParameter("sizeY");
+        String sizeZ = request.getParameter("sizeZ");
         String strainX = request.getParameter("strainX");
         String strainY = request.getParameter("strainY");
-        String NX = request.getParameter("nX");
-        String NY = request.getParameter("nY");
-        String ElecX = request.getParameter("elecX");
-        String ElecY = request.getParameter("elecY");
-        String ElecZ = request.getParameter("elecZ");
-        String dataType = request.getParameter("dataType");
-        String Doi = request.getParameter("Doi");
-        String SupplmentaryInfo = request.getParameter("SupplmentaryInfo");
+        String nX = request.getParameter("nX");
+        String nY = request.getParameter("nY");
+        String elecX = request.getParameter("elecX");
+        String elecY = request.getParameter("elecY");
+        String elecZ = request.getParameter("elecZ");
+        String xY_Fig = request.getParameter("xY_Fig");
+        String xZ_Fig = request.getParameter("xZ_Fig");
+        String xYZ_Fig = request.getParameter("xYZ_Fig");
+        String data_File = request.getParameter("data_File");
         bean.setName(name);
-        bean.setSizex(sizex);
-        bean.setSizey(sizey);
-        bean.setSizez(sizez);
+        bean.setDataType(dataType);
+        bean.setSizeX(sizeX);
+        bean.setSizeY(sizeY);
+        bean.setSizeZ(sizeZ);
         bean.setStrainX(strainX);
         bean.setStrainY(strainY);
-        bean.setnX(NX);
-        bean.setnY(NY);
-        bean.setElecX(ElecX);
-        bean.setElecY(ElecY);
-        bean.setElecZ(ElecZ);
-        bean.setDataType(dataType);
-        bean.setDoi(Doi);
-        bean.setSupplmentaryInfo(SupplmentaryInfo);
+        bean.setNX(nX);
+        bean.setNY(nY);
+        bean.setElecX(elecX);
+        bean.setElecY(elecY);
+        bean.setElecZ(elecZ);
+        bean.setXY_Fig(xY_Fig);
+        bean.setXZ_Fig(xZ_Fig);
+        bean.setXYZ_Fig(xYZ_Fig);
+        bean.setData_File(data_File);
 
 //        if(image!=null) {
 //            saveOrUpdateImageFile(bean, image, request);
@@ -171,12 +175,12 @@ public class ProductController {
      * @throws IOException
      */
     @PostMapping(value = "/upload", consumes = "multipart/form-data")
-    public String upload(@RequestPart MultipartFile file) throws IOException {
+    public String upload(@RequestParam("file") MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
-        String filePath = fileName;
+        String filePath = "./temp_data_fig/" + fileName;
         File dest = new File(filePath);
         Files.copy(file.getInputStream(), dest.toPath());
-        return "Upload file success : " + dest.getAbsolutePath();
+        return filePath;
     }
 
 }

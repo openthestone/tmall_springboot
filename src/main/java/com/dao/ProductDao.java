@@ -9,26 +9,27 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ProductDao extends JpaRepository<Product, Integer> {
-    List<Product> findBySizexAndSizeyAndSizezAndNXAndNYAndStrainXAndStrainYAndElecXAndElecYAndElecZ(String sizex, String sizey, String sizez, String strainX, String strainY, String NX, String NY
-            , String ElecX, String ElecY, String ElecZ, Pageable pageable);
 
-    //                    {{bean.sizex}}
-    //                    {{bean.sizey}}
-    //                    {{bean.sizez}}
+
+    List<Product> findByDataTypeAndSizeXAndSizeYAndSizeZAndStrainXAndStrainYAndNXAndNYAndElecXAndElecYAndElecZ(String dataType, String sizeX, String sizeY, String sizeZ, String strainX, String strainY, String nX, String nY
+            , String elecX, String elecY, String elecZ, Pageable pageable);
+
+    //                    {{bean.dataType}}
+    //                    {{bean.sizeX}}
+    //                    {{bean.sizeY}}
+    //                    {{bean.sizeZ}}
     //                    {{bean.strainX}}
     //                    {{bean.strainY}}
     //                    {{bean.nX}}
     //                    {{bean.nY}}
     //                    {{bean.elecX}}
-    //                    {{bean.elecY}}n
+    //                    {{bean.elecY}}
     //                    {{bean.elecZ}}
-    @Query(value = "select ID from product where if(?1 !='',sizex=?1,1=1) and if(?2 !='',sizey=?2,1=1) and if(?3 !='',sizez=?3,1=1)" +
-            " and if(?4 !='',strainX=?4,1=1) and if(?5 !='',strainY=?5,1=1) and if(?6 !='',nX=?6,1=1) and if(?7 !='',nY=?7,1=1)" +
-            " and if(?8 !='',ElecX=?8,1=1) and if(?9 !='',ElecY=?9,1=1) and if(?10 !='',ElecZ=?10,1=1)"
+    @Query(value = "select id from product where if(?1 !='',dataType=?1,1=1) and if(?2 !='',sizeX=?2,1=1) and if(?3 !='',sizeY=?3,1=1) and if(?4 !='',sizeZ=?4,1=1)" +
+            " and if(?5 !='',strainX=?5,1=1) and if(?6 !='',strainY=?6,1=1) and if(?7 !='',nX=?7,1=1) and if(?8 !='',nY=?8,1=1)" +
+            " and if(?9 !='',elecX=?9,1=1) and if(?10 !='',elecY=?10,1=1) and if(?11 !='',elecZ=?11,1=1)"
             , nativeQuery = true)
-//    List<Product> find(String sizex, String sizey, String sizez, String strainX, String strainY, String nX, String nY, String elecX, String elecY,
-//                       String elecZ, Pageable pageable);
-    List<Integer> find(String sizex, String sizey, String sizez, String strainX, String strainY, String nX, String nY, String elecX, String elecY,
+    List<Integer> find(String dataType, String sizeX, String sizeY, String sizeZ, String strainX, String strainY, String nX, String nY, String elecX, String elecY,
                        String elecZ);
 
 }

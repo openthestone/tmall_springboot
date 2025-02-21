@@ -13,9 +13,10 @@ public class TempProduct {
     @Column(name = "id")
     private int id;
     String name;
-    String sizex;
-    String sizey;
-    String sizez;
+    String dataType;
+    String sizeX;
+    String sizeY;
+    String sizeZ;
     String strainX;
     String strainY;
     String nX;
@@ -23,9 +24,10 @@ public class TempProduct {
     String elecX;
     String elecY;
     String elecZ;
-    String dataType;
-    String Doi;
-    String SupplmentaryInfo;
+    String xY_Fig;
+    String xZ_Fig;
+    String xYZ_Fig;
+    String data_File;
 
     public int getId() {
         return id;
@@ -43,28 +45,36 @@ public class TempProduct {
         this.name = name;
     }
 
-    public String getSizex() {
-        return sizex;
+    public String getDataType() {
+        return dataType;
     }
 
-    public void setSizex(String sizex) {
-        this.sizex = sizex;
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
     }
 
-    public String getSizey() {
-        return sizey;
+    public String getSizeX() {
+        return sizeX;
     }
 
-    public void setSizey(String sizey) {
-        this.sizey = sizey;
+    public void setSizeX(String sizeX) {
+        this.sizeX = sizeX;
     }
 
-    public String getSizez() {
-        return sizez;
+    public String getSizeY() {
+        return sizeY;
     }
 
-    public void setSizez(String sizez) {
-        this.sizez = sizez;
+    public void setSizeY(String sizeY) {
+        this.sizeY = sizeY;
+    }
+
+    public String getSizeZ() {
+        return sizeZ;
+    }
+
+    public void setSizeZ(String sizeZ) {
+        this.sizeZ = sizeZ;
     }
 
     public String getStrainX() {
@@ -83,19 +93,19 @@ public class TempProduct {
         this.strainY = strainY;
     }
 
-    public String getnX() {
+    public String getNX() {
         return nX;
     }
 
-    public void setnX(String nX) {
+    public void setNX(String nX) {
         this.nX = nX;
     }
 
-    public String getnY() {
+    public String getNY() {
         return nY;
     }
 
-    public void setnY(String nY) {
+    public void setNY(String nY) {
         this.nY = nY;
     }
 
@@ -123,28 +133,20 @@ public class TempProduct {
         this.elecZ = elecZ;
     }
 
-    public String getDataType() {
-        return dataType;
-    }
+    public String getXY_Fig() { return xY_Fig; }
 
-    public void setDataType(String dataType) {
-        this.dataType = dataType;
-    }
+    public void setXY_Fig(String xY_Fig) { this.xY_Fig = xY_Fig; }
 
-    public String getDoi() {
-        return Doi;
-    }
+    public String getXZ_Fig() { return xZ_Fig; }
 
-    public void setDoi(String doi) {
-        Doi = doi;
-    }
+    public void setXZ_Fig(String xZ_Fig) { this.xZ_Fig = xZ_Fig; }
 
-    public String getSupplmentaryInfo() {
-        return SupplmentaryInfo;
-    }
+    public String getXYZ_Fig() { return xYZ_Fig; }
 
-    public void setSupplmentaryInfo(String supplmentaryInfo) {
-        SupplmentaryInfo = supplmentaryInfo;
-    }
+    public void setXYZ_Fig(String xYZ_Fig) { this.xYZ_Fig = xYZ_Fig; }
+
+    public String getData_File() { return data_File; }
+
+    public void setData_File(String data_File) { this.data_File = data_File; }
 
 }

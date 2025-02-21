@@ -25,8 +25,8 @@ public class PortUtil {
                 System.exit(1);
             }
             else {
-                String message =String.format("在端口 %d 未检查得到 %s 启动%n,是否继续?",port,server);
-                if(JOptionPane.OK_OPTION != 	JOptionPane.showConfirmDialog(null, message))
+                String message = String.format("在端口 %d 未检查得到 %s 启动%n，是否继续？", port, server);
+                if(JOptionPane.OK_OPTION != JOptionPane.showConfirmDialog(null, message))
                     System.exit(1);
             }
         }

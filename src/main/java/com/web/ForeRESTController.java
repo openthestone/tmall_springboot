@@ -30,7 +30,7 @@ public class ForeRESTController {
 //        Page4Navigator<Product> page = productService.list(start, size, 5);  //5表示导航分页最多有5个，像 [1,2,3,4,5] 这样
 //        return page;
 //    }
-    @PostMapping("/foreregister")
+    @PostMapping("/foreRegister")
     public Object register(@RequestBody User user,HttpSession session) {
         String name =  user.getName();
         String password = user.getPassword();
@@ -47,7 +47,7 @@ public class ForeRESTController {
         session.setAttribute("user", user);
         return Result.success();
     }
-    @PostMapping("/forelogin")
+    @PostMapping("/foreLogin")
     public Object login(@RequestBody User userParam, HttpSession session) {
         String name =  userParam.getName();
         name = HtmlUtils.htmlEscape(name);
@@ -61,10 +61,10 @@ public class ForeRESTController {
             return Result.success();
         }
     }
-    @PostMapping("foresearch")
-    public Object search(String sizex, String sizey, String sizez, String strainX, String strainY, String NX, String NY, String elecX, String elecY,
+    @PostMapping("/foreSearch")
+    public Object search(String dataType, String sizeX, String sizeY, String sizeZ, String strainX, String strainY, String nX, String nY, String elecX, String elecY,
                          String elecZ){
-        List<Product> ps= productService.search(sizex,sizey, sizez, strainX, strainY, NX, NY, elecX, elecY, elecZ,0,20);
+        List<Product> ps= productService.search(dataType, sizeX, sizeY, sizeZ, strainX, strainY, nX, nY, elecX, elecY, elecZ,0,20);
         return ps;
     }
 }
