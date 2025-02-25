@@ -15,15 +15,15 @@ create table `temp_product` (
 	`sizeZ` varchar (30) not null,
 	`strainX` varchar (30) not null,
 	`strainY` varchar (30) not null,
-	`NX` varchar (30) not null,
-	`NY` varchar (30) not null,
+	`nx` varchar (30) not null,
+	`ny` varchar (30) not null,
 	`elecX` varchar (30) not null,
 	`elecY` varchar (30) not null,
 	`elecZ` varchar (30) not null,
-	`XY_fig` varchar (765),
-	`XZ_fig` varchar (765),
-	`XYZ_fig` varchar (765),
-	`data_file` varchar (765) not null,
+	`xy_Fig` varchar (765),
+	`xz_Fig` varchar (765),
+	`xyz_Fig` varchar (765),
+	`data_File` varchar (765) not null,
     primary key (`id`)
 ) engine=innodb charset=utf8mb4;
-insert into `temp_product` (`id`, `name`, `dataType`, `sizeX`, `sizeY`, `sizeZ`, `strainX`, `strainY`, `NX`, `NY`, `elecX`, `elecY`, `elecZ`, `XY_fig`, `XZ_fig`, `XYZ_fig`, `data_file`) values('57','1','1','1','1','1','1','1','1','1','1','1','1',NULL,NULL,NULL,'./temp_data_fig/temp_XYZ_file/1.txt');
+insert into `temp_product` (`id`, `name`, `dataType`, `sizeX`, `sizeY`, `sizeZ`, `strainX`, `strainY`, `nx`, `ny`, `elecX`, `elecY`, `elecZ`, `xy_Fig`, `xz_Fig`, `xyz_Fig`, `data_File`) values('57','1','1','1','1','1','1','1','1','1','1','1','1',NULL,NULL,NULL,'./temp_data_fig/temp_XYZ_file/1.txt');

@@ -19,14 +19,14 @@ public class TempProduct {
     String sizeZ;
     String strainX;
     String strainY;
-    String nX;
-    String nY;
+    String nx;
+    String ny;
     String elecX;
     String elecY;
     String elecZ;
-    String xY_Fig;
-    String xZ_Fig;
-    String xYZ_Fig;
+    String xy_Fig;
+    String xz_Fig;
+    String xyz_Fig;
     String data_File;
 
     public int getId() {
@@ -94,19 +94,19 @@ public class TempProduct {
     }
 
     public String getNX() {
-        return nX;
+        return nx;
     }
 
-    public void setNX(String nX) {
-        this.nX = nX;
+    public void setNX(String nx) {
+        this.nx = nx;
     }
 
     public String getNY() {
-        return nY;
+        return ny;
     }
 
-    public void setNY(String nY) {
-        this.nY = nY;
+    public void setNY(String ny) {
+        this.ny = ny;
     }
 
     public String getElecX() {
@@ -133,17 +133,17 @@ public class TempProduct {
         this.elecZ = elecZ;
     }
 
-    public String getXY_Fig() { return xY_Fig; }
+    public String getXY_Fig() { return xy_Fig; }
 
-    public void setXY_Fig(String xY_Fig) { this.xY_Fig = xY_Fig; }
+    public void setXY_Fig(String xy_Fig) { this.xy_Fig = xy_Fig; }
 
-    public String getXZ_Fig() { return xZ_Fig; }
+    public String getXZ_Fig() { return xz_Fig; }
 
-    public void setXZ_Fig(String xZ_Fig) { this.xZ_Fig = xZ_Fig; }
+    public void setXZ_Fig(String xz_Fig) { this.xz_Fig = xz_Fig; }
 
-    public String getXYZ_Fig() { return xYZ_Fig; }
+    public String getXYZ_Fig() { return xyz_Fig; }
 
-    public void setXYZ_Fig(String xYZ_Fig) { this.xYZ_Fig = xYZ_Fig; }
+    public void setXYZ_Fig(String xyz_Fig) { this.xyz_Fig = xyz_Fig; }
 
     public String getData_File() { return data_File; }
 

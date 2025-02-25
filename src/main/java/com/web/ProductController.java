@@ -47,7 +47,39 @@ public class ProductController {
      * @throws Exception
      */
     @PostMapping("/add_products")
-    public Object add(Product bean) throws Exception {
+    public Object add(Product bean, HttpServletRequest request) throws Exception {
+        String name = request.getParameter("name");
+        String dataType = request.getParameter("dataType");
+        String sizeX = request.getParameter("sizeX");
+        String sizeY = request.getParameter("sizeY");
+        String sizeZ = request.getParameter("sizeZ");
+        String strainX = request.getParameter("strainX");
+        String strainY = request.getParameter("strainY");
+        String nx = request.getParameter("nx");
+        String ny = request.getParameter("ny");
+        String elecX = request.getParameter("elecX");
+        String elecY = request.getParameter("elecY");
+        String elecZ = request.getParameter("elecZ");
+        String xy_Fig = request.getParameter("xy_Fig");
+        String xz_Fig = request.getParameter("xz_Fig");
+        String xyz_Fig = request.getParameter("xyz_Fig");
+        String data_File = request.getParameter("data_File");
+        bean.setName(name);
+        bean.setDataType(dataType);
+        bean.setSizeX(sizeX);
+        bean.setSizeY(sizeY);
+        bean.setSizeZ(sizeZ);
+        bean.setStrainX(strainX);
+        bean.setStrainY(strainY);
+        bean.setNX(nx);
+        bean.setNY(ny);
+        bean.setElecX(elecX);
+        bean.setElecY(elecY);
+        bean.setElecZ(elecZ);
+        bean.setXY_Fig(xy_Fig);
+        bean.setXZ_Fig(xz_Fig);
+        bean.setXYZ_Fig(xyz_Fig);
+        bean.setData_File(data_File);
         productService.add(bean);
         // saveOrUpdateImageFile(bean, image, request);
         return bean;
@@ -135,14 +167,14 @@ public class ProductController {
         String sizeZ = request.getParameter("sizeZ");
         String strainX = request.getParameter("strainX");
         String strainY = request.getParameter("strainY");
-        String nX = request.getParameter("nX");
-        String nY = request.getParameter("nY");
+        String nx = request.getParameter("nx");
+        String ny = request.getParameter("ny");
         String elecX = request.getParameter("elecX");
         String elecY = request.getParameter("elecY");
         String elecZ = request.getParameter("elecZ");
-        String xY_Fig = request.getParameter("xY_Fig");
-        String xZ_Fig = request.getParameter("xZ_Fig");
-        String xYZ_Fig = request.getParameter("xYZ_Fig");
+        String xy_Fig = request.getParameter("xy_Fig");
+        String xz_Fig = request.getParameter("xz_Fig");
+        String xyz_Fig = request.getParameter("xyz_Fig");
         String data_File = request.getParameter("data_File");
         bean.setName(name);
         bean.setDataType(dataType);
@@ -151,14 +183,14 @@ public class ProductController {
         bean.setSizeZ(sizeZ);
         bean.setStrainX(strainX);
         bean.setStrainY(strainY);
-        bean.setNX(nX);
-        bean.setNY(nY);
+        bean.setNX(nx);
+        bean.setNY(ny);
         bean.setElecX(elecX);
         bean.setElecY(elecY);
         bean.setElecZ(elecZ);
-        bean.setXY_Fig(xY_Fig);
-        bean.setXZ_Fig(xZ_Fig);
-        bean.setXYZ_Fig(xYZ_Fig);
+        bean.setXY_Fig(xy_Fig);
+        bean.setXZ_Fig(xz_Fig);
+        bean.setXYZ_Fig(xyz_Fig);
         bean.setData_File(data_File);
 
 //        if(image!=null) {

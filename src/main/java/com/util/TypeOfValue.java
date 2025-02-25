@@ -33,12 +33,12 @@ public enum TypeOfValue {
     },
     id_6 {
         public String getType() {
-            return "nX";
+            return "nx";
         }
     },
     id_7 {
         public String getType() {
-            return "nY";
+            return "ny";
         }
     },
     id_8 {

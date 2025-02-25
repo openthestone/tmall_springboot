@@ -97,7 +97,10 @@
                             <el-checkbox-group v-model="checkedList" @change="handleCheckedFiles">
 
                                 <el-checkbox v-for="choice in fileList" :label="choice" :key="choice"
-                                             style="display: block;">{{choice.id}}
+                                             style="display: block;">
+                                    ID: {{choice.id}}, Name: {{choice.name}}, DataType: {{choice.dataType}}, SizeX: {{choice.sizeX}}, SizeY: {{choice.sizeY}}, SizeZ: {{choice.sizeZ}}
+                                    StrainX: {{choice.strainX}}, StrainY: {{choice.strainY}}, NX: {{choice.nx}}, NY: {{choice.ny}},
+                                    ElecX: {{choice.elecX}}, ElecY: {{choice.elecY}}, ElecZ: {{choice.elecZ}}
                                 </el-checkbox>
 
                             </el-checkbox-group>
@@ -172,16 +175,16 @@
                 </div>
                 <div class="form-group">
                     <div class="form-inline">
-                        <label for="nX" style="width: 200px;"> NX </label>
+                        <label for="nx" style="width: 200px;"> NX </label>
                         <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
-                               v-model="formObj.nX">
+                               v-model="formObj.nx">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="form-inline">
-                        <label for="nY" style="width: 200px;"> NY </label>
+                        <label for="ny" style="width: 200px;"> NY </label>
                         <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
-                               v-model="formObj.nY">
+                               v-model="formObj.ny">
                     </div>
                 </div>
                 <div class="form-group">
@@ -207,19 +210,19 @@
                 </div>
                 <div class="form-group">
                     <div class="form-inline">
-                        <label for="xY_Fig" style="width: 200px;"> XY_Fig（选填） </label>
+                        <label for="xy_Fig" style="width: 200px;"> XY_Fig（选填） </label>
                         <input type="file" name="file" accept="" @change="getFile($event, 'XY_fig')">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="form-inline">
-                        <label for="xZ_Fig" style="width: 200px;"> XZ_Fig（选填） </label>
+                        <label for="xz_Fig" style="width: 200px;"> XZ_Fig（选填） </label>
                         <input type="file" name="file" accept="" @change="getFile($event, 'XZ_fig')">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="form-inline">
-                        <label for="xYZ_Fig" style="width: 200px;"> XYZ_Fig（选填） </label>
+                        <label for="xyz_Fig" style="width: 200px;"> XYZ_Fig（选填） </label>
                         <input type="file" name="file" accept="" @change="getFile($event, 'XYZ_fig')">
                     </div>
                 </div>
@@ -237,9 +240,6 @@
             </form>
         </div>
     </div>
-
-</div>
-<!-- End Header -->
 
 </div>
 <!-- End Header -->
@@ -280,7 +280,6 @@
     var app = new Vue({
         el: "#app",
         data: {
-
             attriS: [{
                 value: 'id_0',
                 label: 'DataType'
@@ -384,107 +383,107 @@
                 value: '52.8',
                 label: '52.8'
             }], [{                  // StrainX, changeable
-                value: '4',
-                label: '4'
+                value: '3.8',
+                label: '3.8'
             }, {
-                value: '6',
-                label: '6',
+                value: '3.84',
+                label: '3.84'
             }, {
-                value: '8',
-                label: '8',
+                value: '3.88',
+                label: '3.88'
             }, {
-                value: '10',
-                label: '10',
+                value: '3.92',
+                label: '3.92'
             }, {
-                value: '12',
-                label: '12',
+                value: '3.96',
+                label: '3.96'
             }, {
-                value: '14',
-                label: '14',
-            }, {
-                value: '16',
-                label: '16',
-            }, {
-                value: '18',
-                label: '18',
-            }, {
-                value: '20',
-                label: '20',
-            }, {
-                value: '22',
-                label: '22',
-            }, {
-                value: '24',
-                label: '24',
+                value: '4.0',
+                label: '4.0'
             }], [{                  // StrainY, changeable
+                value: '3.8',
+                label: '3.8'
+            }, {
+                value: '3.84',
+                label: '3.84'
+            }, {
+                value: '3.88',
+                label: '3.88'
+            }, {
+                value: '3.92',
+                label: '3.92'
+            }, {
+                value: '3.96',
+                label: '3.96'
+            }, {
+                value: '4.0',
+                label: '4.0'
+            }], [{                  // NX, changeable
                 value: '4',
                 label: '4'
             }, {
                 value: '6',
-                label: '6',
+                label: '6'
             }, {
                 value: '8',
-                label: '8',
+                label: '8'
             }, {
                 value: '10',
-                label: '10',
+                label: '10'
             }, {
                 value: '12',
-                label: '12',
+                label: '12'
             }, {
                 value: '14',
-                label: '14',
+                label: '14'
             }, {
                 value: '16',
-                label: '16',
+                label: '16'
             }, {
                 value: '18',
-                label: '18',
+                label: '18'
             }, {
                 value: '20',
-                label: '20',
+                label: '20'
             }, {
                 value: '22',
-                label: '22',
+                label: '22'
             }, {
                 value: '24',
-                label: '24',
-            }], [{                  // NX
-                value: '3.8',
-                label: '3.8'
+                label: '24'
+            }], [{                  // NY, changeable
+                value: '4',
+                label: '4'
             }, {
-                value: '3.84',
-                label: '3.84'
+                value: '6',
+                label: '6'
             }, {
-                value: '3.88',
-                label: '3.88'
+                value: '8',
+                label: '8'
             }, {
-                value: '3.92',
-                label: '3.92'
+                value: '10',
+                label: '10'
             }, {
-                value: '3.96',
-                label: '3.96'
+                value: '12',
+                label: '12'
             }, {
-                value: '4.0',
-                label: '4.0'
-            }], [{                  // NY
-                value: '3.8',
-                label: '3.8'
+                value: '14',
+                label: '14'
             }, {
-                value: '3.84',
-                label: '3.84'
+                value: '16',
+                label: '16'
             }, {
-                value: '3.88',
-                label: '3.88'
+                value: '18',
+                label: '18'
             }, {
-                value: '3.92',
-                label: '3.92'
+                value: '20',
+                label: '20'
             }, {
-                value: '3.96',
-                label: '3.96'
+                value: '22',
+                label: '22'
             }, {
-                value: '4.0',
-                label: '4.0'
+                value: '24',
+                label: '24'
             }], [{                  // ElecX
                 value: '0',
                 label: '0'
@@ -540,14 +539,14 @@
                 sizeZ: '',
                 strainX: '',
                 strainY: '',
-                nX: '',
-                nY: '',
+                nx: '',
+                ny: '',
                 elecX: '',
                 elecY: '',
                 elecZ: '',
-                xY_Fig: '',
-                xZ_Fig: '',
-                xYZ_Fig: '',
+                xy_Fig: '',
+                xz_Fig: '',
+                xyz_Fig: '',
                 data_File: ''
             },
             formData: new FormData(),
@@ -674,14 +673,14 @@
                 this.formData.delete('sizeZ');       //防止二次修改表单后重复添加
                 this.formData.delete('strainX');
                 this.formData.delete('strainY');
-                this.formData.delete('nX');
-                this.formData.delete('nY');
+                this.formData.delete('nx');
+                this.formData.delete('ny');
                 this.formData.delete('elecX');
                 this.formData.delete('elecY');
                 this.formData.delete('elecZ');
-                this.formData.delete('xY_Fig');
-                this.formData.delete('xZ_Fig');
-                this.formData.delete('xYZ_Fig');
+                this.formData.delete('xy_Fig');
+                this.formData.delete('xz_Fig');
+                this.formData.delete('xyz_Fig');
                 this.formData.delete('data_File');
                 for (let key in this.formObj) {
                     this.formData.append(key, this.formObj[key]);

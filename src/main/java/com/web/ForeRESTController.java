@@ -65,10 +65,10 @@ public class ForeRESTController {
     public Object search(@RequestParam(value = "dataType", defaultValue = "") String dataType, @RequestParam(value = "sizeX", defaultValue = "") String sizeX,
                          @RequestParam(value = "sizeY", defaultValue = "")String sizeY, @RequestParam(value = "sizeZ", defaultValue = "") String sizeZ,
                          @RequestParam(value = "strainX", defaultValue = "")String strainX, @RequestParam(value = "StrainY", defaultValue = "") String strainY,
-                         @RequestParam(value = "nX", defaultValue = "")String nX, @RequestParam(value = "nY", defaultValue = "") String nY,
+                         @RequestParam(value = "nx", defaultValue = "")String nx, @RequestParam(value = "ny", defaultValue = "") String ny,
                          @RequestParam(value = "elecX", defaultValue = "")String elecX, @RequestParam(value = "elecY", defaultValue = "") String elecY,
                          @RequestParam(value = "elecZ", defaultValue = "")String elecZ){
-        List<Product> ps= productService.search(dataType, sizeX, sizeY, sizeZ, strainX, strainY, nX, nY, elecX, elecY, elecZ,0,20);
+        List<Product> ps= productService.search(dataType, sizeX, sizeY, sizeZ, strainX, strainY, nx, ny, elecX, elecY, elecZ,0,20);
         return ps;
     }
 }

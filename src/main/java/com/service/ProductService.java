@@ -42,8 +42,8 @@ public class ProductService {
         String sizeZ = "";
         String strainX = "";
         String strainY = "";
-        String nX = "";
-        String nY = "";
+        String nx = "";
+        String ny = "";
         String elecX = "";
         String elecY = "";
         String elecZ = "";
@@ -68,10 +68,10 @@ public class ProductService {
                     strainY = stringStringMap.get("value");
                     break;
                 case "id_6":
-                    nX = stringStringMap.get("value");
+                    nx = stringStringMap.get("value");
                     break;
                 case "id_7":
-                    nY = stringStringMap.get("value");
+                    ny = stringStringMap.get("value");
                     break;
                 case "id_8":
                     elecX = stringStringMap.get("value");
@@ -84,7 +84,7 @@ public class ProductService {
                     break;
             }
         }
-        List<Product> products = productDao.find(dataType, sizeX, sizeY, sizeZ, strainX, strainY, nX, nY, elecX, elecY, elecZ);
+        List<Product> products = productDao.find(dataType, sizeX, sizeY, sizeZ, strainX, strainY, nx, ny, elecX, elecY, elecZ);
         return products;
     }
 //    public Page4Navigator<Product> listFile(int start, int size, int navigatePages) {
@@ -115,15 +115,18 @@ public class ProductService {
     }
 
     public void update(Product bean) {
-        productDao.save(bean);
+        productDao.update(bean.getId(), bean.getDataType(), bean.getSizeX(), bean.getSizeY(), bean.getSizeZ(), bean.getStrainX(), bean.getStrainY(), bean.getNX(), bean.getNY(),
+                bean.getElecX(), bean.getElecY(), bean.getElecZ(), bean.getXY_Fig(), bean.getXZ_Fig(), bean.getXYZ_Fig(), bean.getDataType());
+//        productDao.save(bean);
     }
 
-    public List<Product> search(String dataType, String sizeX, String sizeY, String sizeZ, String strainX, String strainY, String nX, String nY, String elecX, String elecY,
+    public List<Product> search(String dataType, String sizeX, String sizeY, String sizeZ, String strainX, String strainY, String nx, String ny, String elecX, String elecY,
                                 String elecZ, int start, int size) {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = new PageRequest(start, size, sort);
-        List<Product> products = productDao.findByDataTypeAndSizeXAndSizeYAndSizeZAndStrainXAndStrainYAndNXAndNYAndElecXAndElecYAndElecZ(dataType, sizeX, sizeY, sizeZ, strainX, strainY, nX, nY, elecX, elecY, elecZ
-                , pageable);
+        List<Product> products = productDao.findByDataTypeAndSizeXAndSizeYAndSizeZAndStrainXAndStrainYAndNXAndNYAndElecXAndElecYAndElecZ(dataType, sizeX, sizeY, sizeZ, strainX, strainY,
+                nx, ny, elecX, elecY, elecZ, pageable);
+
         System.out.println(products);
         return products;
     }
@@ -139,17 +142,17 @@ public class ProductService {
             } else {
                 throw new Exception("文件 :" + product.getData_File() + "不存在,请联系管理员！");
             }
-            File xY_Fig = new File(product.getXY_Fig());
-            if (xY_Fig.exists()) {
-                files.add(xY_Fig);
+            File xy_Fig = new File(product.getXY_Fig());
+            if (xy_Fig.exists()) {
+                files.add(xy_Fig);
             }
-            File xZ_Fig = new File(product.getXZ_Fig());
-            if (xZ_Fig.exists()) {
-                files.add(xZ_Fig);
+            File xz_Fig = new File(product.getXZ_Fig());
+            if (xz_Fig.exists()) {
+                files.add(xz_Fig);
             }
-            File xYZ_Fig = new File(product.getXYZ_Fig());
-            if (xYZ_Fig.exists()) {
-                files.add(xYZ_Fig);
+            File xyz_Fig = new File(product.getXYZ_Fig());
+            if (xyz_Fig.exists()) {
+                files.add(xyz_Fig);
             }
         }
 
