@@ -23,7 +23,7 @@ create table `temp_product` (
 	`XY_fig` varchar (765),
 	`XZ_fig` varchar (765),
 	`XYZ_fig` varchar (765),
-	`data_file` varchar (765),
+	`data_file` varchar (765) not null,
     primary key (`id`)
 ) engine=innodb charset=utf8mb4;
-insert into `temp_product` (`id`, `name`, `dataType`, `sizeX`, `sizeY`, `sizeZ`, `strainX`, `strainY`, `NX`, `NY`, `elecX`, `elecY`, `elecZ`, `XY_fig`, `XZ_fig`, `XYZ_fig`, `data_file`) values('57','1','1','1','1','1','1','1','1','1','1','1','1',NULL,NULL,NULL,NULL);
+insert into `temp_product` (`id`, `name`, `dataType`, `sizeX`, `sizeY`, `sizeZ`, `strainX`, `strainY`, `NX`, `NY`, `elecX`, `elecY`, `elecZ`, `XY_fig`, `XZ_fig`, `XYZ_fig`, `data_file`) values('57','1','1','1','1','1','1','1','1','1','1','1','1',NULL,NULL,NULL,'./temp_data_fig/temp_XYZ_file/1.txt');

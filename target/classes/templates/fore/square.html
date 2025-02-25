@@ -50,7 +50,7 @@
 <div id="app" class="container">
     <div class="jumbotron jumbotron-fluid mb-3 pt-0 pb-0 bg-lightblue position-relative">
         <div class="pl-4 pr-0 h-100 tofront">
-            <div class="row justify-content-between">
+            <div class="col justify-content-between">
                 <!-- 查询数据 -->
                 <div class="col-md-6 pt-5 pb-3 align-self-center">
                     <h4 class="secondfont mb-3 font-weight-bold" style="margin-left:50px;">Download your data</h4>
@@ -89,15 +89,15 @@
                 <!-- 结果展示 -->
                 <div class="col-md-6 pt-6 pb-6 align-self-center">
                     <h4 class="secondfont mb-3">Results</h4>
-                    <ul v-if="idList == null || idList.length <= 0 " >
+                    <ul v-if="fileList == null || fileList.length <= 0 " >
                         查无此数据！
                     </ul>
                     <ol class="list-featured">
                         <li>
                             <el-checkbox-group v-model="checkedList" @change="handleCheckedFiles">
 
-                                <el-checkbox v-for="choice in idList" :label="choice" :key="choice"
-                                             style="display: block;">{{choice}}
+                                <el-checkbox v-for="choice in fileList" :label="choice" :key="choice"
+                                             style="display: block;">{{choice.id}}
                                 </el-checkbox>
 
                             </el-checkbox-group>
@@ -174,14 +174,14 @@
                     <div class="form-inline">
                         <label for="nX" style="width: 200px;"> NX </label>
                         <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
-                               v-model="formObj.NX">
+                               v-model="formObj.nX">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="form-inline">
                         <label for="nY" style="width: 200px;"> NY </label>
                         <input type="number" class="form-control mr-2 mb-2" placeholder="" required=""
-                               v-model="formObj.NY">
+                               v-model="formObj.nY">
                     </div>
                 </div>
                 <div class="form-group">
@@ -207,26 +207,26 @@
                 </div>
                 <div class="form-group">
                     <div class="form-inline">
-                        <label for="xY_Fig" style="width: 200px;"> XY_Fig </label>
-                        <input type="file" name="file" accept="" @change="getFile($event)">
+                        <label for="xY_Fig" style="width: 200px;"> XY_Fig（选填） </label>
+                        <input type="file" name="file" accept="" @change="getFile($event, 'XY_fig')">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="form-inline">
-                        <label for="xZ_Fig" style="width: 200px;"> XZ_Fig </label>
-                        <input type="file" name="file" accept="" @change="getFile($event)">
+                        <label for="xZ_Fig" style="width: 200px;"> XZ_Fig（选填） </label>
+                        <input type="file" name="file" accept="" @change="getFile($event, 'XZ_fig')">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="form-inline">
-                        <label for="xYZ_Fig" style="width: 200px;"> XYZ_Fig </label>
-                        <input type="file" name="file" accept="" @change="getFile($event)">
+                        <label for="xYZ_Fig" style="width: 200px;"> XYZ_Fig（选填） </label>
+                        <input type="file" name="file" accept="" @change="getFile($event, 'XYZ_fig')">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="form-inline">
                         <label for="data_File" style="width: 200px;"> Data_File </label>
-                        <input type="file" name="file" accept="" @change="getFile($event)">
+                        <input type="file" name="file" accept="" @change="getFile($event, 'XYZ_file')">
                     </div>
                 </div>
                 <div class="form-group" style="margin-top: 1.3333rem;">
@@ -348,11 +348,11 @@
                 value: '9',
                 label: '9'
             }], [{                  // SizeX
-                value: '40.0',
-                label: '40.0'
+                value: '40',
+                label: '40'
             }], [{                  // SizeY
-                value: '40.0',
-                label: '40.0'
+                value: '40',
+                label: '40'
             }], [{                  // SizeZ, changeable
                 value: '28.8',
                 label: '28.8'
@@ -528,8 +528,6 @@
             isShow: false,
             count: 0,
             list: [{attribute: '', value: '', val_options: [], id: this.count, flag: false}],
-            // 符合筛选条件的ID
-            idList: ["示例数据"],
             // 符合筛选条件的文件
             fileList: [],
             // 勾选下载文件名
@@ -550,7 +548,7 @@
                 xY_Fig: '',
                 xZ_Fig: '',
                 xYZ_Fig: '',
-                data_File: null
+                data_File: ''
             },
             formData: new FormData(),
 
@@ -568,7 +566,6 @@
              *
              *下载查询结果值
              **/
-            checkedList: [],
             downloadFile: function () {
                 var downloadList = this.checkedList;
                 axios({
@@ -600,10 +597,10 @@
             query: function () {
                 var newlist = this.list;
                 var this_vue = this;
+                this_vue.fileList = [];
                 for (var k = 0; k < newlist.length; k++) {
                     delete newlist[k].val_options;
                 }
-                console.log("newlist:\n" + newlist.data);
                 // let Obj = JSON.stringify(list);
                 axios({
                         method: "post",
@@ -615,8 +612,8 @@
                         data: newlist
                     }
                 ).then(function (response) {
-                    console.log("response.data: " + response.data);
-                    this_vue.idList = response.data;
+                    this_vue.fileList = response.data;
+                    console.log(this_vue.fileList);
                 });
             },
             listAdd: function () {
@@ -641,11 +638,13 @@
                 console.log(checkedCount);
                 console.log(this.checkedList);
             },
-            getFile: function (event) {
+            getFile: function (event, string) {
                 // console.log(event);
+                // console.log(string);
                 const file = event.target.files[0];
                 let formData = new FormData();
                 formData.append('file', file);
+                formData.append('string', string);
                 axios({
                     method: "post",
                     url: "upload",
@@ -686,6 +685,7 @@
                 this.formData.delete('data_File');
                 for (let key in this.formObj) {
                     this.formData.append(key, this.formObj[key]);
+                    console.log(this.formObj[key]);
                 }
                 for (let [a, b] of this.formData.entries()) {
                     console.log(a, b, '-------------');

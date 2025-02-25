@@ -19,8 +19,8 @@
                 sizeZ: '',
                 strainX: '',
                 strainY: '',
-                NX: '',
-                NY: '',
+                nX: '',
+                nY: '',
                 elecX: '',
                 elecY: '',
                 elecZ: '',
@@ -55,7 +55,7 @@
                         vue.bean= response.data;
                         var formData = new FormData();
                         // bean: {id: 0, name: '', dateType:'', sizeX: '', sizeY: '', sizeZ: '', strainX:'', strainY:'',
-                        // NX:'', NY:'', elecX:'', elecY:'', elecZ:'', Doi:'', SupplmentaryInfo:''}
+                        // nX:'', nY:'', elecX:'', elecY:'', elecZ:'', Doi:'', SupplmentaryInfo:''}
                         formData.append("name", vue.bean.name);
                         formData.append("dataType", vue.bean.dataType);
                         formData.append("sizeX", vue.bean.sizeX);
@@ -63,8 +63,8 @@
                         formData.append("sizeZ", vue.bean.sizeZ);
                         formData.append("strainX", vue.bean.strainX);
                         formData.append("strainY", vue.bean.strainY);
-                        formData.append("NX", vue.bean.NX);
-                        formData.append("NY", vue.bean.NY);
+                        formData.append("NX", vue.bean.nX);
+                        formData.append("NY", vue.bean.nY);
                         formData.append("elecX", vue.bean.elecX);
                         formData.append("elecY", vue.bean.elecY);
                         formData.append("elecZ", vue.bean.elecZ);
@@ -84,8 +84,8 @@
                                 sizeZ: '',
                                 strainX: '',
                                 strainY: '',
-                                NX: '',
-                                NY: '',
+                                nX: '',
+                                nY: '',
                                 elecX: '',
                                 elecY: '',
                                 elecZ: ''
@@ -157,13 +157,13 @@
                     {{bean.dataType}}
                 </td>
                 <td>
-                    {{bean.sizex}}
+                    {{bean.sizeX}}
                 </td>
                 <td>
-                    {{bean.sizey}}
+                    {{bean.sizeY}}
                 </td>
                 <td>
-                    {{bean.sizez}}
+                    {{bean.sizeZ}}
                 </td>
                 <td>
                     {{bean.strainX}}
@@ -172,10 +172,10 @@
                     {{bean.strainY}}
                 </td>
                 <td>
-                    {{bean.nX}}
+                    {{bean.nx}}
                 </td>
                 <td>
-                    {{bean.nY}}
+                    {{bean.ny}}
                 </td>
                 <td>
                     {{bean.elecX}}

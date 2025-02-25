@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 @RestController
 public class TempProductController {
@@ -69,6 +70,19 @@ public class TempProductController {
      */
     @PostMapping("/add_temp_products")
     public Object add(TempProduct bean) throws Exception {
+        assert !Objects.equals(bean.getName(), "");
+        assert !Objects.equals(bean.getDataType(), "");
+        assert !Objects.equals(bean.getSizeX(), "");
+        assert !Objects.equals(bean.getSizeY(), "");
+        assert !Objects.equals(bean.getSizeZ(), "");
+        assert !Objects.equals(bean.getStrainX(), "");
+        assert !Objects.equals(bean.getStrainY(), "");
+        assert !Objects.equals(bean.getNX(), "");
+        assert !Objects.equals(bean.getNY(), "");
+        assert !Objects.equals(bean.getElecX(), "");
+        assert !Objects.equals(bean.getElecY(), "");
+        assert !Objects.equals(bean.getElecZ(), "");
+        assert !Objects.equals(bean.getData_File(), "");
         tempProductService.add(bean);
         // saveOrUpdateImageFile(bean, image, request);
         return Result.success();

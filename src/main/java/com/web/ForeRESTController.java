@@ -62,8 +62,12 @@ public class ForeRESTController {
         }
     }
     @PostMapping("/foreSearch")
-    public Object search(String dataType, String sizeX, String sizeY, String sizeZ, String strainX, String strainY, String nX, String nY, String elecX, String elecY,
-                         String elecZ){
+    public Object search(@RequestParam(value = "dataType", defaultValue = "") String dataType, @RequestParam(value = "sizeX", defaultValue = "") String sizeX,
+                         @RequestParam(value = "sizeY", defaultValue = "")String sizeY, @RequestParam(value = "sizeZ", defaultValue = "") String sizeZ,
+                         @RequestParam(value = "strainX", defaultValue = "")String strainX, @RequestParam(value = "StrainY", defaultValue = "") String strainY,
+                         @RequestParam(value = "nX", defaultValue = "")String nX, @RequestParam(value = "nY", defaultValue = "") String nY,
+                         @RequestParam(value = "elecX", defaultValue = "")String elecX, @RequestParam(value = "elecY", defaultValue = "") String elecY,
+                         @RequestParam(value = "elecZ", defaultValue = "")String elecZ){
         List<Product> ps= productService.search(dataType, sizeX, sizeY, sizeZ, strainX, strainY, nX, nY, elecX, elecY, elecZ,0,20);
         return ps;
     }

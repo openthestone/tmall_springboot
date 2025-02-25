@@ -23,8 +23,6 @@ import java.util.*;
 public class ProductService {
     @Autowired
     ProductDao productDao;
-    @Value("${fileProps.filePath}")
-    private String filePath;
 
     public Page4Navigator<Product> list(int start, int size, int navigatePages) {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
@@ -36,7 +34,7 @@ public class ProductService {
 
 
 
-    public List<Integer> queryFile(List<Map<String, String>> selectValue) {
+    public List<Product> queryFile(List<Map<String, String>> selectValue) {
         Map<String, String> map = new HashMap<>();
         String dataType = "";
         String sizeX = "";
@@ -86,7 +84,7 @@ public class ProductService {
                     break;
             }
         }
-        List<Integer> products = productDao.find(dataType, sizeX, sizeY, sizeZ, strainX, strainY, nX, nY, elecX, elecY, elecZ);
+        List<Product> products = productDao.find(dataType, sizeX, sizeY, sizeZ, strainX, strainY, nX, nY, elecX, elecY, elecZ);
         return products;
     }
 //    public Page4Navigator<Product> listFile(int start, int size, int navigatePages) {
@@ -131,15 +129,27 @@ public class ProductService {
     }
 
 
-    public void downloadMulti(Collection<Integer> ids, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void downloadMulti(Collection<Product> products, HttpServletRequest request, HttpServletResponse response) throws Exception {
         List<File> files = new ArrayList<>();
 
-        for (Integer id : ids) {
-            File file = new File(filePath + "/" + id + ".txt");
+        for (Product product : products) {
+            File file = new File(product.getData_File());
             if (file.exists()) {
                 files.add(file);
             } else {
-                throw new Exception("文件 :" +id + ".npz 不存在,请联系管理员！");
+                throw new Exception("文件 :" + product.getData_File() + "不存在,请联系管理员！");
+            }
+            File xY_Fig = new File(product.getXY_Fig());
+            if (xY_Fig.exists()) {
+                files.add(xY_Fig);
+            }
+            File xZ_Fig = new File(product.getXZ_Fig());
+            if (xZ_Fig.exists()) {
+                files.add(xZ_Fig);
+            }
+            File xYZ_Fig = new File(product.getXYZ_Fig());
+            if (xYZ_Fig.exists()) {
+                files.add(xYZ_Fig);
             }
         }
 
@@ -147,7 +157,7 @@ public class ProductService {
             throw new Exception("当前选择文件不存在，请联系管理员！");
         } else {
             String tempName = "temp.zip";
-            String path = filePath + "/" + tempName;
+            String path = "./data_fig/temp/" + tempName;
             //压缩
             ZipFilesUtil.createZipFiles(files, path, response);
             //下载

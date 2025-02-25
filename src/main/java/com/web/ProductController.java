@@ -59,7 +59,7 @@ public class ProductController {
      * @return 数据文件下载列表
      */
     @PostMapping("/queryData")
-    public List<Integer> fileN(@RequestBody List<Map<String, String>> body) {
+    public List<Product> fileN(@RequestBody List<Map<String, String>> body) {
         return productService.queryFile(body);
     }
     /**
@@ -69,8 +69,8 @@ public class ProductController {
      * @return
      */
     @PostMapping("/download")
-    public void fileMultiDownload(@RequestBody Collection<Integer> ids, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        productService.downloadMulti(ids, request, response);
+    public void fileMultiDownload(@RequestBody Collection<Product> products, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        productService.downloadMulti(products, request, response);
     }
 
     /**
@@ -175,9 +175,9 @@ public class ProductController {
      * @throws IOException
      */
     @PostMapping(value = "/upload", consumes = "multipart/form-data")
-    public String upload(@RequestParam("file") MultipartFile file) throws IOException {
+    public String upload(@RequestParam("file") MultipartFile file, @RequestParam("string") String str) throws IOException {
         String fileName = file.getOriginalFilename();
-        String filePath = "./temp_data_fig/" + fileName;
+        String filePath = "./temp_data_fig/temp_" + str + "/" + fileName;
         File dest = new File(filePath);
         Files.copy(file.getInputStream(), dest.toPath());
         return filePath;
