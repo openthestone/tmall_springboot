@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <meta charset="UTF-8">
-<head th:include="include/fore/header::html" ></head>
+<head><title> </title></head>
+<div th:include="include/fore/header::html" ></div>
 
 <body>
 <script>
@@ -22,7 +23,7 @@
 
 <!--------------------------------------NAVBAR--------------------------------------->
 <nav class="topnav navbar navbar-expand-lg navbar-light bg-white fixed-top">
-    <div th:replace="include/fore/top::html" ></div>
+    <div th:include="include/fore/top::html" ></div>
 
     <div class="container">
         <a class="navbar-brand" onclick="pageIndex()"><strong>Superlattice DataBase</strong></a>

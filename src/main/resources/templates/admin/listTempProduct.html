@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <meta charset="UTF-8">
-<head th:include="include/admin/adminHeader::html('数据管理')"></head>
+<head><title> </title></head>
 <body>
-<div th:replace="include/admin/adminNavigator::html"></div>
+<div th:include="include/admin/adminHeader::html('数据管理')"></div>
+<div th:include="include/admin/adminNavigator::html"></div>
 <script src="assets/js/vendor/jquery.min.js" type="text/javascript"></script>
 <script src="assets/js/vendor/popper.min.js" type="text/javascript"></script>
 <script src="assets/js/vendor/bootstrap.min.js" type="text/javascript"></script>
@@ -22,22 +23,22 @@
             pagination: {},
             bean: {
                 id: 0,
-                name: '',
-                dataType: '',
-                sizeX: '',
-                sizeY: '',
-                sizeZ: '',
-                strainX: '',
-                strainY: '',
-                nx: '',
-                ny: '',
-                elecX: '',
-                elecY: '',
-                elecZ: '',
-                xy_Fig: '',
-                xz_Fig: '',
-                xyz_Fig: '',
-                data_File: ''
+                name: null,
+                dataType: null,
+                sizeX: null,
+                sizeY: null,
+                sizeZ: null,
+                strainX: null,
+                strainY: null,
+                nx: null,
+                ny: null,
+                elecX: null,
+                elecY: null,
+                elecZ: null,
+                xy_Fig: null,
+                xz_Fig: null,
+                xyz_Fig: null,
+                data_File: null
             },
             beans: [],
             //Imagfile: null,
@@ -63,48 +64,49 @@
                     var url = this.uri + "/" + id;
                     axios.get(url).then(function (response) {
                         vue.bean= response.data;
-                        console.log(response.data);
                         var formData = new FormData();
                         // bean: {id: 0, name: '', dateType:'', sizeX: '', sizeY: '', sizeZ: '', strainX:'', strainY:'',
                         // nx:'', ny:'', elecX:'', elecY:'', elecZ:''}
-                        formData.append("name", vue.bean.name);
-                        formData.append("dataType", vue.bean.dataType);
-                        formData.append("sizeX", vue.bean.sizeX);
-                        formData.append("sizeY", vue.bean.sizeY);
-                        formData.append("sizeZ", vue.bean.sizeZ);
-                        formData.append("strainX", vue.bean.strainX);
-                        formData.append("strainY", vue.bean.strainY);
-                        formData.append("nx", vue.bean.nx);
-                        formData.append("ny", vue.bean.ny);
-                        formData.append("elecX", vue.bean.elecX);
-                        formData.append("elecY", vue.bean.elecY);
-                        formData.append("elecZ", vue.bean.elecZ);
-                        formData.append("xy_Fig", vue.bean.xy_Fig);
-                        formData.append("xz_Fig", vue.bean.xz_Fig);
-                        formData.append("xyz_Fig", vue.bean.xyz_Fig);
-                        formData.append("data_File", vue.bean.data_File);
-                        console.log(formData.get("nx"));
-                        console.log(formData.get("ny"));
+                        for(let key in vue.bean) {
+                            if(vue.bean[key] == null ) continue;
+                            formData.append(key, vue.bean[key]);
+                        }
+                        // formData.append("name", vue.bean.name);
+                        // formData.append("dataType", vue.bean.dataType);
+                        // formData.append("sizeX", vue.bean.sizeX);
+                        // formData.append("sizeY", vue.bean.sizeY);
+                        // formData.append("sizeZ", vue.bean.sizeZ);
+                        // formData.append("strainX", vue.bean.strainX);
+                        // formData.append("strainY", vue.bean.strainY);
+                        // formData.append("nx", vue.bean.nx);
+                        // formData.append("ny", vue.bean.ny);
+                        // formData.append("elecX", vue.bean.elecX);
+                        // formData.append("elecY", vue.bean.elecY);
+                        // formData.append("elecZ", vue.bean.elecZ);
+                        // formData.append("xy_Fig", vue.bean.xy_Fig);
+                        // formData.append("xz_Fig", vue.bean.xz_Fig);
+                        // formData.append("xyz_Fig", vue.bean.xyz_Fig);
+                        // formData.append("data_File", vue.bean.data_File);
                         axios.post("add_products/", formData).then(function (response) {
                             vue.list(0);
                             vue.bean = {
                                 id: 0,
-                                name: '',
-                                datetype: '',
-                                sizeX: '',
-                                sizeY: '',
-                                sizeZ: '',
-                                strainX: '',
-                                strainY: '',
-                                nx: '',
-                                ny: '',
-                                elecX: '',
-                                elecY: '',
-                                elecZ: '',
-                                xy_Fig: '',
-                                xz_Fig: '',
-                                xyz_Fig: '',
-                                data_File: ''
+                                name: null,
+                                dataType: null,
+                                sizeX: null,
+                                sizeY: null,
+                                sizeZ: null,
+                                strainX: null,
+                                strainY: null,
+                                nx: null,
+                                ny: null,
+                                elecX: null,
+                                elecY: null,
+                                elecZ: null,
+                                xy_Fig: null,
+                                xz_Fig: null,
+                                xyz_Fig: null,
+                                data_File: null
                             };
                         });
                     });
@@ -224,8 +226,8 @@
             </tbody>
         </table>
     </div>
-    <div th:replace="include/admin/adminPage::html"></div>
+    <div th:include="include/admin/adminPage::html"></div>
 </div>
-<div th:replace="include/admin/adminFooter::html"></div>
+<div th:include="include/admin/adminFooter::html"></div>
 </body>
 </html>

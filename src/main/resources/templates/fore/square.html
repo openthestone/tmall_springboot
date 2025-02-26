@@ -532,22 +532,22 @@
             // 勾选下载文件名
             checkedList: [],
             formObj: {
-                name: '',
-                dataType: '',
-                sizeX: '',
-                sizeY: '',
-                sizeZ: '',
-                strainX: '',
-                strainY: '',
-                nx: '',
-                ny: '',
-                elecX: '',
-                elecY: '',
-                elecZ: '',
-                xy_Fig: '',
-                xz_Fig: '',
-                xyz_Fig: '',
-                data_File: ''
+                name: null,
+                dataType: null,
+                sizeX: null,
+                sizeY: null,
+                sizeZ: null,
+                strainX: null,
+                strainY: null,
+                nx: null,
+                ny: null,
+                elecX: null,
+                elecY: null,
+                elecZ: null,
+                xy_Fig: null,
+                xz_Fig: null,
+                xyz_Fig: null,
+                data_File: null
             },
             formData: new FormData(),
 
@@ -683,6 +683,7 @@
                 this.formData.delete('xyz_Fig');
                 this.formData.delete('data_File');
                 for (let key in this.formObj) {
+                    if(this.formObj[key] == null) continue;
                     this.formData.append(key, this.formObj[key]);
                     console.log(this.formObj[key]);
                 }

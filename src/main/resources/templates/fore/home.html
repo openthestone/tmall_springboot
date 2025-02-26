@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <meta charset="UTF-8">
-<head th:include="include/fore/header::html" ></head>
+<head><title> </title></head>
+<div th:include="include/fore/header::html" ></div>
 <body>
 <div id="workingArea">
-    <div th:replace="include/fore/top::html" ></div>
-    <div th:replace="include/fore/home/homePage::html" ></div>
-    <div th:replace="include/fore/footer::html" ></div>
+    <div th:include="include/fore/top::html" ></div>
+    <div th:include="include/fore/home/homePage::html" ></div>
+    <div th:include="include/fore/footer::html" ></div>
 </div>
 </body>
 </html>

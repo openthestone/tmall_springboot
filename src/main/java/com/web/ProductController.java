@@ -48,6 +48,7 @@ public class ProductController {
      */
     @PostMapping("/add_products")
     public Object add(Product bean, HttpServletRequest request) throws Exception {
+
         String name = request.getParameter("name");
         String dataType = request.getParameter("dataType");
         String sizeX = request.getParameter("sizeX");

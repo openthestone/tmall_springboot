@@ -26,22 +26,22 @@
             listURL: 'admin_product_list',
             bean: {
                 id: 0,
-                name: '',
-                dataType: '',
-                sizeX: '',
-                sizeY: '',
-                sizeZ: '',
-                strainX: '',
-                strainY: '',
-                nx: '',
-                ny: '',
-                elecX: '',
-                elecY: '',
-                elecZ: '',
-                xy_Fig: '',
-                xz_Fig: '',
-                xyz_Fig: '',
-                data_File: ''
+                name: null,
+                dataType: null,
+                sizeX: null,
+                sizeY: null,
+                sizeZ: null,
+                strainX: null,
+                strainY: null,
+                nx: null,
+                ny: null,
+                elecX: null,
+                elecY: null,
+                elecZ: null,
+                xy_Fig: null,
+                xz_Fig: null,
+                xyz_Fig: null,
+                data_File: null
             },
         };
 
@@ -69,22 +69,26 @@
                     var url = this.uri + "/" + this.bean.id;
                     console.log(this.bean.id);
                     var formData = new FormData();
-                    formData.set("name", this.bean.name);
-                    formData.set("dataType", this.bean.dataType);
-                    formData.set("sizeX", this.bean.sizeX);
-                    formData.set("sizeY", this.bean.sizeY);
-                    formData.set("sizeZ", this.bean.sizeZ);
-                    formData.set("strainX", this.bean.strainX);
-                    formData.set("strainY", this.bean.strainY);
-                    formData.set("nx", this.bean.nx);
-                    formData.set("ny", this.bean.ny);
-                    formData.set("elecX", this.bean.elecX);
-                    formData.set("elecY", this.bean.elecY);
-                    formData.set("elecZ", this.bean.elecZ);
-                    formData.set("xy_Fig", this.bean.xy_Fig);
-                    formData.set("xz_Fig", this.bean.xz_Fig);
-                    formData.set("xyz_Fig", this.bean.xyz_Fig);
-                    formData.set("data_File", this.bean.data_File);
+                    for(let key in this.bean) {
+                        if(this.bean[key] == null ) continue;
+                        formData.append(key, this.bean[key]);
+                    }
+                    // formData.set("name", this.bean.name);
+                    // formData.set("dataType", this.bean.dataType);
+                    // formData.set("sizeX", this.bean.sizeX);
+                    // formData.set("sizeY", this.bean.sizeY);
+                    // formData.set("sizeZ", this.bean.sizeZ);
+                    // formData.set("strainX", this.bean.strainX);
+                    // formData.set("strainY", this.bean.strainY);
+                    // formData.set("nx", this.bean.nx);
+                    // formData.set("ny", this.bean.ny);
+                    // formData.set("elecX", this.bean.elecX);
+                    // formData.set("elecY", this.bean.elecY);
+                    // formData.set("elecZ", this.bean.elecZ);
+                    // formData.set("xy_Fig", this.bean.xy_Fig);
+                    // formData.set("xz_Fig", this.bean.xz_Fig);
+                    // formData.set("xyz_Fig", this.bean.xyz_Fig);
+                    // formData.set("data_File", this.bean.data_File);
                     axios.post(url,formData).then(function (response) {
                         location.href=vue.listURL;
                     });
@@ -180,6 +184,6 @@
     </div>
 </div>
 
-<div th:replace="include/admin/adminFooter::html"></div>
+<div th:include="include/admin/adminFooter::html"></div>
 </body>
 </html>

@@ -22,22 +22,22 @@
             pagination: {},
             bean: {
                 id: 0,
-                name: '',
-                dataType: '',
-                sizeX: '',
-                sizeY: '',
-                sizeZ: '',
-                strainX: '',
-                strainY: '',
-                nx: '',
-                ny: '',
-                elecX: '',
-                elecY: '',
-                elecZ: '',
-                xy_Fig: '',
-                xz_Fig: '',
-                xyz_Fig: '',
-                data_File: ''
+                name: null,
+                dataType: null,
+                sizeX: null,
+                sizeY: null,
+                sizeZ: null,
+                strainX: null,
+                strainY: null,
+                nx: null,
+                ny: null,
+                elecX: null,
+                elecY: null,
+                elecZ: null,
+                xy_Fig: null,
+                xz_Fig: null,
+                xyz_Fig: null,
+                data_File: null
             },
             beans: [],
             //Imagfile: null,
@@ -71,43 +71,47 @@
                     var formData = new FormData();
                     // bean: {id: 0, name: '', dateType:'', sizeX: '', sizeY: '', sizeZ: '', strainX:'', strainY:'',
                     // nx:'', ny:'', elecX:'', elecY:'', elecZ:''}
-                    formData.append("name", this.bean.name);
-                    formData.append("dataType", this.bean.dataType);
-                    formData.append("sizeX", this.bean.sizeX);
-                    formData.append("sizeY", this.bean.sizeY);
-                    formData.append("sizeZ", this.bean.sizeZ);
-                    formData.append("strainX", this.bean.strainX);
-                    formData.append("strainY", this.bean.strainY);
-                    formData.append("nx", this.bean.nx);
-                    formData.append("ny", this.bean.ny);
-                    formData.append("elecX", this.bean.elecX);
-                    formData.append("elecY", this.bean.elecY);
-                    formData.append("elecZ", this.bean.elecZ);
-                    formData.append("xy_Fig", this.bean.xy_Fig);
-                    formData.append("xz_Fig", this.bean.xz_Fig);
-                    formData.append("xyz_Fig", this.bean.xyz_Fig);
-                    formData.append("data_File", this.bean.data_File);
-                    console.log(formData.get("nx"));
+                    console.log(this.bean.key[0]);
+                    for(let key in this.bean) {
+                        if(this.bean[key] == null ) continue;
+                        formData.append(key, this.bean[key]);
+                    }
+                    // formData.append("name", this.bean.name);
+                    // formData.append("dataType", this.bean.dataType);
+                    // formData.append("sizeX", this.bean.sizeX);
+                    // formData.append("sizeY", this.bean.sizeY);
+                    // formData.append("sizeZ", this.bean.sizeZ);
+                    // formData.append("strainX", this.bean.strainX);
+                    // formData.append("strainY", this.bean.strainY);
+                    // formData.append("nx", this.bean.nx);
+                    // formData.append("ny", this.bean.ny);
+                    // formData.append("elecX", this.bean.elecX);
+                    // formData.append("elecY", this.bean.elecY);
+                    // formData.append("elecZ", this.bean.elecZ);
+                    // formData.append("xy_Fig", this.bean.xy_Fig);
+                    // formData.append("xz_Fig", this.bean.xz_Fig);
+                    // formData.append("xyz_Fig", this.bean.xyz_Fig);
+                    // formData.append("data_File", this.bean.data_File);
                     axios.post("add_products", formData).then(function (response) {
                         vue.list(0);
                         vue.bean = {
                             id: 0,
-                            name: '',
-                            dateType: '',
-                            sizeX: '',
-                            sizeY: '',
-                            sizeZ: '',
-                            strainX: '',
-                            strainY: '',
-                            nx: '',
-                            ny: '',
-                            elecX: '',
-                            elecY: '',
-                            elecZ: '',
-                            xy_Fig: '',
-                            xz_Fig: '',
-                            xyz_Fig: '',
-                            data_File: ''
+                            name: null,
+                            dataType: null,
+                            sizeX: null,
+                            sizeY: null,
+                            sizeZ: null,
+                            strainX: null,
+                            strainY: null,
+                            nx: null,
+                            ny: null,
+                            elecX: null,
+                            elecY: null,
+                            elecZ: null,
+                            xy_Fig: null,
+                            xz_Fig: null,
+                            xyz_Fig: null,
+                            data_File: null
                         };
                         // $("#categoryPic").val('');
                         // vue.file = null;
@@ -226,7 +230,7 @@
             </tbody>
         </table>
     </div>
-    <div th:replace="include/admin/adminPage::html"></div>
+    <div th:include="include/admin/adminPage::html"></div>
     <div class="panel panel-warning addDiv">
         <div class="panel-heading">新增数据</div>
         <div class="panel-body">
@@ -304,6 +308,6 @@
         </div>
     </div>
 </div>
-<div th:replace="include/admin/adminFooter::html"></div>
+<div th:include="include/admin/adminFooter::html"></div>
 </body>
 </html>
