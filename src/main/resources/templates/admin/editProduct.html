@@ -70,7 +70,8 @@
                     console.log(this.bean.id);
                     var formData = new FormData();
                     for(let key in this.bean) {
-                        if(this.bean[key] == null ) continue;
+                        if(key === "id") continue;
+                        if(this.bean[key] == null || this.bean[key] === "") continue;
                         formData.append(key, this.bean[key]);
                     }
                     // formData.set("name", this.bean.name);

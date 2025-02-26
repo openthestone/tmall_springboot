@@ -124,10 +124,8 @@ public class ProductService {
                                 String elecZ, int start, int size) {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = new PageRequest(start, size, sort);
-        List<Product> products = productDao.findByDataTypeAndSizeXAndSizeYAndSizeZAndStrainXAndStrainYAndNXAndNYAndElecXAndElecYAndElecZ(dataType, sizeX, sizeY, sizeZ, strainX, strainY,
+        List<Product> products = productDao.findByDataTypeAndSizeXAndSizeYAndSizeZAndStrainXAndStrainYAndNxAndNyAndElecXAndElecYAndElecZ(dataType, sizeX, sizeY, sizeZ, strainX, strainY,
                 nx, ny, elecX, elecY, elecZ, pageable);
-
-        System.out.println(products);
         return products;
     }
 

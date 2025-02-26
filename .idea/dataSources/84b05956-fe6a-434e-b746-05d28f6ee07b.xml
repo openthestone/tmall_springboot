@@ -1014,7 +1014,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     </schema>
     <schema id="294" parent="1" name="tmall_springboot">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2025-02-26.15:17:23</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2025-02-27.07:06:43</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="295" parent="1" name="world">
@@ -1052,7 +1052,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
     <column id="303" parent="300" name="id">
-      <AutoIncrement>2544</AutoIncrement>
+      <AutoIncrement>2542</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -1162,7 +1162,7 @@ elecZ</ColNames>
       <UnderlyingIndexName>dataType</UnderlyingIndexName>
     </key>
     <column id="324" parent="301" name="id">
-      <AutoIncrement>60</AutoIncrement>
+      <AutoIncrement>58</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>

@@ -13,7 +13,7 @@ import java.util.List;
 public interface ProductDao extends JpaRepository<Product, Integer> {
 
 
-    List<Product> findByDataTypeAndSizeXAndSizeYAndSizeZAndStrainXAndStrainYAndNXAndNYAndElecXAndElecYAndElecZ(String dataType, String sizeX, String sizeY, String sizeZ, String strainX, String strainY, String nx, String ny
+    List<Product> findByDataTypeAndSizeXAndSizeYAndSizeZAndStrainXAndStrainYAndNxAndNyAndElecXAndElecYAndElecZ(String dataType, String sizeX, String sizeY, String sizeZ, String strainX, String strainY, String nx, String ny
             , String elecX, String elecY, String elecZ, Pageable pageable);
 
     //                    {{bean.dataType}}

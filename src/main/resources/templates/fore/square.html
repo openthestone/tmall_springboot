@@ -683,7 +683,8 @@
                 this.formData.delete('xyz_Fig');
                 this.formData.delete('data_File');
                 for (let key in this.formObj) {
-                    if(this.formObj[key] == null) continue;
+                    if(key === "id") continue;
+                    if(this.formObj[key] == null || this.formObj[key] === "") continue;
                     this.formData.append(key, this.formObj[key]);
                     console.log(this.formObj[key]);
                 }
