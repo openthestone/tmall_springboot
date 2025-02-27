@@ -4,6 +4,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -83,9 +86,8 @@ public class ZipFilesUtil {
      * 把接受的全部文件打成压缩包
      */
     private static void zipFile(List<File> files, ZipOutputStream outputStream) {
-        for (Object file1 : files) {
-            File file = (File) file1;
-            zipFile(file, outputStream);
+        for (File file1 : files) {
+            zipFile(file1, outputStream);
         }
     }
 
@@ -101,7 +103,7 @@ public class ZipFilesUtil {
         if (file.exists()) {
             try {
                 // 以流的形式下载文件。
-                InputStream input = new BufferedInputStream(new FileInputStream(file.getPath()));
+                InputStream input = new BufferedInputStream(Files.newInputStream(Paths.get(file.getPath())));
                 byte[] buffer = new byte[input.available()];
                 input.read(buffer);
                 input.close();
@@ -139,7 +141,7 @@ public class ZipFilesUtil {
             formFileName = URLEncoder.encode(fileName, "UTF-8");
         } else {
             // 非IE浏览器的处理：
-            formFileName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");
+            formFileName = new String(fileName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
         }
 
         //如果输出的是中文名的文件，在此处就要用URLEncoder.encode方法进行处理

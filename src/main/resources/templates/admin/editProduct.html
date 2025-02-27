@@ -55,8 +55,8 @@
             methods: {
                 get: function () {
                     console.log(this.uri);
-                    var id = getUrlParams("id");
-                    var url = this.uri + "/" + id;
+                    const id = getUrlParams("id");
+                    const url = this.uri + "/" + id;
                     console.log(url);
                     axios.get(url).then(function (response) {
                         vue.bean = response.data;

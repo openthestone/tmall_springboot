@@ -1,7 +1,6 @@
 package com.service;
 
 import com.dao.TempProductDao;
-import com.pojo.Product;
 import com.pojo.TempProduct;
 import com.util.Page4Navigator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,7 @@ public class TempProductService {
     public Page4Navigator<TempProduct> list(int start, int size, int navigatePages) {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = new PageRequest(start, size, sort);
-        Page pageFromJPA = tempProductDao.findAll(pageable);
+        Page<TempProduct> pageFromJPA = tempProductDao.findAll(pageable);
 
         return new Page4Navigator<>(pageFromJPA, navigatePages);
     }
@@ -37,8 +36,7 @@ public class TempProductService {
     }
 
     public TempProduct get(int id) {
-        TempProduct c = tempProductDao.findOne(id);
-        return c;
+        return tempProductDao.findOne(id);
     }
     public void add(TempProduct bean) {
         tempProductDao.save(bean);

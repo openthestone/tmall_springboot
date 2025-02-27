@@ -13,8 +13,8 @@ import java.util.List;
 public interface ProductDao extends JpaRepository<Product, Integer> {
 
 
-    List<Product> findBySizeXAndSizeYAndSizeZAndStrainXAndStrainYAndNxAndNyAndElecXAndElecYAndElecZ(String sizeX, String sizeY, String sizeZ, String strainX, String strainY, String nx, String ny
-            , String elecX, String elecY, String elecZ, Pageable pageable);
+    List<Product> findBySizeXAndSizeYAndSizeZAndStrainXAndStrainYAndNxAndNyAndElecXAndElecYAndElecZ(Float sizeX, Float sizeY, Float sizeZ, Float strainX,
+                                                                                                    Float strainY, Float nx, Float ny, Float elecX, Float elecY, Float elecZ, Pageable pageable);
 
     //                    {{bean.dataType}}
     //                    {{bean.sizeX}}
@@ -31,13 +31,13 @@ public interface ProductDao extends JpaRepository<Product, Integer> {
             " and if(?5 !='',strainX=?5,1=1) and if(?6 !='',strainY=?6,1=1) and if(?7 !='',nx=?7,1=1) and if(?8 !='',ny=?8,1=1)" +
             " and if(?9 !='',elecX=?9,1=1) and if(?10 !='',elecY=?10,1=1) and if(?11 !='',elecZ=?11,1=1)"
             , nativeQuery = true)
-    List<Product> find(String dataType, String sizeX, String sizeY, String sizeZ, String strainX, String strainY, String nx, String ny, String elecX, String elecY,
-                       String elecZ);
+    List<Product> find(Integer dataType, Float sizeX, Float sizeY, Float sizeZ, Float strainX, Float strainY, Float nx, Float ny, Float elecX, Float elecY,
+                       Float elecZ);
 
     @Transactional
     @Modifying()
     @Query(value = "update Product p set p.dataType=?2, p.sizeX=?3, p.sizeY=?4, p.sizeZ=?5, p.strainX=?6, p.strainY=?7, p.nx=?8, p.ny=?9, p.elecX=?10," +
             " p.elecY=?11, p.elecZ=?12, p.xy_Fig=?13, p.xz_Fig=?14, p.xyz_Fig=?15, p.data_File=?16 where p.id = ?1")
-    void update(Integer id, String dataType, String sizeX, String sizeY, String sizeZ, String strainX, String strainY, String nx, String ny, String elecX, String elecY,
-                String elecZ, String xy_Fig, String xz_Fig, String xyz_Fig, String data_File);
+    void update(Integer id, Integer dataType, Float sizeX, Float sizeY, Float sizeZ, Float strainX, Float strainY, Float nx, Float ny, Float elecX, Float elecY,
+                Float elecZ, String xy_Fig, String xz_Fig, String xyz_Fig, String data_File);
 }

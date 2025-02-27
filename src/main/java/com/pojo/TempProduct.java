@@ -13,17 +13,17 @@ public class TempProduct {
     @Column(name = "id")
     private int id;
     String name;
-    String dataType;
-    String sizeX;
-    String sizeY;
-    String sizeZ;
-    String strainX;
-    String strainY;
-    String nx;
-    String ny;
-    String elecX;
-    String elecY;
-    String elecZ;
+    int dataType;
+    float sizeX;
+    float sizeY;
+    float sizeZ;
+    float strainX;
+    float strainY;
+    float nx;
+    float ny;
+    float elecX;
+    float elecY;
+    float elecZ;
     String xy_Fig;
     String xz_Fig;
     String xyz_Fig;
@@ -45,91 +45,91 @@ public class TempProduct {
         this.name = name;
     }
 
-    public String getDataType() {
+    public int getDataType() {
         return dataType;
     }
 
-    public void setDataType(String dataType) {
+    public void setDataType(int dataType) {
         this.dataType = dataType;
     }
 
-    public String getSizeX() {
+    public float getSizeX() {
         return sizeX;
     }
 
-    public void setSizeX(String sizeX) {
+    public void setSizeX(float sizeX) {
         this.sizeX = sizeX;
     }
 
-    public String getSizeY() {
+    public float getSizeY() {
         return sizeY;
     }
 
-    public void setSizeY(String sizeY) {
+    public void setSizeY(float sizeY) {
         this.sizeY = sizeY;
     }
 
-    public String getSizeZ() {
+    public float getSizeZ() {
         return sizeZ;
     }
 
-    public void setSizeZ(String sizeZ) {
+    public void setSizeZ(float sizeZ) {
         this.sizeZ = sizeZ;
     }
 
-    public String getStrainX() {
+    public float getStrainX() {
         return strainX;
     }
 
-    public void setStrainX(String strainX) {
+    public void setStrainX(float strainX) {
         this.strainX = strainX;
     }
 
-    public String getStrainY() {
+    public float getStrainY() {
         return strainY;
     }
 
-    public void setStrainY(String strainY) {
+    public void setStrainY(float strainY) {
         this.strainY = strainY;
     }
 
-    public String getNX() {
+    public float getNX() {
         return nx;
     }
 
-    public void setNX(String nx) {
+    public void setNX(float nx) {
         this.nx = nx;
     }
 
-    public String getNY() {
+    public float getNY() {
         return ny;
     }
 
-    public void setNY(String ny) {
+    public void setNY(float ny) {
         this.ny = ny;
     }
 
-    public String getElecX() {
+    public float getElecX() {
         return elecX;
     }
 
-    public void setElecX(String elecX) {
+    public void setElecX(float elecX) {
         this.elecX = elecX;
     }
 
-    public String getElecY() {
+    public float getElecY() {
         return elecY;
     }
 
-    public void setElecY(String elecY) {
+    public void setElecY(float elecY) {
         this.elecY = elecY;
     }
 
-    public String getElecZ() {
+    public float getElecZ() {
         return elecZ;
     }
 
-    public void setElecZ(String elecZ) {
+    public void setElecZ(float elecZ) {
         this.elecZ = elecZ;
     }
 

@@ -1,12 +1,9 @@
 package com.service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.dao.ProductDao;
 import com.util.Page4Navigator;
-import com.util.TypeOfValue;
 import com.util.ZipFilesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +24,7 @@ public class ProductService {
     public Page4Navigator<Product> list(int start, int size, int navigatePages) {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = new PageRequest(start, size, sort);
-        Page pageFromJPA = productDao.findAll(pageable);
+        Page<Product> pageFromJPA = productDao.findAll(pageable);
 
         return new Page4Navigator<>(pageFromJPA, navigatePages);
     }
@@ -35,57 +32,56 @@ public class ProductService {
 
 
     public List<Product> queryFile(List<Map<String, String>> selectValue) {
-        Map<String, String> map = new HashMap<>();
-        String dataType = "";
-        String sizeX = "";
-        String sizeY = "";
-        String sizeZ = "";
-        String strainX = "";
-        String strainY = "";
-        String nx = "";
-        String ny = "";
-        String elecX = "";
-        String elecY = "";
-        String elecZ = "";
-        for (Map<String, String> stringStringMap : selectValue) {
-            switch (stringStringMap.get("attribute")) {
+//        Map<String, String> map = new HashMap<>();
+        int dataType = -1;
+        float sizeX = 0.0F;
+        float sizeY = 0.0F;
+        float sizeZ = 0.0F;
+        float strainX = 0.0F;
+        float strainY = 0.0F;
+        float nx = 0.0F;
+        float ny = 0.0F;
+        float elecX = 0.0F;
+        float elecY = 0.0F;
+        float elecZ = 0.0F;
+        for (Map<String, String> m : selectValue) {
+            switch (m.get("attribute")) {
                 case "id_0":
-                    dataType = stringStringMap.get("value");
+                    dataType = Integer.parseInt(m.get("value"));
                     break;
                 case "id_1":
-                    sizeX = stringStringMap.get("value");
+                    sizeX = Float.parseFloat(m.get("value"));
                     break;
                 case "id_2":
-                    sizeY = stringStringMap.get("value");
+                    sizeY = Float.parseFloat(m.get("value"));
                     break;
                 case "id_3":
-                    sizeZ = stringStringMap.get("value");
+                    sizeZ = Float.parseFloat(m.get("value"));
                     break;
                 case "id_4":
-                    strainX = stringStringMap.get("value");
+                    strainX = Float.parseFloat(m.get("value"));
                     break;
                 case "id_5":
-                    strainY = stringStringMap.get("value");
+                    strainY = Float.parseFloat(m.get("value"));
                     break;
                 case "id_6":
-                    nx = stringStringMap.get("value");
+                    nx = Float.parseFloat(m.get("value"));
                     break;
                 case "id_7":
-                    ny = stringStringMap.get("value");
+                    ny = Float.parseFloat(m.get("value"));
                     break;
                 case "id_8":
-                    elecX = stringStringMap.get("value");
+                    elecX = Float.parseFloat(m.get("value"));
                     break;
                 case "id_9":
-                    elecY = stringStringMap.get("value");
+                    elecY = Float.parseFloat(m.get("value"));
                     break;
                 case "id_10":
-                    elecZ = stringStringMap.get("value");
+                    elecZ = Float.parseFloat(m.get("value"));
                     break;
             }
         }
-        List<Product> products = productDao.find(dataType, sizeX, sizeY, sizeZ, strainX, strainY, nx, ny, elecX, elecY, elecZ);
-        return products;
+        return productDao.find(dataType, sizeX, sizeY, sizeZ, strainX, strainY, nx, ny, elecX, elecY, elecZ);
     }
 //    public Page4Navigator<Product> listFile(int start, int size, int navigatePages) {
 //        Sort sort = new Sort(Sort.Direction.DESC, "id");
@@ -110,23 +106,22 @@ public class ProductService {
     }
 
     public Product get(int id) {
-        Product c = productDao.findOne(id);
-        return c;
+        return productDao.findOne(id);
     }
 
     public void update(Product bean) {
         productDao.update(bean.getId(), bean.getDataType(), bean.getSizeX(), bean.getSizeY(), bean.getSizeZ(), bean.getStrainX(), bean.getStrainY(), bean.getNX(), bean.getNY(),
-                bean.getElecX(), bean.getElecY(), bean.getElecZ(), bean.getXY_Fig(), bean.getXZ_Fig(), bean.getXYZ_Fig(), bean.getDataType());
+                bean.getElecX(), bean.getElecY(), bean.getElecZ(), bean.getXY_Fig(), bean.getXZ_Fig(), bean.getXYZ_Fig(), bean.getData_File());
 //        productDao.save(bean);
     }
 
-    public List<Product> search(String sizeX, String sizeY, String sizeZ, String strainX, String strainY, String nx, String ny, String elecX, String elecY,
-                                String elecZ, int start, int size) {
+    public List<Product> search(Float sizeX, Float sizeY, Float sizeZ, Float strainX, Float strainY, Float nx, Float ny, Float elecX, Float elecY,
+                                Float elecZ, int start, int size) {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = new PageRequest(start, size, sort);
-        List<Product> products = productDao.findBySizeXAndSizeYAndSizeZAndStrainXAndStrainYAndNxAndNyAndElecXAndElecYAndElecZ(sizeX, sizeY, sizeZ, strainX, strainY,
+        System.out.println(sizeX);
+        return productDao.findBySizeXAndSizeYAndSizeZAndStrainXAndStrainYAndNxAndNyAndElecXAndElecYAndElecZ(sizeX, sizeY, sizeZ, strainX, strainY,
                 nx, ny, elecX, elecY, elecZ, pageable);
-        return products;
     }
 
 

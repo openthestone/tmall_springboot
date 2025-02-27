@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class TestTmall
 {
-    public static void main(String args[]){
+    public static void main(String[] args){
         //准备分类测试数据：
 
         try {

@@ -43,11 +43,11 @@
         }
 
         function formatMoney(num){
-            num = new String(num);
-            num = num.toString().replace(/\$|\,/g,'');
+            num = String(num);
+            num = num.toString().replace(/[$,]/g,'');
             if(isNaN(num))
                 num = "0";
-            sign = (num == (num = Math.abs(num)));
+            sign = (num === (num = Math.abs(num)));
             num = Math.floor(num*100+0.50000000001);
             cents = num%100;
             num = Math.floor(num/100).toString();
@@ -61,7 +61,7 @@
 
         function checkEmpty(id, name){
             var value = $("#"+id).val();
-            if(value.length==0){
+            if(value.length === 0){
                 $("#"+id)[0].focus();
                 return false;
             }

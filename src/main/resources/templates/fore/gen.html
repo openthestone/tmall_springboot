@@ -23,7 +23,10 @@
             padding: 0.5rem 1rem;
         }
         .params-header {
-            font-size: 1.5rem;
+            font-size: 2rem !important;
+            font-weight: 600 !important;
+            white-space: nowrap !important;
+            text-align: center !important;
         }
     </style>
 </head>
@@ -58,54 +61,77 @@
     <div class="jumbotron jumbotron-fluid mb-3 pt-0 pb-4 bg-lightblue position-relative" style="text-align: center;">
         <div class="pl-4 pr-0 tofront" style="height:auto;">
             <div class="row justify-content-center">
-                <div class="col-md-6 pt-6 pb-6 align-self-center">
-                    <h4 class="secondfont mb-3 font-weight-bold params-header">
+                <div class="col-md-12 pt-6 pb-6 align-self-center" style="text-align: center;">
+                    <h4 class="secondfont mb-3 font-weight-bold params-header" style="display: inline-block; white-space: nowrap; text-align: center !important;">
                         Parameters for Generate Initial Structure
                     </h4>
-                    <ol class="list-featured">
+                    <!-- 设置 ol 为 inline-block，并加上 margin:0 auto; 使其在父容器中居中 -->
+                    <ol class="list-featured" style="display: inline-block; margin: 0 auto; text-align: left;">
                         <li>
                             <span class="font-weight-normal text-dark">
                                 <strong> Size: </strong>
-                                <input type="text" placeholder="40" class="input-num" name="sizeX" v-model="formObj.sizeX"> nm *
-                                <input type="text" placeholder="40" class="input-num" name="sizeY" v-model="formObj.sizeY"> nm *
-                                <input type="text" placeholder="28.8" class="input-num" name="sizeZ" v-model="formObj.sizeZ"> nm
+                                <label>
+                                    <input type="text" placeholder="40" class="input-num" name="sizeX" v-model="formObj.sizeX"> nm *
+                                </label>
+                                <label>
+                                    <input type="text" placeholder="40" class="input-num" name="sizeY" v-model="formObj.sizeY"> nm *
+                                </label>
+                                <label>
+                                    <input type="text" placeholder="28.8" class="input-num" name="sizeZ" v-model="formObj.sizeZ"> nm
+                                </label>
                             </span>
                         </li>
                         <li>
                             <span class="font-weight-normal text-dark">
                                 <strong> StrainX: </strong>
-                                <input type="text" placeholder="4.0" class="input-num"
-                                       style="margin-right: 20px;" name="strainX" v-model="formObj.strainX">
+                                <label>
+                                    <input type="text" placeholder="4.0" class="input-num"
+                                           style="margin-right: 20px;" name="strainX" v-model="formObj.strainX">
+                                </label>
                                 <strong> StrainY: </strong>
-                                <input type="text" placeholder="4.0" class="input-num"
-                                       style="margin-right: 20px;" name="strainY" v-model="formObj.strainY">
+                                <label>
+                                    <input type="text" placeholder="4.0" class="input-num"
+                                           style="margin-right: 20px;" name="strainY" v-model="formObj.strainY">
+                                </label>
                             </span>
                         </li>
                         <li>
                             <span class="font-weight-normal text-dark">
                                 <strong> NX: </strong>
-                                <input type="text" placeholder="4" class="input-num"
-                                       style="margin-right: 20px;" name="nx" v-model="formObj.nx">
+                                <label>
+                                    <input type="text" placeholder="4" class="input-num"
+                                           style="margin-right: 20px;" name="nx" v-model="formObj.nx">
+                                </label>
                                 <strong> NY: </strong>
-                                <input type="text" placeholder="4" class="input-num"
-                                       style="margin-right: 20px;" name="ny" v-model="formObj.ny">
+                                <label>
+                                    <input type="text" placeholder="4" class="input-num"
+                                           style="margin-right: 20px;" name="ny" v-model="formObj.ny">
+                                </label>
                             </span>
                         </li>
                         <li>
                             <span class="font-weight-normal text-dark">
                                 <strong> ElecX: </strong>
-                                <input type="text" placeholder="0" class="input-num"
-                                       style="margin-right: 20px;" name="elecX" v-model="formObj.elecX">
+                                <label>
+                                    <input type="text" placeholder="0" class="input-num"
+                                           style="margin-right: 20px;" name="elecX" v-model="formObj.elecX">
+                                </label>
                                 <strong> ElecY: </strong>
-                                <input type="text" placeholder="0" class="input-num"
-                                       style="margin-right: 20px;" name="elecY" v-model="formObj.elecY">
+                                <label>
+                                    <input type="text" placeholder="0" class="input-num"
+                                           style="margin-right: 20px;" name="elecY" v-model="formObj.elecY">
+                                </label>
                                 <strong> ElecZ: </strong>
-                                <input type="text" placeholder="0" class="input-num"
-                                       style="margin-right: 20px;" name="elecZ" v-model="formObj.elecZ">
+                                <label>
+                                    <input type="text" placeholder="0" class="input-num"
+                                           style="margin-right: 20px;" name="elecZ" v-model="formObj.elecZ">
+                                </label>
                             </span>
                         </li>
                     </ol>
-                    <button class="btn btn-dark" @click="genSearch">Generate!</button>
+                    <div style="margin-top: 20px; display: block;">
+                        <button class="btn btn-dark" style="display: block; margin: 0 auto;" @click="genSearch">Generate!</button>
+                    </div>
                 </div>
             </div>
             <!-- 图片展示 -->
@@ -171,7 +197,7 @@
         // }
 
         //ViewModel
-        var app = new Vue({
+        const app = new Vue({
             el: "#app",
             data: {
                 uri: "foreSearch",
@@ -201,11 +227,12 @@
 
             methods: {
                 genSearch: function () {
-                    var url = this.uri + "?sizeX=" + this.formObj.sizeX + "&sizeY=" + this.formObj.sizeY
+                    const url = this.uri + "?sizeX=" + this.formObj.sizeX + "&sizeY=" + this.formObj.sizeY
                         + "&sizeZ=" + this.formObj.sizeZ + "&strainX=" + this.formObj.strainX + "&strainY=" + this.formObj.strainY + "&nx="
-                        + this.formObj.nx + "&ny=" + this.formObj.ny  + "&elecX=" + this.formObj.elecX + "&elecY=" + this.formObj.elecY + "&elecZ=" + this.formObj.elecZ;
+                        + this.formObj.nx + "&ny=" + this.formObj.ny + "&elecX=" + this.formObj.elecX + "&elecY=" + this.formObj.elecY + "&elecZ=" + this.formObj.elecZ;
                     console.log(url);
                     axios.post(url).then(function (response) {
+                        console.log(response.data);
                         app.products = response.data;
                         app.$nextTick(function () {
                             linkDefaultActions();

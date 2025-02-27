@@ -10,8 +10,6 @@ public class PortUtil {
             ServerSocket ss = new ServerSocket(port);
             ss.close();
             return false;
-        } catch (java.net.BindException e) {
-            return true;
         } catch (IOException e) {
             return true;
         }

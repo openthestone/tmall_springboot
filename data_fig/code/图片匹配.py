@@ -61,8 +61,8 @@ def train_contrast_model():
 
     # 训练数据文件夹（需根据实际路径修改）
     contrast_folders = [
-        r".\experiment_fig\skyrmion",
-        r".\experiment_fig\vortex"
+        r".\..\experiment_fig\skyrmion",
+        r".\..\experiment_fig\vortex"
     ]
 
     dataset = ContrastDataset(contrast_folders, transform=train_transform)
@@ -529,9 +529,9 @@ if __name__ == '__main__':
         print("Loading contrast adaptation model from contrast_model.pth")
         model_contrast = load_contrast_model(device)
     feature_extractor = build_feature_extractor(model_contrast, device)
-    xy_folder = r".\XY_label_fig"
-    xz_folder = r".\XZ_label_fig"
-    xyz_folder = r".\XYZ_label_fig"
+    xy_folder = r".\..\XY_label_fig"
+    xz_folder = r".\..\XZ_label_fig"
+    xyz_folder = r".\..\XYZ_label_fig"
 
     if os.path.exists("xy_features.pkl"):
         print("Loading XY features from cache...")

@@ -1,36 +1,37 @@
 <meta charset="UTF-8">
 <div th:fragment="html">
     <script>
-        $(function () {
+        $(function(){
             var data4Vue = {
-                uri: 'foreLogin',
+                uri:'foreLogin',
                 result: [],
-                user: {name: '', password: ''}
+                user:{name:'', password:''}
             };
             //ViewModel
-            var vue = new Vue({
+            const vue = new Vue({
                 el: '#workingArea',
                 data: data4Vue,
                 mounted: function () {
                     linkDefaultActions();
+                    // 在 Vue mounted 中初始化位置，确保 DOM 已经渲染完成
+                    adjustLoginDivPosition();
                 },
                 methods: {
                     login: function () {
                         var url = this.uri;
-                        if (0 == this.user.name.length) {
+                        if (this.user.name.length === 0) {
                             $("span.errorMessage").html("请输入用户名");
                             $("div.loginErrorMessageDiv").css("visibility", "visible");
                             return;
                         }
-                        if (0 == this.user.password.length) {
+                        if (this.user.password.length === 0) {
                             $("span.errorMessage").html("请输入密码");
                             $("div.loginErrorMessageDiv").css("visibility", "visible");
                             return;
                         }
-
                         axios.post(url, this.user).then(function (response) {
                             var result = response.data;
-                            if (result.code == 0) {
+                            if (result.code === 0) {
                                 location.href = "home";
                             } else {
                                 $("span.errorMessage").html(result.message);
@@ -40,9 +41,20 @@
                     }
                 }
             });
-            var left = window.innerWidth / 2 + 162;
-            $("div.loginSmallDiv").css("left", left);
-        })
+            // 当窗口加载或大小调整时重新计算登录区域的位置
+            $(window).on("load resize", function(){
+                adjustLoginDivPosition();
+            });
+        });
+        
+        function adjustLoginDivPosition(){
+            const $loginDiv = $("#loginSmallDiv");
+            if($loginDiv.length > 0){
+                // 使登录窗口水平居中
+                const left = (window.innerWidth - $loginDiv.outerWidth()) / 2;
+                $loginDiv.css("left", left + "px");
+            }
+        }
     </script>
     <div id="loginDiv" style="position: relative">
 <!--        <img id="loginBackgroundImg" class="loginBackgroundImg" src="img/site/loginBackground.png">-->

@@ -36,8 +36,8 @@ public class ProductController {
     @GetMapping("/products")
     public Page4Navigator<Product> list(@RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
         start = start < 0 ? 0 : start;
-        Page4Navigator<Product> page = productService.list(start, size, 5);  //5表示导航分页最多有5个，像 [1,2,3,4,5] 这样
-        return page;
+        //5表示导航分页最多有5个，像 [1,2,3,4,5] 这样
+        return productService.list(start, size, 5);
     }
 
     /**
@@ -50,17 +50,17 @@ public class ProductController {
     public Object add(Product bean, HttpServletRequest request) throws Exception {
 
         String name = request.getParameter("name");
-        String dataType = request.getParameter("dataType");
-        String sizeX = request.getParameter("sizeX");
-        String sizeY = request.getParameter("sizeY");
-        String sizeZ = request.getParameter("sizeZ");
-        String strainX = request.getParameter("strainX");
-        String strainY = request.getParameter("strainY");
-        String nx = request.getParameter("nx");
-        String ny = request.getParameter("ny");
-        String elecX = request.getParameter("elecX");
-        String elecY = request.getParameter("elecY");
-        String elecZ = request.getParameter("elecZ");
+        int dataType = Integer.parseInt(request.getParameter("dataType"));
+        float sizeX = Float.parseFloat(request.getParameter("sizeX"));
+        float sizeY = Float.parseFloat(request.getParameter("sizeY"));
+        float sizeZ = Float.parseFloat(request.getParameter("sizeZ"));
+        float strainX = Float.parseFloat(request.getParameter("strainX"));
+        float strainY = Float.parseFloat(request.getParameter("strainY"));
+        float nx = Float.parseFloat(request.getParameter("nx"));
+        float ny = Float.parseFloat(request.getParameter("ny"));
+        float elecX = Float.parseFloat(request.getParameter("elecX"));
+        float elecY = Float.parseFloat(request.getParameter("elecY"));
+        float elecZ = Float.parseFloat(request.getParameter("elecZ"));
         String xy_Fig = request.getParameter("xy_Fig");
         String xz_Fig = request.getParameter("xz_Fig");
         String xyz_Fig = request.getParameter("xyz_Fig");
@@ -118,9 +118,9 @@ public class ProductController {
         productService.delete(id);
 //        File  imageFolder= new File(request.getServletContext().getRealPath("img/product"));
 //        File  fileFolder= new File(request.getServletContext().getRealPath("file/product"));
-//        File imagfile = new File(imageFolder,id+".jpg");
+//        File imagFile = new File(imageFolder,id+".jpg");
 //        File file = new File(fileFolder,id+".in");
-//        imagfile.delete();
+//        imagFile.delete();
 //        file.delete();
         return null;
     }
@@ -133,8 +133,7 @@ public class ProductController {
      */
     @GetMapping("/products/{id}")
     public Product get(@PathVariable("id") int id) throws Exception {
-        Product bean = productService.get(id);
-        return bean;
+        return productService.get(id);
     }
 
     public void saveOrUpdateImageFile(Product bean, MultipartFile image, HttpServletRequest request)
@@ -149,7 +148,9 @@ public class ProductController {
             imageFile.getParentFile().mkdirs();
         image.transferTo(imageFile);
         BufferedImage img = ImageUtil.change2jpg(imageFile);
-        ImageIO.write(img, "jpg", imageFile);
+        if (img != null) {
+            ImageIO.write(img, "jpg", imageFile);
+        }
     }
 
     /**
@@ -162,17 +163,17 @@ public class ProductController {
     @PostMapping("/products/{id}")
     public Object update(Product bean, HttpServletRequest request) throws Exception {
         String name = request.getParameter("name");
-        String dataType = request.getParameter("dataType");
-        String sizeX = request.getParameter("sizeX");
-        String sizeY = request.getParameter("sizeY");
-        String sizeZ = request.getParameter("sizeZ");
-        String strainX = request.getParameter("strainX");
-        String strainY = request.getParameter("strainY");
-        String nx = request.getParameter("nx");
-        String ny = request.getParameter("ny");
-        String elecX = request.getParameter("elecX");
-        String elecY = request.getParameter("elecY");
-        String elecZ = request.getParameter("elecZ");
+        int dataType = Integer.parseInt(request.getParameter("dataType"));
+        float sizeX = Float.parseFloat(request.getParameter("sizeX"));
+        float sizeY = Float.parseFloat(request.getParameter("sizeY"));
+        float sizeZ = Float.parseFloat(request.getParameter("sizeZ"));
+        float strainX = Float.parseFloat(request.getParameter("strainX"));
+        float strainY = Float.parseFloat(request.getParameter("strainY"));
+        float nx = Float.parseFloat(request.getParameter("nx"));
+        float ny = Float.parseFloat(request.getParameter("ny"));
+        float elecX = Float.parseFloat(request.getParameter("elecX"));
+        float elecY = Float.parseFloat(request.getParameter("elecY"));
+        float elecZ = Float.parseFloat(request.getParameter("elecZ"));
         String xy_Fig = request.getParameter("xy_Fig");
         String xz_Fig = request.getParameter("xz_Fig");
         String xyz_Fig = request.getParameter("xyz_Fig");
