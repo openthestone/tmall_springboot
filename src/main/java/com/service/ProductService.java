@@ -120,11 +120,11 @@ public class ProductService {
 //        productDao.save(bean);
     }
 
-    public List<Product> search(String dataType, String sizeX, String sizeY, String sizeZ, String strainX, String strainY, String nx, String ny, String elecX, String elecY,
+    public List<Product> search(String sizeX, String sizeY, String sizeZ, String strainX, String strainY, String nx, String ny, String elecX, String elecY,
                                 String elecZ, int start, int size) {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = new PageRequest(start, size, sort);
-        List<Product> products = productDao.findByDataTypeAndSizeXAndSizeYAndSizeZAndStrainXAndStrainYAndNxAndNyAndElecXAndElecYAndElecZ(dataType, sizeX, sizeY, sizeZ, strainX, strainY,
+        List<Product> products = productDao.findBySizeXAndSizeYAndSizeZAndStrainXAndStrainYAndNxAndNyAndElecXAndElecYAndElecZ(sizeX, sizeY, sizeZ, strainX, strainY,
                 nx, ny, elecX, elecY, elecZ, pageable);
         return products;
     }

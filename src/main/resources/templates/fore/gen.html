@@ -4,14 +4,26 @@
 <head>
     <title> </title>
     <style>
-        /* 让 jumbotron 的背景高度自适应 */
+        /* 调整 jumbotron 背景 */
         .jumbotron.bg-lightblue {
             height: auto !important;
-            min-height: 300px; /* 根据需要调整最低高度 */
+            min-height: 300px;
         }
-        /* 如果整个应用容器受到高度限制，也覆盖之 */
         #app {
             height: auto !important;
+        }
+        /* 增大输入框宽度及文字大小 */
+        .input-num {
+            width: 80px !important;
+            font-size: 1.2rem;
+            padding: 0.5rem 0.75rem;
+        }
+        .btn.btn-dark {
+            font-size: 1.2rem;
+            padding: 0.5rem 1rem;
+        }
+        .params-header {
+            font-size: 1.5rem;
         }
     </style>
 </head>
@@ -21,7 +33,7 @@
 <!--------------------------------------NAVBAR--------------------------------------->
 <nav class="topnav navbar navbar-expand-lg navbar-light bg-white fixed-top">
     <div class="container">
-        <a class="navbar-brand" onclick="pageIndex()"><strong>Superlattice DataBase</strong></a>
+        <a class="navbar-brand" onclick="pageIndex()"><strong> Superlattice DataBase </strong></a>
         <div class="navbar-collapse collapse" id="navbarColor02" style="">
             <ul class="navbar-nav mr-auto d-flex align-items-center">
                 <li class="nav-item">
@@ -29,10 +41,10 @@
                             class="sr-only">(current)</span> </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" onclick="pageApi()">REST API Docs</a>
+                    <a class="nav-link" onclick="pageApi()"> REST API Docs </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" onclick="pageSquare()">Data Square</a>
+                    <a class="nav-link" onclick="pageSquare()"> Data Square </a>
                 </li>
             </ul>
         </div>
@@ -43,65 +55,64 @@
 
 <!--------------------------------------HEADER--------------------------------------->
 <div id="app" class="container">
-    <div class="jumbotron jumbotron-fluid mb-3 pt-0 pb-0 bg-lightblue position-relative">
+    <div class="jumbotron jumbotron-fluid mb-3 pt-0 pb-4 bg-lightblue position-relative" style="text-align: center;">
         <div class="pl-4 pr-0 tofront" style="height:auto;">
-            <div class="row justify-content-between">
+            <div class="row justify-content-center">
                 <div class="col-md-6 pt-6 pb-6 align-self-center">
-                    <h4 class="secondfont mb-3 font-weight-bold">Parameters for Generate initial Structure</h4>
-<!--                    <form action="foreSearch" method="post">-->
-                        <ol class="list-featured">
-                            <li>
-                                <span class="font-weight-normal text-dark">
-                                    <strong> Size: </strong>
-                                    <!--     sizex,sizey,sizez,nx,ny,strainx,strainy,elecx,elecy,elecz    -->
-                                    <input type="text" placeholder="40" class="input-num" name="sizeX"> nm *
-                                    <input type="text" placeholder="40" class="input-num" name="sizeY"> nm *
-                                    <input type="text" placeholder="28.8" class="input-num" name="sizeZ"> nm
-                                </span>
-                            </li>
-                            <li>
-                                <span class="font-weight-normal text-dark">
-                                    <strong> StrainX: </strong>
-                                    <input type="text" placeholder="4.0" class="input-num"
-                                           style="margin-right: 20px;" name="strainX">
-                                    <strong> StrainY: </strong>
-                                    <input type="text" placeholder="4.0" class="input-num"
-                                                                       name="strainY">
-                                </span>
-                            </li>
-                            <li>
-                                <span class="font-weight-normal text-dark">
-                                    <strong> NX: </strong> <input type="text" placeholder="4" class="input-num"
-                                                                  style="margin-right: 20px;" name="nx">
-                                    <strong> NY: </strong> <input type="text" placeholder="4" class="input-num"
-                                                                  name="ny">
-                                </span>
-                            </li>
-                            <li>
-                                <span class="font-weight-normal text-dark">
-                                    <strong> ElecX: </strong> <input type="text" placeholder="0" class="input-num"
-                                                                     style="margin-right: 20px;" name="elecX">
-                                    <strong> ElecY: </strong> <input type="text" placeholder="0" class="input-num"
-                                                                     style="margin-right: 20px;" name="elecY">
-                                    <strong> ElecZ: </strong> <input type="text" placeholder="0" class="input-num"
-                                                                     name="elecZ">
-                                </span>
-                            </li>
-                        </ol>
-
-                        <button class="btn btn-dark" @click="genSearch">Generate!</button>
-<!--                    </form>-->
-
+                    <h4 class="secondfont mb-3 font-weight-bold params-header">
+                        Parameters for Generate Initial Structure
+                    </h4>
+                    <ol class="list-featured">
+                        <li>
+                            <span class="font-weight-normal text-dark">
+                                <strong> Size: </strong>
+                                <input type="text" placeholder="40" class="input-num" name="sizeX" v-model="formObj.sizeX"> nm *
+                                <input type="text" placeholder="40" class="input-num" name="sizeY" v-model="formObj.sizeY"> nm *
+                                <input type="text" placeholder="28.8" class="input-num" name="sizeZ" v-model="formObj.sizeZ"> nm
+                            </span>
+                        </li>
+                        <li>
+                            <span class="font-weight-normal text-dark">
+                                <strong> StrainX: </strong>
+                                <input type="text" placeholder="4.0" class="input-num"
+                                       style="margin-right: 20px;" name="strainX" v-model="formObj.strainX">
+                                <strong> StrainY: </strong>
+                                <input type="text" placeholder="4.0" class="input-num"
+                                       style="margin-right: 20px;" name="strainY" v-model="formObj.strainY">
+                            </span>
+                        </li>
+                        <li>
+                            <span class="font-weight-normal text-dark">
+                                <strong> NX: </strong>
+                                <input type="text" placeholder="4" class="input-num"
+                                       style="margin-right: 20px;" name="nx" v-model="formObj.nx">
+                                <strong> NY: </strong>
+                                <input type="text" placeholder="4" class="input-num"
+                                       style="margin-right: 20px;" name="ny" v-model="formObj.ny">
+                            </span>
+                        </li>
+                        <li>
+                            <span class="font-weight-normal text-dark">
+                                <strong> ElecX: </strong>
+                                <input type="text" placeholder="0" class="input-num"
+                                       style="margin-right: 20px;" name="elecX" v-model="formObj.elecX">
+                                <strong> ElecY: </strong>
+                                <input type="text" placeholder="0" class="input-num"
+                                       style="margin-right: 20px;" name="elecY" v-model="formObj.elecY">
+                                <strong> ElecZ: </strong>
+                                <input type="text" placeholder="0" class="input-num"
+                                       style="margin-right: 20px;" name="elecZ" v-model="formObj.elecZ">
+                            </span>
+                        </li>
+                    </ol>
+                    <button class="btn btn-dark" @click="genSearch">Generate!</button>
                 </div>
-                <!-- 图片展示 -->
-                <div v-if="0 < products.length" class="noMatch" v-for="p in products">
-                    <img class="col-md-6 d-none d-md-block pr-0"
-                        style="background-size:cover;"
-                        :src="p.xyz_Fig">
-                </div>
-                <div v-if="0 == products.length" class="noMatch"> <img class="col-md-6 d-none d-md-block pr-0"
-                                                                       style="background-size:cover;"
-                                                                       :src="'img/product/3.jpg'"></div>
+            </div>
+            <!-- 图片展示 -->
+            <div v-if="products.length > 0" v-for="p in products" style="display: flex; justify-content: center; gap: 20px; margin:20px auto 40px;">
+                <img style="width: 300px; height: auto; object-fit: cover;" :src="p.xy_Fig" alt="">
+                <img style="width: 300px; height: auto; object-fit: cover;" :src="p.xz_Fig" alt="">
+                <img style="width: 300px; height: auto; object-fit: cover;" :src="p.xyz_Fig" alt="">
             </div>
         </div>
     </div>
@@ -142,17 +153,17 @@
 <script>
     <!--    dataType,sizeX,sizeY,sizeZ,strainX,strainY,NX,NY,elecX,elecY,elecZ    -->
     $(function (){
-        var dataType = getUrlParms("dataType");
-        var sizeX = getUrlParms("sizeX");
-        var sizeY = getUrlParms("sizeY");
-        var sizeZ = getUrlParms("sizeZ");
-        var strainX= getUrlParms("strainX");
-        var strainY = getUrlParms("strainY");
-        var nx = getUrlParms("nx");
-        var ny= getUrlParms("ny");
-        var elecX = getUrlParms("elecX");
-        var elecY = getUrlParms("elecY");
-        var elecZ = getUrlParms("elecZ");
+        // var dataType = getUrlParms("dataType");
+        // var sizeX = getUrlParms("sizeX");
+        // var sizeY = getUrlParms("sizeY");
+        // var sizeZ = getUrlParms("sizeZ");
+        // var strainX= getUrlParms("strainX");
+        // var strainY = getUrlParms("strainY");
+        // var nx = getUrlParms("nx");
+        // var ny= getUrlParms("ny");
+        // var elecX = getUrlParms("elecX");
+        // var elecY = getUrlParms("elecY");
+        // var elecZ = getUrlParms("elecZ");
         // var data4vue = {
         //     uri: "foreSearch",
         //     products: [],
@@ -166,40 +177,36 @@
                 uri: "foreSearch",
                 products: [],
                 formObj: {
-                    name: null,
-                    dataType: null,
-                    sizeX: null,
-                    sizeY: null,
-                    sizeZ: null,
-                    strainX: null,
-                    strainY: null,
-                    nx: null,
-                    ny: null,
-                    elecX: null,
-                    elecY: null,
-                    elecZ: null,
-                    xy_Fig: null,
-                    xz_Fig: null,
-                    xyz_Fig: null,
-                    data_File: null
+                    name: "",
+                    dataType: "",
+                    sizeX: "40",
+                    sizeY: "40",
+                    sizeZ: "28.8",
+                    strainX: "4.0",
+                    strainY: "4.0",
+                    nx: "4",
+                    ny: "4",
+                    elecX: "0",
+                    elecY: "0",
+                    elecZ: "0",
+                    xy_Fig: "",
+                    xz_Fig: "",
+                    xyz_Fig: "",
+                    data_File: ""
                 },
             },
             mounted: function () { //mounted　表示这个 Vue 对象加载成功了
-                this.genSearch();
+                // this.genSearch();
             },
 
             methods: {
                 genSearch: function () {
-                    // String dataType, String sizeX, String sizeY, String sizeZ, String strainX, String strainY, String NX, String NY, String elecX, String elecY, String elecZ, Pageable pageable
-                    // var url = this.uri + "sizex,sizey,sizez,nx,ny,strainx,strainy,elecx,elecy,elecz" + keyword;
-                    console.log(this.uri);
-                    var url = this.uri + "?dataType=" + this.formObj.dataType + "&sizeX=" + this.formObj.sizeX + "&sizeY=" + this.formObj.sizeY
+                    var url = this.uri + "?sizeX=" + this.formObj.sizeX + "&sizeY=" + this.formObj.sizeY
                         + "&sizeZ=" + this.formObj.sizeZ + "&strainX=" + this.formObj.strainX + "&strainY=" + this.formObj.strainY + "&nx="
                         + this.formObj.nx + "&ny=" + this.formObj.ny  + "&elecX=" + this.formObj.elecX + "&elecY=" + this.formObj.elecY + "&elecZ=" + this.formObj.elecZ;
                     console.log(url);
                     axios.post(url).then(function (response) {
                         app.products = response.data;
-                        console.log(response.data);
                         app.$nextTick(function () {
                             linkDefaultActions();
                         })

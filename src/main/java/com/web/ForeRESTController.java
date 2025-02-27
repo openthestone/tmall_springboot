@@ -15,6 +15,7 @@ import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 public class ForeRESTController {
@@ -62,13 +63,12 @@ public class ForeRESTController {
         }
     }
     @PostMapping("/foreSearch")
-    public Object search(@RequestParam(value = "dataType", defaultValue = "") String dataType, @RequestParam(value = "sizeX", defaultValue = "") String sizeX,
-                         @RequestParam(value = "sizeY", defaultValue = "")String sizeY, @RequestParam(value = "sizeZ", defaultValue = "") String sizeZ,
-                         @RequestParam(value = "strainX", defaultValue = "")String strainX, @RequestParam(value = "StrainY", defaultValue = "") String strainY,
-                         @RequestParam(value = "nx", defaultValue = "")String nx, @RequestParam(value = "ny", defaultValue = "") String ny,
-                         @RequestParam(value = "elecX", defaultValue = "")String elecX, @RequestParam(value = "elecY", defaultValue = "") String elecY,
-                         @RequestParam(value = "elecZ", defaultValue = "")String elecZ){
-        List<Product> ps= productService.search(dataType, sizeX, sizeY, sizeZ, strainX, strainY, nx, ny, elecX, elecY, elecZ,0,20);
+    public Object search(@RequestParam(value = "sizeX", defaultValue = "") String sizeX, @RequestParam(value = "sizeY", defaultValue = "")String sizeY,
+                         @RequestParam(value = "sizeZ", defaultValue = "") String sizeZ, @RequestParam(value = "strainX", defaultValue = "")String strainX,
+                         @RequestParam(value = "strainY", defaultValue = "") String strainY, @RequestParam(value = "nx", defaultValue = "")String nx,
+                         @RequestParam(value = "ny", defaultValue = "") String ny, @RequestParam(value = "elecX", defaultValue = "")String elecX,
+                         @RequestParam(value = "elecY", defaultValue = "") String elecY, @RequestParam(value = "elecZ", defaultValue = "")String elecZ) {
+        List<Product> ps= productService.search(sizeX, sizeY, sizeZ, strainX, strainY, nx, ny, elecX, elecY, elecZ,0,20);
         return ps;
     }
 }
