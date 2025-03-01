@@ -63,11 +63,11 @@ public class ForeRESTController {
         }
     }
     @PostMapping("/foreSearch")
-    public Object search(@RequestParam(value = "sizeX", defaultValue = "0.0") Float sizeX, @RequestParam(value = "sizeY", defaultValue = "")Float sizeY,
-                         @RequestParam(value = "sizeZ", defaultValue = "") Float sizeZ, @RequestParam(value = "strainX", defaultValue = "")Float strainX,
-                         @RequestParam(value = "strainY", defaultValue = "") Float strainY, @RequestParam(value = "nx", defaultValue = "")Float nx,
-                         @RequestParam(value = "ny", defaultValue = "") Float ny, @RequestParam(value = "elecX", defaultValue = "")Float elecX,
-                         @RequestParam(value = "elecY", defaultValue = "") Float elecY, @RequestParam(value = "elecZ", defaultValue = "")Float elecZ) {
-        return productService.search(sizeX, sizeY, sizeZ, strainX, strainY, nx, ny, elecX, elecY, elecZ,0,20);
+    public Object search(@RequestParam(value = "sizeX") Float sizeX, @RequestParam(value = "sizeY") Float sizeY,
+                         @RequestParam(value = "sizeZ") Float sizeZ, @RequestParam(value = "strainX") Float strainX,
+                         @RequestParam(value = "strainY") Float strainY, @RequestParam(value = "nx") Float nx,
+                         @RequestParam(value = "ny") Float ny, @RequestParam(value = "elecX") Float elecX,
+                         @RequestParam(value = "elecY") Float elecY, @RequestParam(value = "elecZ") Float elecZ) {
+        return productService.search(sizeX, sizeY, sizeZ, strainX, strainY, nx, ny, elecX, elecY, elecZ);
     }
 }

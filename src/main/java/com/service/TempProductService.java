@@ -18,7 +18,7 @@ public class TempProductService {
     TempProductDao tempProductDao;
 
     public Page4Navigator<TempProduct> list(int start, int size, int navigatePages) {
-        Sort sort = new Sort(Sort.Direction.DESC, "id");
+        Sort sort = new Sort(Sort.Direction.ASC, "id");
         Pageable pageable = new PageRequest(start, size, sort);
         Page<TempProduct> pageFromJPA = tempProductDao.findAll(pageable);
 
@@ -26,7 +26,7 @@ public class TempProductService {
     }
 
     public List<TempProduct> list() {
-        Sort sort = new Sort(Sort.Direction.DESC, "id");
+        Sort sort = new Sort(Sort.Direction.ASC, "id");
         return tempProductDao.findAll(sort);
     }
 

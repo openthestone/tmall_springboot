@@ -154,7 +154,7 @@
                     <div class="col-md-6">
                         <!-- Name -->
                         <div class="form-group row" style="text-align: left;">
-                            <label for="name" class="col-sm-4 col-form-label">Name</label>
+                            <label class="col-sm-4 col-form-label">Name</label>
                             <div class="col-sm-8">
                                 <label>
                                     <input type="text" class="form-control" v-model="formObj.name" style="max-width: 150px;">
@@ -163,7 +163,7 @@
                         </div>
                         <!-- SizeX -->
                         <div class="form-group row" style="text-align: left;">
-                            <label for="sizeX" class="col-sm-4 col-form-label">SizeX</label>
+                            <label class="col-sm-4 col-form-label">SizeX</label>
                             <div class="col-sm-8">
                                 <label>
                                     <input type="number" class="form-control" required v-model="formObj.sizeX" style="max-width: 150px;">
@@ -172,7 +172,7 @@
                         </div>
                         <!-- SizeZ -->
                         <div class="form-group row" style="text-align: left;">
-                            <label for="sizeZ" class="col-sm-4 col-form-label">SizeZ</label>
+                            <label class="col-sm-4 col-form-label">SizeZ</label>
                             <div class="col-sm-8">
                                 <label>
                                     <input type="number" class="form-control" required v-model="formObj.sizeZ" style="max-width: 150px;">
@@ -181,7 +181,7 @@
                         </div>
                         <!-- StrainY -->
                         <div class="form-group row" style="text-align: left;">
-                            <label for="strainY" class="col-sm-4 col-form-label">StrainY</label>
+                            <label class="col-sm-4 col-form-label">StrainY</label>
                             <div class="col-sm-8">
                                 <label>
                                     <input type="number" class="form-control" required v-model="formObj.strainY" style="max-width: 150px;">
@@ -190,7 +190,7 @@
                         </div>
                         <!-- NY -->
                         <div class="form-group row" style="text-align: left;">
-                            <label for="ny" class="col-sm-4 col-form-label">NY</label>
+                            <label class="col-sm-4 col-form-label">NY</label>
                             <div class="col-sm-8">
                                 <label>
                                     <input type="number" class="form-control" required v-model="formObj.ny" style="max-width: 150px;">
@@ -199,7 +199,7 @@
                         </div>
                         <!-- ElecY -->
                         <div class="form-group row" style="text-align: left;">
-                            <label for="elecY" class="col-sm-4 col-form-label">ElecY</label>
+                            <label class="col-sm-4 col-form-label">ElecY</label>
                             <div class="col-sm-8">
                                 <label>
                                     <input type="number" class="form-control" required v-model="formObj.elecY" style="max-width: 150px;">
@@ -208,14 +208,14 @@
                         </div>
                         <!-- XY_Fig -->
                         <div class="form-group row" style="text-align: left;">
-                            <label for="xy_Fig" class="col-sm-4 col-form-label">XY_Fig（选填）</label>
+                            <label class="col-sm-4 col-form-label">XY_Fig（选填）</label>
                             <div class="col-sm-8">
                                 <input type="file" name="file" accept="" @change="getFile($event, 'XY_fig')">
                             </div>
                         </div>
                         <!-- XYZ_Fig -->
                         <div class="form-group row" style="text-align: left;">
-                            <label for="xyz_Fig" class="col-sm-4 col-form-label">XYZ_Fig（选填）</label>
+                            <label class="col-sm-4 col-form-label">XYZ_Fig（选填）</label>
                             <div class="col-sm-8">
                                 <input type="file" name="file" accept="" @change="getFile($event, 'XYZ_fig')">
                             </div>
@@ -225,7 +225,7 @@
                     <div class="col-md-6">
                         <!-- DataType -->
                         <div class="form-group row" style="text-align: left;">
-                            <label for="dataType" class="col-sm-4 col-form-label">DataType</label>
+                            <label class="col-sm-4 col-form-label">DataType</label>
                             <div class="col-sm-8">
                                 <label>
                                     <input type="number" class="form-control" required v-model="formObj.dataType" style="max-width: 150px;">
@@ -234,7 +234,7 @@
                         </div>
                         <!-- SizeY -->
                         <div class="form-group row" style="text-align: left;">
-                            <label for="sizeY" class="col-sm-4 col-form-label">SizeY</label>
+                            <label class="col-sm-4 col-form-label">SizeY</label>
                             <div class="col-sm-8">
                                 <label>
                                     <input type="number" class="form-control" required v-model="formObj.sizeY" style="max-width: 150px;">
@@ -243,7 +243,7 @@
                         </div>
                         <!-- StrainX -->
                         <div class="form-group row" style="text-align: left;">
-                            <label for="strainX" class="col-sm-4 col-form-label">StrainX</label>
+                            <label class="col-sm-4 col-form-label">StrainX</label>
                             <div class="col-sm-8">
                                 <label>
                                     <input type="number" class="form-control" required v-model="formObj.strainX" style="max-width: 150px;">
@@ -252,7 +252,7 @@
                         </div>
                         <!-- NX -->
                         <div class="form-group row" style="text-align: left;">
-                            <label for="nx" class="col-sm-4 col-form-label">NX</label>
+                            <label class="col-sm-4 col-form-label">NX</label>
                             <div class="col-sm-8">
                                 <label>
                                     <input type="number" class="form-control" required v-model="formObj.nx" style="max-width: 150px;">
@@ -261,7 +261,7 @@
                         </div>
                         <!-- ElecX -->
                         <div class="form-group row" style="text-align: left;">
-                            <label for="elecX" class="col-sm-4 col-form-label">ElecX</label>
+                            <label class="col-sm-4 col-form-label">ElecX</label>
                             <div class="col-sm-8">
                                 <label>
                                     <input type="number" class="form-control" required v-model="formObj.elecX" style="max-width: 150px;">
@@ -270,7 +270,7 @@
                         </div>
                         <!-- ElecZ -->
                         <div class="form-group row" style="text-align: left;">
-                            <label for="elecZ" class="col-sm-4 col-form-label">ElecZ</label>
+                            <label class="col-sm-4 col-form-label">ElecZ</label>
                             <div class="col-sm-8">
                                 <label>
                                     <input type="number" class="form-control" required v-model="formObj.elecZ" style="max-width: 150px;">
@@ -279,14 +279,14 @@
                         </div>
                         <!-- XZ_Fig -->
                         <div class="form-group row" style="text-align: left;">
-                            <label for="xz_Fig" class="col-sm-4 col-form-label">XZ_Fig（选填）</label>
+                            <label class="col-sm-4 col-form-label">XZ_Fig（选填）</label>
                             <div class="col-sm-8">
                                 <input type="file" name="file" accept="" @change="getFile($event, 'XZ_fig')">
                             </div>
                         </div>
                         <!-- Data_File -->
                         <div class="form-group row" style="text-align: left;">
-                            <label for="data_File" class="col-sm-4 col-form-label">Data_File</label>
+                            <label class="col-sm-4 col-form-label">Data_File</label>
                             <div class="col-sm-8">
                                 <input type="file" name="file" accept="" @change="getFile($event, 'XYZ_file')">
                             </div>

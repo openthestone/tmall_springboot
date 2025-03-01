@@ -13,8 +13,14 @@ import com.pojo.Product;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.io.File;
 import java.util.*;
+
+import java.awt.image.BufferedImage;
+import java.util.List;
+import javax.imageio.ImageIO;
 
 @Service
 public class ProductService {
@@ -22,7 +28,7 @@ public class ProductService {
     ProductDao productDao;
 
     public Page4Navigator<Product> list(int start, int size, int navigatePages) {
-        Sort sort = new Sort(Sort.Direction.DESC, "id");
+        Sort sort = new Sort(Sort.Direction.ASC, "id");
         Pageable pageable = new PageRequest(start, size, sort);
         Page<Product> pageFromJPA = productDao.findAll(pageable);
 
@@ -33,17 +39,17 @@ public class ProductService {
 
     public List<Product> queryFile(List<Map<String, String>> selectValue) {
 //        Map<String, String> map = new HashMap<>();
-        int dataType = -1;
-        float sizeX = 0.0F;
-        float sizeY = 0.0F;
-        float sizeZ = 0.0F;
-        float strainX = 0.0F;
-        float strainY = 0.0F;
-        float nx = 0.0F;
-        float ny = 0.0F;
-        float elecX = 0.0F;
-        float elecY = 0.0F;
-        float elecZ = 0.0F;
+        Integer dataType = null;
+        Float sizeX = null;
+        Float sizeY = null;
+        Float sizeZ = null;
+        Float strainX = null;
+        Float strainY = null;
+        Float nx = null;
+        Float ny = null;
+        Float elecX = null;
+        Float elecY = null;
+        Float elecZ = null;
         for (Map<String, String> m : selectValue) {
             switch (m.get("attribute")) {
                 case "id_0":
@@ -83,19 +89,11 @@ public class ProductService {
         }
         return productDao.find(dataType, sizeX, sizeY, sizeZ, strainX, strainY, nx, ny, elecX, elecY, elecZ);
     }
-//    public Page4Navigator<Product> listFile(int start, int size, int navigatePages) {
-//        Sort sort = new Sort(Sort.Direction.DESC, "id");
-//        Pageable pageable = new PageRequest(start, size, sort);
-//     //   Page pageFromJPA = productDao.find(dataType, sizeX, sizeY, sizeZ, strainX, strainY, nX, nY, elecX, elecY, elecZ, pageable);
-//
-//        return new Page4Navigator<>(pageFromJPA, navigatePages);
-//    }
 
     public List<Product> list() {
-        Sort sort = new Sort(Sort.Direction.DESC, "id");
+        Sort sort = new Sort(Sort.Direction.ASC, "id");
         return productDao.findAll(sort);
     }
-
 
     public void add(Product bean) {
         productDao.save(bean);
@@ -112,16 +110,11 @@ public class ProductService {
     public void update(Product bean) {
         productDao.update(bean.getId(), bean.getDataType(), bean.getSizeX(), bean.getSizeY(), bean.getSizeZ(), bean.getStrainX(), bean.getStrainY(), bean.getNX(), bean.getNY(),
                 bean.getElecX(), bean.getElecY(), bean.getElecZ(), bean.getXY_Fig(), bean.getXZ_Fig(), bean.getXYZ_Fig(), bean.getData_File());
-//        productDao.save(bean);
     }
 
     public List<Product> search(Float sizeX, Float sizeY, Float sizeZ, Float strainX, Float strainY, Float nx, Float ny, Float elecX, Float elecY,
-                                Float elecZ, int start, int size) {
-        Sort sort = new Sort(Sort.Direction.DESC, "id");
-        Pageable pageable = new PageRequest(start, size, sort);
-        System.out.println(sizeX);
-        return productDao.findBySizeXAndSizeYAndSizeZAndStrainXAndStrainYAndNxAndNyAndElecXAndElecYAndElecZ(sizeX, sizeY, sizeZ, strainX, strainY,
-                nx, ny, elecX, elecY, elecZ, pageable);
+                                Float elecZ) {
+        return productDao.findWithoutDataType(sizeX, sizeY, sizeZ, strainX, strainY, nx, ny, elecX, elecY, elecZ);
     }
 
 
@@ -160,7 +153,200 @@ public class ProductService {
             ZipFilesUtil.downloadFile(new File(path), tempName, request, response);
         }
     }
-    public void upload(){
 
+    public List<Product> getProductsForPhaseDiagram(String fixedAttr1, Float fixedValue1,
+                                                    String fixedAttr2, Float fixedValue2,
+                                                    String varAttr1, Float varMin1, Float varMax1,
+                                                    String varAttr2, Float varMin2, Float varMax2) {
+        return productDao.findPhaseDiagramProducts(fixedAttr1, fixedValue1, fixedAttr2, fixedValue2,
+                varAttr1, varMin1, varMax1,
+                varAttr2, varMin2, varMax2);
+    }
+
+    // 生成二维相图，横轴为 varAttr1，纵轴为 varAttr2（示例代码，颜色依据 DataType 0-9）
+    public BufferedImage generatePhaseDiagramImage(List<Product> products,
+                                                   String varAttr1, String varAttr2,
+                                                   float ignoredVarMin1, float ignoredVarMax1,
+                                                   float ignoredVarMin2, float ignoredVarMax2) {
+        int width = 600, height = 600;
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2d = image.createGraphics();
+        g2d.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING,
+                java.awt.RenderingHints.VALUE_ANTIALIAS_ON);
+        // 填充背景
+        g2d.setColor(Color.WHITE);
+        g2d.fillRect(0, 0, width, height);
+
+        if (products == null || products.isEmpty()) {
+            g2d.setColor(Color.BLACK);
+            g2d.drawString("No data available", width/2 - 50, height/2);
+            g2d.dispose();
+            return image;
+        }
+
+        // 求出数据的最小值与最大值
+        float actualMin1 = Float.MAX_VALUE, actualMax1 = -Float.MAX_VALUE;
+        float actualMin2 = Float.MAX_VALUE, actualMax2 = -Float.MAX_VALUE;
+        for (Product p : products) {
+            float val1 = getAttrValue(p, varAttr1);
+            float val2 = getAttrValue(p, varAttr2);
+            if(val1 < actualMin1) actualMin1 = val1;
+            if(val1 > actualMax1) actualMax1 = val1;
+            if(val2 < actualMin2) actualMin2 = val2;
+            if(val2 > actualMax2) actualMax2 = val2;
+        }
+        // 如果只有唯一值，则扩展范围以便居中显示
+        if (actualMin1 == actualMax1) {
+            actualMin1 -= 1;
+            actualMax1 += 1;
+        } else {
+            float margin1 = (actualMax1 - actualMin1) * 0.1f;
+            actualMin1 -= margin1;
+            actualMax1 += margin1;
+        }
+        if (actualMin2 == actualMax2) {
+            actualMin2 -= 1;
+            actualMax2 += 1;
+        } else {
+            float margin2 = (actualMax2 - actualMin2) * 0.1f;
+            actualMin2 -= margin2;
+            actualMax2 += margin2;
+        }
+
+        // 设置坐标区：将坐标系放在图片左下区域，占70%宽高
+        int plotWidth = (int)(width * 0.70);
+        int plotHeight = (int)(height * 0.70);
+        int plotX = 50;  // 左侧边距
+        int plotY = height - 60 - plotHeight; // 底部边距60像素
+
+        // 绘制坐标系边框
+        g2d.setColor(Color.BLACK);
+        g2d.drawRect(plotX, plotY, plotWidth, plotHeight);
+
+        // 刻度设置：预留边缘 marginTick，保证刻度不紧贴边框
+        int marginTick = 10;
+        int tickStartX = plotX + marginTick;
+        int tickEndX = plotX + plotWidth - marginTick;
+        int tickRangeX = tickEndX - tickStartX;
+        int tickStartY = plotY + plotHeight - marginTick;  // 下边起始（纵轴）
+        int tickEndY = plotY + marginTick;
+        int tickRangeY = tickStartY - tickEndY;
+
+        // 采集所有数据点对应的横轴和纵轴值，确保所有出现的点在坐标轴上有刻度
+        TreeSet<Float> uniqueX = new TreeSet<>();
+        TreeSet<Float> uniqueY = new TreeSet<>();
+        for (Product p : products) {
+            uniqueX.add(getAttrValue(p, varAttr1));
+            uniqueY.add(getAttrValue(p, varAttr2));
+        }
+        List<Float> ticksX = new ArrayList<>(uniqueX);
+        if (ticksX.size() < 6) {  // 补充均匀刻度
+            for (int i = 0; i <= 5; i++) {
+                float val = actualMin1 + (actualMax1 - actualMin1) * i / 5f;
+                ticksX.add(val);
+            }
+        }
+        ticksX = new ArrayList<>(new TreeSet<>(ticksX));
+
+        List<Float> ticksY = new ArrayList<>(uniqueY);
+        if (ticksY.size() < 6) {
+            for (int i = 0; i <= 5; i++) {
+                float val = actualMin2 + (actualMax2 - actualMin2) * i / 5f;
+                ticksY.add(val);
+            }
+        }
+        ticksY = new ArrayList<>(new TreeSet<>(ticksY));
+
+        // 绘制横轴刻度及其数值（使用10号字体，确保边缘不靠近坐标框）
+        g2d.setFont(new Font("SansSerif", Font.PLAIN, 10));
+        for (Float tick : ticksX) {
+            int x = tickStartX + (int)(((tick - actualMin1) / (actualMax1 - actualMin1)) * tickRangeX);
+            int y = plotY + plotHeight;
+            g2d.drawLine(x, y, x, y + 5);
+            String s = String.format("%.2f", tick);
+            int strWidth = g2d.getFontMetrics().stringWidth(s);
+            g2d.drawString(s, x - strWidth/2, y + 15);
+        }
+
+        // 绘制纵轴刻度及其数值
+        for (Float tick : ticksY) {
+            int y = tickStartY - (int)(((tick - actualMin2) / (actualMax2 - actualMin2)) * tickRangeY);
+            g2d.drawLine(plotX - 5, y, plotX, y);
+            String s = String.format("%.2f", tick);
+            int strWidth = g2d.getFontMetrics().stringWidth(s);
+            g2d.drawString(s, plotX - strWidth - 10, y + 3);
+        }
+
+        // 绘制坐标轴属性标签，横轴标签用较大字体；纵轴标签采用旋转，并使用保存还原变换的方法
+        g2d.setFont(new Font("SansSerif", Font.BOLD, 16));
+        int xLabelWidth = g2d.getFontMetrics().stringWidth(varAttr1);
+        g2d.drawString(varAttr1, plotX + plotWidth/2 - xLabelWidth/2, plotY + plotHeight + 40);
+
+        // 保存当前变换
+        AffineTransform oldTransform = g2d.getTransform();
+        // 将坐标系平移到纵轴左侧，取坐标区域左侧距离（如 plotX - 30）和纵轴中点位置（plotY + plotHeight/2）
+        g2d.translate(plotX - 30, plotY + plotHeight/2);
+        // 逆时针旋转90度（-PI/2）
+        g2d.rotate(-Math.PI/2);
+        // 绘制纵轴标签，使其水平居中
+        g2d.drawString(varAttr2, -g2d.getFontMetrics().stringWidth(varAttr2) / 2, 0);
+        // 恢复原始变换
+        g2d.setTransform(oldTransform);
+
+        // 定义 10 中颜色对应 DataType
+        Color[] colors = { Color.BLUE, Color.GREEN, Color.RED, Color.ORANGE, Color.MAGENTA,
+                Color.CYAN, Color.PINK, Color.YELLOW, Color.LIGHT_GRAY, Color.DARK_GRAY };
+
+        // 绘制数据点
+        for (Product p : products) {
+            float xVal = getAttrValue(p, varAttr1);
+            float yVal = getAttrValue(p, varAttr2);
+            int xPos = plotX + (int)(((xVal - actualMin1) / (actualMax1 - actualMin1)) * plotWidth);
+            int yPos = plotY + plotHeight - (int)(((yVal - actualMin2) / (actualMax2 - actualMin2)) * plotHeight);
+            int dataType = p.getDataType();
+            g2d.setColor(colors[dataType % colors.length]);
+            g2d.fillOval(xPos - 3, yPos - 3, 6, 6);
+        }
+
+        // 绘制右上角 DataType 图例：缩小尺寸并分为两列显示（左列显示 0~4，右列显示 5~9）
+        int legendX = plotX + plotWidth + 20;
+        int legendY = 30;
+        int colWidth = 40; // 每列宽度
+        int rowHeight = 10; // 每行高度
+        // 绘制图例边框（宽度两列合计加间隔）
+        int legendWidth = colWidth * 2 + 10;
+        int legendHeight = 5 * rowHeight + 20; // 每列5行，加上标题区
+        g2d.setColor(Color.BLACK);
+        g2d.drawRect(legendX, legendY, legendWidth, legendHeight);
+        g2d.setFont(new Font("SansSerif", Font.PLAIN, 9));
+        g2d.drawString("DataType", legendX + 5, legendY + 12);
+        // 分两列显示
+        for (int i = 0; i < 10; i++) {
+            int col = (i < 5) ? 0 : 1;
+            int row = (i < 5) ? i : i - 5;
+            int boxX = legendX + 5 + col * (colWidth);
+            int boxY = legendY + 15 + row * rowHeight;
+            g2d.setColor(colors[i]);
+            g2d.fillRect(boxX, boxY, 8, 8);
+            g2d.setColor(Color.BLACK);
+            g2d.drawRect(boxX, boxY, 8, 8);
+            g2d.drawString(String.valueOf(i), boxX + 12, boxY + 8);
+        }
+
+        g2d.dispose();
+        return image;
+    }
+
+    private float getAttrValue(Product p, String attr) {
+        if (attr.equalsIgnoreCase("sizeZ")) {
+            return p.getSizeZ();
+        } else if (attr.equalsIgnoreCase("strainX")) {
+            return p.getStrainX();
+        } else if (attr.equalsIgnoreCase("strainY")) {
+            return p.getStrainY();
+        } else if (attr.equalsIgnoreCase("elecZ")) {
+            return p.getElecZ();
+        }
+        return 0;
     }
 }

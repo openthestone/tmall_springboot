@@ -217,4 +217,28 @@ public class ProductController {
         return filePath;
     }
 
+    // 新增接口：生成二维相图
+    @GetMapping("/phaseDiagram")
+    public void phaseDiagram(
+            @RequestParam String fixedAttr1,
+            @RequestParam Float fixedValue1,
+            @RequestParam String fixedAttr2,
+            @RequestParam Float fixedValue2,
+            @RequestParam String varAttr1,
+            @RequestParam Float varMin1,
+            @RequestParam Float varMax1,
+            @RequestParam String varAttr2,
+            @RequestParam Float varMin2,
+            @RequestParam Float varMax2,
+            HttpServletResponse response) throws IOException {
+        // 查询符合条件的产品数据
+        List<Product> products = productService.getProductsForPhaseDiagram(
+                fixedAttr1, fixedValue1, fixedAttr2, fixedValue2,
+                varAttr1, varMin1, varMax1, varAttr2, varMin2, varMax2);
+        // 生成相图图片
+        BufferedImage image = productService.generatePhaseDiagramImage(
+                products, varAttr1, varAttr2, varMin1, varMax1, varMin2, varMax2);
+        response.setContentType("image/png");
+        ImageIO.write(image, "png", response.getOutputStream());
+    }
 }

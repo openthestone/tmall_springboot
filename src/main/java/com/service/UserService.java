@@ -1,7 +1,6 @@
 package com.service;
 
 import com.dao.UserDao;
-import com.pojo.Product;
 import com.pojo.User;
 import com.util.Page4Navigator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +16,9 @@ public class UserService {
     UserDao userDao;
 
     public Page4Navigator<User> list(int start, int size, int navigatePages) {
-        Sort sort = new Sort(Sort.Direction.DESC, "id");
+        Sort sort = new Sort(Sort.Direction.ASC, "id");
         Pageable pageable = new PageRequest(start, size, sort);
-        Page pageFromJPA = userDao.findAll(pageable);
+        Page<User> pageFromJPA = userDao.findAll(pageable);
         return new Page4Navigator<>(pageFromJPA, navigatePages);
     }
 

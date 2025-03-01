@@ -431,6 +431,8 @@ def run_gui(feature_extractor, device, xy_features, xz_features, xy_folder, xz_f
             return
 
         # 根据基准截面构造对应的XY、XZ和XYZ文件名
+        fname_xy = None
+        fname_xz = None
         if base_section == "XY":
             fname_xy = best_match
             fname_xz = convert_filename(best_match, "XZ", "XY")

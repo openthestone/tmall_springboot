@@ -40,6 +40,7 @@ public class ImageUtil {
                 destFile.getParentFile().mkdirs();
             Image i = ImageIO.read(srcFile);
             i = resizeImage(i, width, height);
+            assert i != null;
             ImageIO.write((RenderedImage) i, "jpg", destFile);
         } catch (IOException e) {
             e.printStackTrace();
@@ -49,7 +50,7 @@ public class ImageUtil {
     public static Image resizeImage(Image srcImage, int width, int height) {
         try {
 
-            BufferedImage buffImg = null;
+            BufferedImage buffImg;
             buffImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
             buffImg.getGraphics().drawImage(srcImage.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0, 0, null);
 
