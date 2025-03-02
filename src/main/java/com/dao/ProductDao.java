@@ -13,9 +13,10 @@ import java.util.List;
 
 public interface ProductDao extends JpaRepository<Product, Integer> {
 
-
-//    List<Product> findBySizeXAndSizeYAndSizeZAndStrainXAndStrainYAndNxAndNyAndElecXAndElecYAndElecZ(Float sizeX, Float sizeY, Float sizeZ, Float strainX,
-//                                                                                                    Float strainY, Float nx, Float ny, Float elecX, Float elecY, Float elecZ, Pageable pageable);
+//    List<Product> findBySizeXAndSizeYAndSizeZAndStrainXAndStrainYAndNxAndNyAndElecXAndElecYAndElecZ(
+//          Float sizeX, Float sizeY, Float sizeZ, Float strainX,
+//          Float strainY, Float nx, Float ny, Float elecX, Float elecY, Float elecZ,
+//          Pageable pageable);
 
     @Query(value = "select * from Product where " +
             "abs(sizeX - ?1) < 0.0001 " +
@@ -30,8 +31,9 @@ public interface ProductDao extends JpaRepository<Product, Integer> {
             "and abs(elecZ - ?10) < 0.0001 " +
             "order by id desc"
             , nativeQuery = true)
-    List<Product> findWithoutDataType(Float sizeX, Float sizeY, Float sizeZ, Float strainX, Float strainY,
-                                    Float nx, Float ny, Float elecX, Float elecY, Float elecZ);
+    List<Product> findWithoutDataType(
+            Float sizeX, Float sizeY, Float sizeZ, Float strainX, Float strainY,
+            Float nx, Float ny, Float elecX, Float elecY, Float elecZ);
 
     @Query(value = "select * from Product where if(?1 is not null, dataType=?1, 1=1) " +
             "and if(?2 is not null, abs(sizeX - ?2) < 0.0001, 1=1) " +
@@ -45,15 +47,20 @@ public interface ProductDao extends JpaRepository<Product, Integer> {
             "and if(?10 is not null, abs(elecY - ?10) < 0.0001, 1=1) " +
             "and if(?11 is not null, abs(elecZ - ?11) < 0.0001, 1=1)"
             , nativeQuery = true)
-    List<Product> find(Integer dataType, Float sizeX, Float sizeY, Float sizeZ,
-                       Float strainX, Float strainY, Float nx, Float ny,
-                       Float elecX, Float elecY, Float elecZ);
+    List<Product> find(
+            Integer dataType, Float sizeX, Float sizeY, Float sizeZ, Float strainX, Float strainY,
+            Float nx, Float ny, Float elecX, Float elecY, Float elecZ);
 
     @Transactional
     @Modifying()
-    @Query(value = "update Product p set p.dataType=?2, p.sizeX=?3, p.sizeY=?4, p.sizeZ=?5, p.strainX=?6, p.strainY=?7, p.nx=?8, p.ny=?9, p.elecX=?10," +
-            " p.elecY=?11, p.elecZ=?12, p.xy_Fig=?13, p.xz_Fig=?14, p.xyz_Fig=?15, p.data_File=?16 where p.id = ?1")
-    void update(Integer id, Integer dataType, Float sizeX, Float sizeY, Float sizeZ, Float strainX, Float strainY, Float nx, Float ny, Float elecX, Float elecY,
+    @Query(value = "update Product p set " +
+            "p.dataType=?2, p.sizeX=?3, p.sizeY=?4, p.sizeZ=?5, " +
+            "p.strainX=?6, p.strainY=?7, p.nx=?8, p.ny=?9, " +
+            "p.elecX=?10, p.elecY=?11, p.elecZ=?12, " +
+            "p.xy_Fig=?13, p.xz_Fig=?14, p.xyz_Fig=?15, p.data_File=?16 " +
+            "where p.id = ?1")
+    void update(Integer id, Integer dataType, Float sizeX, Float sizeY, Float sizeZ,
+                Float strainX, Float strainY, Float nx, Float ny, Float elecX, Float elecY,
                 Float elecZ, String xy_Fig, String xz_Fig, String xyz_Fig, String data_File);
 
     @Query(value = "select * from Product where " +
@@ -67,16 +74,16 @@ public interface ProductDao extends JpaRepository<Product, Integer> {
             " (:fixedAttr2 = 'strainY' and abs(strainY - :fixedValue2) < 0.0001) or " +
             " (:fixedAttr2 = 'elecZ' and abs(elecZ - :fixedValue2) < 0.0001)) " +
             "and " +
-            "((:varAttr1 = 'sizeZ' and sizeZ between :varMin1 and :varMax1) or " +
-            " (:varAttr1 = 'strainX' and strainX between :varMin1 and :varMax1) or " +
-            " (:varAttr1 = 'strainY' and strainY between :varMin1 and :varMax1) or " +
-            " (:varAttr1 = 'elecZ' and elecZ between :varMin1 and :varMax1)) " +
+            "((:varAttr1 = 'sizeZ' and sizeZ between :varMin1 - 0.0001 and :varMax1 + 0.0001) or " +
+            " (:varAttr1 = 'strainX' and strainX between :varMin1 - 0.0001 and :varMax1 + 0.0001) or " +
+            " (:varAttr1 = 'strainY' and strainY between :varMin1 - 0.0001 and :varMax1 + 0.0001) or " +
+            " (:varAttr1 = 'elecZ' and elecZ between :varMin1 - 0.0001 and :varMax1 + 0.0001)) " +
             "and " +
-            "((:varAttr2 = 'sizeZ' and sizeZ between :varMin2 and :varMax2) or " +
-            " (:varAttr2 = 'strainX' and strainX between :varMin2 and :varMax2) or " +
-            " (:varAttr2 = 'strainY' and strainY between :varMin2 and :varMax2) or " +
-            " (:varAttr2 = 'elecZ' and elecZ between :varMin2 and :varMax2)) " +
-            "order by id asc", nativeQuery = true)
+            "((:varAttr2 = 'sizeZ' and sizeZ between :varMin2 - 0.0001 and :varMax2 + 0.0001) or " +
+            " (:varAttr2 = 'strainX' and strainX between :varMin2 - 0.0001 and :varMax2 + 0.0001) or " +
+            " (:varAttr2 = 'strainY' and strainY between :varMin2 - 0.0001 and :varMax2 + 0.0001) or " +
+            " (:varAttr2 = 'elecZ' and elecZ between :varMin2 - 0.0001 and :varMax2 + 0.0001))"
+            , nativeQuery = true)
     List<Product> findPhaseDiagramProducts(@Param("fixedAttr1") String fixedAttr1,
                                            @Param("fixedValue1") Float fixedValue1,
                                            @Param("fixedAttr2") String fixedAttr2,

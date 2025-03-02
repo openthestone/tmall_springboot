@@ -154,17 +154,18 @@
                         <label for="fixedAttr1" class="col-sm-4 col-form-label">Fixed Attr 1</label>
                         <div class="col-sm-8">
                             <select class="form-control" id="fixedAttr1" v-model="phase.fixedAttr1">
-                                <option value="sizeZ">SizeZ</option>
-                                <option value="strainX">StrainX</option>
-                                <option value="strainY">StrainY</option>
-                                <option value="elecZ">ElecZ</option>
+                                <option value="">--请选择--</option>
+                                <option v-for="opt in fixedAttr1Options" :value="opt">{{ opt }}</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="fixedValue1" class="col-sm-4 col-form-label">Fixed Value 1</label>
                         <div class="col-sm-8">
-                            <input type="text" inputmode="decimal" step="any" id="fixedValue1" class="form-control" v-model="phase.fixedValue1" placeholder="输入值">
+                            <select class="form-control" id="fixedValue1" v-model="phase.fixedValue1">
+                                <option value="">--请选择--</option>
+                                <option v-for="opt in fixedValue1Options" :value="opt">{{ opt }}</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -174,17 +175,18 @@
                         <label for="fixedAttr2" class="col-sm-4 col-form-label">Fixed Attr 2</label>
                         <div class="col-sm-8">
                             <select class="form-control" id="fixedAttr2" v-model="phase.fixedAttr2">
-                                <option value="sizeZ">SizeZ</option>
-                                <option value="strainX">StrainX</option>
-                                <option value="strainY">StrainY</option>
-                                <option value="elecZ">ElecZ</option>
+                                <option value="">--请选择--</option>
+                                <option v-for="opt in fixedAttr2Options" :value="opt">{{ opt }}</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="fixedValue2" class="col-sm-4 col-form-label">Fixed Value 2</label>
                         <div class="col-sm-8">
-                            <input type="text" inputmode="decimal" step="any" id="fixedValue2" class="form-control" v-model="phase.fixedValue2" placeholder="输入值">
+                            <select class="form-control" id="fixedValue2" v-model="phase.fixedValue2">
+                                <option value="">--请选择--</option>
+                                <option v-for="opt in fixedValue2Options" :value="opt">{{ opt }}</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -197,10 +199,8 @@
                         <label for="varAttr1" class="col-sm-4 col-form-label">Variable Attr 1</label>
                         <div class="col-sm-8">
                             <select class="form-control" id="varAttr1" v-model="phase.varAttr1">
-                                <option value="strainX">StrainX</option>
-                                <option value="strainY">StrainY</option>
-                                <option value="sizeZ">SizeZ</option>
-                                <option value="elecZ">ElecZ</option>
+                                <option value="">--请选择--</option>
+                                <option v-for="opt in varAttr1Options" :value="opt">{{ opt }}</option>
                             </select>
                         </div>
                     </div>
@@ -222,10 +222,8 @@
                         <label for="varAttr2" class="col-sm-4 col-form-label">Variable Attr 2</label>
                         <div class="col-sm-8">
                             <select class="form-control" id="varAttr2" v-model="phase.varAttr2">
-                                <option value="strainX">StrainX</option>
-                                <option value="strainY">StrainY</option>
-                                <option value="sizeZ">SizeZ</option>
-                                <option value="elecZ">ElecZ</option>
+                                <option value="">--请选择--</option>
+                                <option v-for="opt in varAttr2Options" :value="opt">{{ opt }}</option>
                             </select>
                         </div>
                     </div>
@@ -312,16 +310,16 @@
                     elecZ: "0"
                 },
                 phase: {
-                    fixedAttr1: 'sizeZ',
-                    fixedValue1: 28.8,
-                    fixedAttr2: 'elecZ',
-                    fixedValue2: 0,
-                    varAttr1: 'strainX',
-                    varMin1: 4.0,
-                    varMax1: 6.0,
-                    varAttr2: 'strainY',
-                    varMin2: 4.0,
-                    varMax2: 6.0
+                    fixedAttr1: "",
+                    fixedValue1: "",
+                    fixedAttr2: "",
+                    fixedValue2: "",
+                    varAttr1: "",
+                    varMin1: "",
+                    varMax1: "",
+                    varAttr2: "",
+                    varMin2: "",
+                    varMax2: ""
                 },
                 phaseDiagramUrl: ""
             },
@@ -344,6 +342,22 @@
                     });
                 },
                 genPhaseDiagram: function () {
+                    // 检查所有必填项，如果有任一为空，则不生成图片
+                    if (
+                        !this.phase.fixedAttr1 ||
+                        !this.phase.fixedValue1 ||
+                        !this.phase.fixedAttr2 ||
+                        !this.phase.fixedValue2 ||
+                        !this.phase.varAttr1 ||
+                        !this.phase.varMin1 ||
+                        !this.phase.varMax1 ||
+                        !this.phase.varAttr2 ||
+                        !this.phase.varMin2 ||
+                        !this.phase.varMax2
+                    ) {
+                        alert("请填写完整所有参数！");
+                        return;
+                    }
                     const params = "fixedAttr1=" + this.phase.fixedAttr1 +
                         "&fixedValue1=" + parseFloat(this.phase.fixedValue1) +
                         "&fixedAttr2=" + this.phase.fixedAttr2 +
@@ -364,6 +378,79 @@
                         .catch(error => {
                             console.error(error);
                         });
+                }
+            },
+            computed: {
+                fixedAttr1Options() {
+                    const full = ['sizeZ', 'strainX', 'strainY', 'elecZ'];
+                    const others = [this.phase.fixedAttr2, this.phase.varAttr1, this.phase.varAttr2].filter(x => x);
+                    return full.filter(item => item === this.phase.fixedAttr1 || !others.includes(item));
+                },
+                fixedAttr2Options() {
+                    const full = ['sizeZ', 'strainX', 'strainY', 'elecZ'];
+                    const others = [this.phase.fixedAttr1, this.phase.varAttr1, this.phase.varAttr2].filter(x => x);
+                    return full.filter(item => item === this.phase.fixedAttr2 || !others.includes(item));
+                },
+                varAttr1Options() {
+                    const full = ['sizeZ', 'strainX', 'strainY', 'elecZ'];
+                    const others = [this.phase.fixedAttr1, this.phase.fixedAttr2, this.phase.varAttr2].filter(x => x);
+                    return full.filter(item => item === this.phase.varAttr1 || !others.includes(item));
+                },
+                varAttr2Options() {
+                    const full = ['sizeZ', 'strainX', 'strainY', 'elecZ'];
+                    const others = [this.phase.fixedAttr1, this.phase.fixedAttr2, this.phase.varAttr1].filter(x => x);
+                    return full.filter(item => item === this.phase.varAttr2 || !others.includes(item));
+                },
+                fixedValue1Options() {
+                    // 根据 fixedAttr1 返回对应选项
+                    const mapping = {
+                        sizeZ: ["28.8", "31.2", "36.0", "38.4", "40.8", "43.2", "45.6", "48.0", "50.4", "52.8"],
+                        elecZ: ["-10", "-8", "-6", "-4", "-2", "0", "2", "4", "6", "8", "10"],
+                        strainX: ["3.80", "3.84", "3.88", "3.92", "3.96", "4.00"],
+                        strainY: ["3.80", "3.84", "3.88", "3.92", "3.96", "4.00"]
+                    };
+                    return this.phase.fixedAttr1 ? mapping[this.phase.fixedAttr1] || [] : [];
+                },
+                fixedValue2Options() {
+                    const mapping = {
+                        sizeZ: ["28.8", "31.2", "36.0", "38.4", "40.8", "43.2", "45.6", "48.0", "50.4", "52.8"],
+                        elecZ: ["-10", "-8", "-6", "-4", "-2", "0", "2", "4", "6", "8", "10"],
+                        strainX: ["3.80", "3.84", "3.88", "3.92", "3.96", "4.00"],
+                        strainY: ["3.80", "3.84", "3.88", "3.92", "3.96", "4.00"]
+                    };
+                    return this.phase.fixedAttr2 ? mapping[this.phase.fixedAttr2] || [] : [];
+                }
+            },
+            watch: {
+                'phase.varAttr1': function(newVal) {
+                    if (!newVal) {
+                        this.phase.varMin1 = "";
+                        this.phase.varMax1 = "";
+                    } else if (newVal === 'sizeZ') {
+                        this.phase.varMin1 = "28.8";
+                        this.phase.varMax1 = "52.8";
+                    } else if (newVal === 'elecZ') {
+                        this.phase.varMin1 = "-10";
+                        this.phase.varMax1 = "10";
+                    } else if (newVal === 'strainX' || newVal === 'strainY') {
+                        this.phase.varMin1 = "3.80";
+                        this.phase.varMax1 = "4.00";
+                    }
+                },
+                'phase.varAttr2': function(newVal) {
+                    if (!newVal) {
+                        this.phase.varMin2 = "";
+                        this.phase.varMax2 = "";
+                    } else if (newVal === 'sizeZ') {
+                        this.phase.varMin2 = "28.8";
+                        this.phase.varMax2 = "52.8";
+                    } else if (newVal === 'elecZ') {
+                        this.phase.varMin2 = "-10";
+                        this.phase.varMax2 = "10";
+                    } else if (newVal === 'strainX' || newVal === 'strainY') {
+                        this.phase.varMin2 = "3.80";
+                        this.phase.varMax2 = "4.00";
+                    }
                 }
             }
         });
