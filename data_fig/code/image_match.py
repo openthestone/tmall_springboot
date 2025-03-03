@@ -13,6 +13,9 @@ from torch.utils.data import Dataset, DataLoader
 from torch import nn, optim
 import multiprocessing
 
+
+
+
 ##############################################
 # 模型训练、加载、特征提取、特征库构建等部分
 ##############################################
@@ -61,8 +64,8 @@ def train_contrast_model():
 
     # 训练数据文件夹（需根据实际路径修改）
     contrast_folders = [
-        r".\..\experiment_fig\skyrmion",
-        r".\..\experiment_fig\vortex"
+        r"data_fig\experiment_fig\skyrmion",
+        r"data_fig\experiment_fig\vortex"
     ]
 
     dataset = ContrastDataset(contrast_folders, transform=train_transform)
@@ -94,7 +97,7 @@ def train_contrast_model():
             running_loss += loss.item() * images.size(0)
         epoch_loss = running_loss / len(dataset)
         print(f"Epoch {epoch+1}/{num_epochs}, Loss: {epoch_loss:.4f}")
-    torch.save(model_contrast.state_dict(), "contrast_model.pth")
+    torch.save(model_contrast.state_dict(), "data_fig/code/contrast_model.pth")
     print("Contrast adaptation model saved to contrast_model.pth")
     return model_contrast
 
@@ -105,7 +108,7 @@ def load_contrast_model(device):
     model_contrast = models.resnet18(pretrained=True)
     in_features = model_contrast.fc.in_features
     model_contrast.fc = nn.Linear(in_features, 2)
-    model_contrast.load_state_dict(torch.load("contrast_model.pth", map_location=device))
+    model_contrast.load_state_dict(torch.load("data_fig/code/contrast_model.pth", map_location=device))
     model_contrast.eval()
     return model_contrast
 
@@ -522,37 +525,55 @@ def run_gui(feature_extractor, device, xy_features, xz_features, xy_folder, xz_f
 ##############################################
 # 主程序入口
 ##############################################
+
 if __name__ == '__main__':
+    
+    if len(sys.argv) < 4:
+        print("Usage: python 图片匹配.py <imagePath> <imageType> <baseSection>")
+        sys.exit(1)
+    image_path = sys.argv[1]
+    image_type = sys.argv[2]
+    base_section = sys.argv[3]
+    
     multiprocessing.freeze_support()
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    if not os.path.exists("contrast_model.pth"):
+    if not os.path.exists("data_fig/code/contrast_model.pth"):
         model_contrast = train_contrast_model()
     else:
         print("Loading contrast adaptation model from contrast_model.pth")
         model_contrast = load_contrast_model(device)
     feature_extractor = build_feature_extractor(model_contrast, device)
-    xy_folder = r".\..\XY_label_fig"
-    xz_folder = r".\..\XZ_label_fig"
-    xyz_folder = r".\..\XYZ_label_fig"
+    xy_folder = r"data_fig\XY_label_fig"
+    xz_folder = r"data_fig\XZ_label_fig"
+    xyz_folder = r"data_fig\XYZ_label_fig"
 
-    if os.path.exists("xy_features.pkl"):
+    if os.path.exists("data_fig/code/xy_features.pkl"):
         print("Loading XY features from cache...")
-        with open("xy_features.pkl", "rb") as f:
+        with open("data_fig/code/xy_features.pkl", "rb") as f:
             xy_features = pickle.load(f)
     else:
         print("Building XY simulated image feature library...")
         xy_features = build_feature_dict(xy_folder, feature_extractor, device)
-        with open("xy_features.pkl", "wb") as f:
+        with open("data_fig/code/xy_features.pkl", "wb") as f:
             pickle.dump(xy_features, f)
 
-    if os.path.exists("xz_features.pkl"):
+    if os.path.exists("data_fig/code/xz_features.pkl"):
         print("Loading XZ features from cache...")
-        with open("xz_features.pkl", "rb") as f:
+        with open("data_fig/code/xz_features.pkl", "rb") as f:
             xz_features = pickle.load(f)
     else:
         print("Building XZ simulated image feature library...")
         xz_features = build_feature_dict(xz_folder, feature_extractor, device)
-        with open("xz_features.pkl", "wb") as f:
+        with open("data_fig/code/xz_features.pkl", "wb") as f:
             pickle.dump(xz_features, f)
 
-    run_gui(feature_extractor, device, xy_features, xz_features, xy_folder, xz_folder, xyz_folder)
+    if base_section == "XY":
+        base_features = xy_features
+    elif base_section == "XZ":
+        base_features = xz_features
+    # 调用已有匹配逻辑（例如match_image函数），获得最佳匹配文件名
+    best_match, score = match_image(image_path, None, image_type, feature_extractor, device, base_features)
+    # 输出匹配结果，仅输出XY对应的文件名（或经过转换后的文件名）
+    print(best_match)
+
+    # run_gui(feature_extractor, device, xy_features, xz_features, xy_folder, xz_folder, xyz_folder)

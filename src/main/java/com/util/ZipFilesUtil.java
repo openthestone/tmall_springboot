@@ -14,32 +14,32 @@ import java.util.zip.ZipOutputStream;
 public class ZipFilesUtil {
 
     /**
-     * 创建zip文件
-     *
-     * @param files 文件
-     * @param path  暂存目录
+     * 将多个文件压缩成一个临时ZIP文件
+     * @param files 要压缩的文件列表
+     * @return 临时ZIP文件
+     * @throws IOException
      */
-    public static void createZipFiles(List<File> files, String path, HttpServletResponse response) {
-        try {
-            //List<File> 作为参数传进来，就是把多个文件的路径放到一个list里面
-            //创建一个临时压缩文件
-            //临时文件可以放在CDEF盘中，但不建议这么做，因为需要先设置磁盘的访问权限，最好是放在服务器上，方法最后有删除临时文件的步骤
-
-            File file = new File(path);
-            file.deleteOnExit();
-            file.createNewFile();
-            response.reset();
-
-            //创建文件输出流
-            FileOutputStream fileOutput = new FileOutputStream(file);
-            ZipOutputStream zipOutput = new ZipOutputStream(fileOutput);
-            zipFile(files, zipOutput);
-            zipOutput.close();
-            fileOutput.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+    public static File createZip(List<File> files) throws IOException {
+        // 创建临时ZIP文件
+        File zipFile = File.createTempFile("download_", ".zip");
+        try (ZipOutputStream zos = new ZipOutputStream(Files.newOutputStream(zipFile.toPath()))) {
+            byte[] buffer = new byte[1024];
+            for (File file : files) {
+                if (file.exists() && file.isFile()) {
+                    try (FileInputStream fis = new FileInputStream(file)) {
+                        zos.putNextEntry(new ZipEntry(file.getName()));
+                        int len;
+                        while ((len = fis.read(buffer)) > 0) {
+                            zos.write(buffer, 0, len);
+                        }
+                        zos.closeEntry();
+                    }
+                }
+            }
         }
+        return zipFile;
     }
+
 
     /**
      * 根据输入的文件与输出流对文件进行打包
@@ -91,33 +91,27 @@ public class ZipFilesUtil {
         }
     }
 
-    /**
-     * 处理文件内容乱码
-     *
-     * @param file
-     * @param originFileName
-     * @param request
-     * @param response
-     */
-    public static void downloadFile(File file, String originFileName, HttpServletRequest request, HttpServletResponse response) {
-        if (file.exists()) {
-            try {
-                // 以流的形式下载文件。
-                InputStream input = new BufferedInputStream(Files.newInputStream(Paths.get(file.getPath())));
-                byte[] buffer = new byte[input.available()];
-                input.read(buffer);
-                input.close();
-                // 清空response
-                response.reset();
-                generate(originFileName, request, response);
 
-                OutputStream output = new BufferedOutputStream(response.getOutputStream());
-                output.write(buffer);
-                output.flush();
-                output.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
+    /**
+     * 将文件写入HttpServletResponse中进行下载
+     * @param file 要下载的文件
+     * @param fileName 下载时显示的文件名
+     * @param request HttpServletRequest对象
+     * @param response HttpServletResponse对象
+     * @throws IOException
+     */
+    public static void downloadFile(File file, String fileName,
+                                    HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+        try (FileInputStream fis = new FileInputStream(file);
+             OutputStream os = response.getOutputStream()) {
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = fis.read(buffer)) > 0) {
+                os.write(buffer, 0, len);
             }
+            os.flush();
         }
     }
 

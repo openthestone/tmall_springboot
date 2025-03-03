@@ -94,4 +94,9 @@ public interface ProductDao extends JpaRepository<Product, Integer> {
                                            @Param("varAttr2") String varAttr2,
                                            @Param("varMin2") Float varMin2,
                                            @Param("varMax2") Float varMax2);
+
+    @Query(value = "from Product p where p.xy_Fig =?1")
+    Product findByXY_Fig(String xy_Fig);
+    @Query(value = "from Product p where p.xz_Fig =?1")
+    Product findByXZ_Fig(String xz_Fig);
 }

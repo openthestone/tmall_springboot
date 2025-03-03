@@ -118,40 +118,44 @@ public class ProductService {
     }
 
 
-    public void downloadMulti(Collection<Product> products, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        List<File> files = new ArrayList<>();
-
-        for (Product product : products) {
-            File file = new File(product.getData_File());
-            if (file.exists()) {
-                files.add(file);
-            } else {
-                throw new Exception("文件 :" + product.getData_File() + "不存在,请联系管理员！");
-            }
-            File xy_Fig = new File(product.getXY_Fig());
-            if (xy_Fig.exists()) {
-                files.add(xy_Fig);
-            }
-            File xz_Fig = new File(product.getXZ_Fig());
-            if (xz_Fig.exists()) {
-                files.add(xz_Fig);
-            }
-            File xyz_Fig = new File(product.getXYZ_Fig());
-            if (xyz_Fig.exists()) {
-                files.add(xyz_Fig);
+    // 上一版本下载方法：接收完整产品对象集合，打包下载对应文件
+    public void downloadMulti(Collection<Product> products,
+                              HttpServletRequest request,
+                              HttpServletResponse response) throws Exception {
+        // 这里只以第一个产品为例，实际可扩展为多产品下载
+        Product product = products.iterator().next();
+        List<File> filesToDownload = new ArrayList<>();
+        if (product.getXY_Fig() != null && !product.getXY_Fig().isEmpty()) {
+            File xyFile = new File(product.getXY_Fig());
+            if (xyFile.exists()) {
+                filesToDownload.add(xyFile);
             }
         }
-
-        if (files.isEmpty()) {
-            throw new Exception("当前选择文件不存在，请联系管理员！");
-        } else {
-            String tempName = "temp.zip";
-            String path = "./data_fig/temp/" + tempName;
-            //压缩
-            ZipFilesUtil.createZipFiles(files, path, response);
-            //下载
-            ZipFilesUtil.downloadFile(new File(path), tempName, request, response);
+        if (product.getXZ_Fig() != null && !product.getXZ_Fig().isEmpty()) {
+            File xzFile = new File(product.getXZ_Fig());
+            if (xzFile.exists()) {
+                filesToDownload.add(xzFile);
+            }
         }
+        if (product.getXYZ_Fig() != null && !product.getXYZ_Fig().isEmpty()) {
+            File xyzFile = new File(product.getXYZ_Fig());
+            if (xyzFile.exists()) {
+                filesToDownload.add(xyzFile);
+            }
+        }
+        if (product.getData_File() != null && !product.getData_File().isEmpty()) {
+            File dataFile = new File(product.getData_File());
+            if (dataFile.exists()) {
+                filesToDownload.add(dataFile);
+            }
+        }
+        if (filesToDownload.isEmpty()) {
+            throw new Exception("所选产品没有记录任何文件");
+        }
+        // 调用工具类压缩下载
+        File zipFile = ZipFilesUtil.createZip(filesToDownload);
+        ZipFilesUtil.downloadFile(zipFile, zipFile.getName(), request, response);
+        zipFile.delete();
     }
 
     public List<Product> getProductsForPhaseDiagram(String fixedAttr1, Float fixedValue1,
@@ -171,8 +175,8 @@ public class ProductService {
         int width = 600, height = 600;
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2d = image.createGraphics();
-        g2d.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING,
-                java.awt.RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
         // 填充背景
         g2d.setColor(Color.WHITE);
         g2d.fillRect(0, 0, width, height);
@@ -213,10 +217,26 @@ public class ProductService {
             actualMax2 += margin2;
         }
 
+        // 新增代码：确保横轴（varAttr1）的范围至少达到一个最小值
+        float minRange1 = 0.1f; // 可根据实际数据调整阈值，例如0.1
+        if ((actualMax1 - actualMin1) < minRange1) {
+            float mid = (actualMax1 + actualMin1) / 2.0f;
+            actualMin1 = mid - minRange1 / 2.0f;
+            actualMax1 = mid + minRange1 / 2.0f;
+        }
+
+        // 同理，确保纵轴（varAttr2）的范围至少达到一个最小值
+        float minRange2 = 0.1f; // 可根据实际数据调整阈值
+        if ((actualMax2 - actualMin2) < minRange2) {
+            float mid = (actualMax2 + actualMin2) / 2.0f;
+            actualMin2 = mid - minRange2 / 2.0f;
+            actualMax2 = mid + minRange2 / 2.0f;
+        }
+
         // 设置坐标区：将坐标系放在图片左下区域，占70%宽高
         int plotWidth = (int)(width * 0.70);
         int plotHeight = (int)(height * 0.70);
-        int plotX = 50;  // 左侧边距
+        int plotX = 60;  // 左侧边距
         int plotY = height - 60 - plotHeight; // 底部边距60像素
 
         // 绘制坐标系边框
@@ -237,25 +257,32 @@ public class ProductService {
         TreeSet<Float> uniqueY = new TreeSet<>();
         for (Product p : products) {
             uniqueX.add(getAttrValue(p, varAttr1));
-            uniqueY.add(getAttrValue(p, varAttr2));
         }
-        List<Float> ticksX = new ArrayList<>(uniqueX);
-        if (ticksX.size() < 6) {  // 补充均匀刻度
+        // 如果唯一值超过1个，则直接以数据轴上已有的值为刻度
+        List<Float> ticksX;
+        if (uniqueX.size() > 1) {
+            ticksX = new ArrayList<>(uniqueX);
+        } else { // 只有一个唯一值则扩展上下范围生成均匀刻度
+            ticksX = new ArrayList<>();
             for (int i = 0; i <= 5; i++) {
                 float val = actualMin1 + (actualMax1 - actualMin1) * i / 5f;
                 ticksX.add(val);
             }
         }
-        ticksX = new ArrayList<>(new TreeSet<>(ticksX));
 
-        List<Float> ticksY = new ArrayList<>(uniqueY);
-        if (ticksY.size() < 6) {
+        for (Product p : products) {
+            uniqueY.add(getAttrValue(p, varAttr2));
+        }
+        List<Float> ticksY;
+        if (uniqueY.size() > 1) {
+            ticksY = new ArrayList<>(uniqueY);
+        } else {
+            ticksY = new ArrayList<>();
             for (int i = 0; i <= 5; i++) {
                 float val = actualMin2 + (actualMax2 - actualMin2) * i / 5f;
                 ticksY.add(val);
             }
         }
-        ticksY = new ArrayList<>(new TreeSet<>(ticksY));
 
         // 绘制横轴刻度及其数值（使用10号字体，确保边缘不靠近坐标框）
         g2d.setFont(new Font("SansSerif", Font.PLAIN, 10));
@@ -285,7 +312,7 @@ public class ProductService {
         // 保存当前变换
         AffineTransform oldTransform = g2d.getTransform();
         // 将坐标系平移到纵轴左侧，取坐标区域左侧距离（如 plotX - 30）和纵轴中点位置（plotY + plotHeight/2）
-        g2d.translate(plotX - 30, plotY + plotHeight/2);
+        g2d.translate(plotX - 40, plotY + plotHeight/2);
         // 逆时针旋转90度（-PI/2）
         g2d.rotate(-Math.PI/2);
         // 绘制纵轴标签，使其水平居中
@@ -301,8 +328,8 @@ public class ProductService {
         for (Product p : products) {
             float xVal = getAttrValue(p, varAttr1);
             float yVal = getAttrValue(p, varAttr2);
-            int xPos = plotX + (int)(((xVal - actualMin1) / (actualMax1 - actualMin1)) * plotWidth);
-            int yPos = plotY + plotHeight - (int)(((yVal - actualMin2) / (actualMax2 - actualMin2)) * plotHeight);
+            int xPos = tickStartX + (int)(((xVal - actualMin1) / (actualMax1 - actualMin1)) * tickRangeX);
+            int yPos = tickStartY - (int)(((yVal - actualMin2) / (actualMax2 - actualMin2)) * tickRangeY);
             int dataType = p.getDataType();
             g2d.setColor(colors[dataType % colors.length]);
             g2d.fillOval(xPos - 3, yPos - 3, 6, 6);
@@ -348,5 +375,57 @@ public class ProductService {
             return p.getElecZ();
         }
         return 0;
+    }
+
+    /**
+     * 调用 Python 图片匹配脚本，将上传的实验图片、图片类型和Base类型传入
+     * 并根据匹配结果查询 Product 表返回匹配记录
+     */
+    public Product imageSearch(File imageFile, String imageType, String baseSection) throws Exception {
+        ProcessBuilder pb = new ProcessBuilder("python",
+                "data_fig/code/image_match.py",
+                imageFile.getAbsolutePath(),
+                imageType,
+                baseSection);
+        pb.redirectErrorStream(true);
+        Process process = pb.start();
+
+        // 读取Python脚本的输出
+        Scanner sc = new Scanner(process.getInputStream());
+        StringBuilder outputBuilder = new StringBuilder();
+        while(sc.hasNextLine()){
+            outputBuilder.append(sc.nextLine()).append("\n");
+        }
+        sc.close();
+        int exitCode = process.waitFor();
+        String output = outputBuilder.toString().trim();
+
+        if(exitCode != 0 || output.startsWith("ERROR:")){
+            throw new Exception("Python脚本出错: " + output);
+        }
+
+        // 取出最后一行作为文件名
+        String[] lines = output.split("\n");
+        String bestMatch = "";
+        // 从最后一行开始查找非空行
+        for (int i = lines.length - 1; i >= 0; i--) {
+            if (!lines[i].trim().isEmpty()) {
+                bestMatch = lines[i].trim();
+                break;
+            }
+        }
+        if(bestMatch.isEmpty()){
+            throw new Exception("未获得匹配结果");
+        }
+
+        Product product = null;
+        if(baseSection.equals("XY"))
+            product = productDao.findByXY_Fig("./data_fig/XY_label_fig/" + bestMatch);
+        else if(baseSection.equals("XZ"))
+            product = productDao.findByXZ_Fig("./data_fig/XZ_label_fig/" + bestMatch);
+        if(product == null){
+            throw new Exception("数据库中未找到与匹配结果对应的记录");
+        }
+        return product;
     }
 }
