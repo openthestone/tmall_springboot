@@ -1,0 +1,2 @@
+id, name, sizeX, sizeY, sizeZ, strainX, strainY, NX, NY, elecX, elecY, elecZ, XY_fig, XZ_fig, data_file
+1,thick4voltage-10xsub3.8ysub3.8,40,40,28.8,3.8,3.8,4,4,0,0,-10,./XY_fig/XY_thick4voltage-10xsub3.8ysub3.8-20000.dat.jpg,./XZ_fig/XZ_thick4voltage-10xsub3.8ysub3.8-20000.dat.jpg,./XYZ/XYZ_thick4voltage-10xsub3.8ysub3.8-20000-compress8.npz
