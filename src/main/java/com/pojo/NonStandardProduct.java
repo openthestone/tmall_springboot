@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "temp_product")
+@Table(name = "non_standard_product")
 @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
-public class TempProduct {
+public class NonStandardProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

@@ -18,11 +18,13 @@
 <script>
     $(function () {
         const data4Vue = {
-            uri: 'products',
+            uri: 'non_standard_products',
             pagination: {},
             bean: {
                 id: 0,
+                method: null,
                 name: null,
+                systemType: null,
                 dataType: null,
                 sizeX: null,
                 sizeY: null,
@@ -37,6 +39,7 @@
                 xy_Fig: null,
                 xz_Fig: null,
                 xyz_Fig: null,
+                data_Fig: null,
                 data_File: null
             },
             beans: []
@@ -62,17 +65,17 @@
                     if (!checkEmpty(this.bean.name, "数据名称"))
                         return;
                     const formData = new FormData();
-                    // bean: {id: 0, name: '', dateType:'', sizeX: '', sizeY: '', sizeZ: '', strainX:'', strainY:'',
-                    // nx:'', ny:'', elecX:'', elecY:'', elecZ:''}
                     for (let key in this.bean) {
                         if (key === "id") continue;
                         if (this.bean[key] == null || this.bean[key] === "") continue;
                         formData.append(key, this.bean[key]);
                     }
-                    axios.post("add_products", formData).then(function (response) {
+                    axios.post("add_non_standard_products", formData).then(function (response) {
                         vue.bean = {
                             id: 0,
+                            method: null,
                             name: null,
+                            systemType: null,
                             dataType: null,
                             sizeX: null,
                             sizeY: null,
@@ -87,6 +90,7 @@
                             xy_Fig: null,
                             xz_Fig: null,
                             xyz_Fig: null,
+                            data_Fig: null,
                             data_File: null
                         };
                         vue.list(0);
@@ -125,7 +129,9 @@
             <thead>
             <tr class="success">
                 <th>ID</th>
+                <th>Method</th>
                 <th>Name</th>
+                <th>SystemType</th>
                 <th>DataType</th>
                 <th>SizeX</th>
                 <th>SizeY</th>
@@ -148,7 +154,13 @@
             <tr v-for="bean in beans ">
                 <td>{{bean.id}}</td>
                 <td>
+                    {{bean.method}}
+                </td>
+                <td>
                     {{bean.name}}
+                </td>
+                <td>
+                    {{bean.systemType}}
                 </td>
                 <td>
                     {{bean.dataType}}
@@ -183,17 +195,15 @@
                 <td>
                     {{bean.elecZ}}
                 </td>
-                <!--TODO  -->
+                <!--  TODO  -->
                 <td>
 
                 </td>
-
                 <td>
                     {{bean.data_File}}
                 </td>
-
                 <td>
-                    <a :href="'admin_product_edit?id='+ bean.id"><span class="glyphicon glyphicon-edit"></span></a>
+                    <a :href="'admin_non_standard_product_edit?id='+ bean.id"><span class="glyphicon glyphicon-edit"></span></a>
                 </td>
                 <td>
                     <a href="#nowhere" @click="deleteBean(bean.id)"><span
@@ -209,9 +219,21 @@
         <div class="panel-body">
             <table class="addTable">
                 <tr>
+                    <td>Method:</td>
+                    <td><label>
+                        <input @keyup.enter="add" v-model.trim="bean.method" type="text" class="form-control">
+                    </label></td>
+                </tr>
+                <tr>
                     <td>Name:</td>
                     <td><label>
                         <input @keyup.enter="add" v-model.trim="bean.name" type="text" class="form-control">
+                    </label></td>
+                </tr>
+                <tr>
+                    <td>SystemType:</td>
+                    <td><label>
+                        <input @keyup.enter="add" v-model.trim="bean.systemType" type="text" class="form-control">
                     </label></td>
                 </tr>
                 <tr>
@@ -296,6 +318,12 @@
                     <td>XYZ_Fig:</td>
                     <td><label>
                         <input @keyup.enter="add" v-model.trim="bean.xyz_Fig" type="text" class="form-control">
+                    </label></td>
+                </tr>
+                <tr>
+                    <td>data_Fig:</td>
+                    <td><label>
+                        <input @keyup.enter="add" v-model.trim="bean.data_Fig" type="text" class="form-control">
                     </label></td>
                 </tr>
                 <tr>

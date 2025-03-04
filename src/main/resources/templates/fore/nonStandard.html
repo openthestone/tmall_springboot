@@ -52,17 +52,6 @@
         .download-btn-block {
             margin: 5px 0;
         }
-        /* 图像反查区 */
-        .image-search-area {
-            margin-top: 40px;
-            text-align: center;
-        }
-        /* 覆盖Element UI primary按钮样式 */
-        .el-button--primary {
-            background-color: #007bff !important;
-            border-color: #007bff !important;
-            color: #ffffff !important;
-        }
     </style>
 </head>
 
@@ -95,25 +84,136 @@
     <div class="jumbotron jumbotron-fluid mb-3 pt-0 pb-4 bg-lightblue position-relative">
         <div class="pl-4 pr-0 h-100 tofront">
             <!-- 将标题放最上方 -->
-            <div class="download-title">Download</div>
+            <div class="download-title">Download from Non-standard Database</div>
 
-            <!-- 条件查询区 -->
+            <!-- 精确查询 -->
             <div class="conditions-area">
-                <ol class="list-featured" style="display:inline-block; text-align:left;">
-                    <li v-for="item in list" :key="item.id">
-                        <el-select v-model="item.attribute" @change="arrtibuteChange(item)" placeholder="请选择" style="width: 9.375rem;">
-                            <el-option v-for="opt in availableAttri(item)" :key="opt.value" :label="opt.label" :value="opt.value"></el-option>
+                <h4>精确查询</h4>
+                <div style="display: flex; align-items: center; flex-wrap: wrap; justify-content: center;">
+                    <div style="margin-right: 20px; display: flex; align-items: center;">
+                        <span style="margin-right: 5px;">数据类型：</span>
+                        <el-select v-model="query.method" placeholder="Method" style="width: 150px;">
+                            <el-option label="不限" value=""></el-option>
+                            <el-option v-for="opt in exactOptions.method" :key="opt.value" :label="opt.label" :value="opt.value"></el-option>
                         </el-select>
-                        <el-select v-model="item.value" placeholder="请选择" style="width: 18.75rem;">
-                            <el-option v-for="opt in item.val_options" :key="opt.value" :label="opt.label" :value="opt.value"></el-option>
+                    </div>
+                    <div style="margin-right: 20px; display: flex; align-items: center;">
+                        <span style="margin-right: 5px;">体系名称：</span>
+                        <el-select v-model="query.systemType" placeholder="SystemType" style="width: 150px;">
+                            <el-option label="不限" value=""></el-option>
+                            <el-option v-for="opt in exactOptions.systemType" :key="opt.value" :label="opt.label" :value="opt.value"></el-option>
                         </el-select>
-                    </li>
-                    <li>
-                        <button class="btn btn-primary btn-round uniform-btn" @click="listAdd">Add Condition</button>
-                        <button class="btn btn-primary btn-round uniform-btn" @click="listClear">Clear</button>
-                        <button class="btn btn-primary btn-round uniform-btn" @click="query">Query</button>
-                    </li>
-                </ol>
+                    </div>
+                    <div style="display: flex; align-items: center;">
+                        <span style="margin-right: 5px;">极化结构类型：</span>
+                        <el-select v-model="query.dataType" placeholder="DataType" style="width: 150px;">
+                            <el-option label="不限" value=""></el-option>
+                            <el-option v-for="opt in exactOptions.dataType" :key="opt.value" :label="opt.label" :value="opt.value"></el-option>
+                        </el-select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 范围查询 -->
+            <div class="conditions-area" style="margin-top:20px;">
+                <h4>范围查询</h4>
+                <div class="row">
+                    <!-- SizeX -->
+                    <div class="col-sm-3">
+                        <label>SizeX Min:</label>
+                        <input type="text" class="form-control" v-model="query.sizeXMin" placeholder="不限制">
+                    </div>
+                    <div class="col-sm-3">
+                        <label>SizeX Max:</label>
+                        <input type="text" class="form-control" v-model="query.sizeXMax" placeholder="不限制">
+                    </div>
+                    <!-- SizeY -->
+                    <div class="col-sm-3">
+                        <label>SizeY Min:</label>
+                        <input type="text" class="form-control" v-model="query.sizeYMin" placeholder="不限制">
+                    </div>
+                    <div class="col-sm-3">
+                        <label>SizeY Max:</label>
+                        <input type="text" class="form-control" v-model="query.sizeYMax" placeholder="不限制">
+                    </div>
+                    <!-- SizeZ -->
+                    <div class="col-sm-3">
+                        <label>SizeZ Min:</label>
+                        <input type="text" class="form-control" v-model="query.sizeZMin" placeholder="不限制">
+                    </div>
+                    <div class="col-sm-3">
+                        <label>SizeZ Max:</label>
+                        <input type="text" class="form-control" v-model="query.sizeZMax" placeholder="不限制">
+                    </div>
+                    <!-- StrainX -->
+                    <div class="col-sm-3">
+                        <label>StrainX Min:</label>
+                        <input type="text" class="form-control" v-model="query.strainXMin" placeholder="不限制">
+                    </div>
+                    <div class="col-sm-3">
+                        <label>StrainX Max:</label>
+                        <input type="text" class="form-control" v-model="query.strainXMax" placeholder="不限制">
+                    </div>
+                    <!-- StrainY -->
+                    <div class="col-sm-3">
+                        <label>StrainY Min:</label>
+                        <input type="text" class="form-control" v-model="query.strainYMin" placeholder="不限制">
+                    </div>
+                    <div class="col-sm-3">
+                        <label>StrainY Max:</label>
+                        <input type="text" class="form-control" v-model="query.strainYMax" placeholder="不限制">
+                    </div>
+                    <!-- NX -->
+                    <div class="col-sm-3">
+                        <label>NX Min:</label>
+                        <input type="text" class="form-control" v-model="query.nxMin" placeholder="不限制">
+                    </div>
+                    <div class="col-sm-3">
+                        <label>NX Max:</label>
+                        <input type="text" class="form-control" v-model="query.nxMax" placeholder="不限制">
+                    </div>
+                    <!-- NY -->
+                    <div class="col-sm-3">
+                        <label>NY Min:</label>
+                        <input type="text" class="form-control" v-model="query.nyMin" placeholder="不限制">
+                    </div>
+                    <div class="col-sm-3">
+                        <label>NY Max:</label>
+                        <input type="text" class="form-control" v-model="query.nyMax" placeholder="不限制">
+                    </div>
+                    <!-- ElecX -->
+                    <div class="col-sm-3">
+                        <label>ElecX Min:</label>
+                        <input type="text" class="form-control" v-model="query.elecXMin" placeholder="不限制">
+                    </div>
+                    <div class="col-sm-3">
+                        <label>ElecX Max:</label>
+                        <input type="text" class="form-control" v-model="query.elecXMax" placeholder="不限制">
+                    </div>
+                    <!-- ElecY -->
+                    <div class="col-sm-3">
+                        <label>ElecY Min:</label>
+                        <input type="text" class="form-control" v-model="query.elecYMin" placeholder="不限制">
+                    </div>
+                    <div class="col-sm-3">
+                        <label>ElecY Max:</label>
+                        <input type="text" class="form-control" v-model="query.elecYMax" placeholder="不限制">
+                    </div>
+                    <!-- ElecZ -->
+                    <div class="col-sm-3">
+                        <label>ElecZ Min:</label>
+                        <input type="text" class="form-control" v-model="query.elecZMin" placeholder="不限制">
+                    </div>
+                    <div class="col-sm-3">
+                        <label>ElecZ Max:</label>
+                        <input type="text" class="form-control" v-model="query.elecZMax" placeholder="不限制">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 查询按钮 -->
+            <div style="text-align:center; margin-top:20px;">
+                <button class="btn btn-primary" @click="executeQuery">Query</button>
             </div>
 
             <!-- 查询结果表格 -->
@@ -125,6 +225,8 @@
                     <tr>
                         <th>选择</th>
                         <th>id</th>
+                        <th>Method</th>
+                        <th>SystemType</th>
                         <th>DataType</th>
                         <th>SizeX</th>
                         <th>SizeY</th>
@@ -144,6 +246,8 @@
                             <el-checkbox v-model="checkedList" :label="choice"></el-checkbox>
                         </td>
                         <td>{{choice.id}}</td>
+                        <td>{{choice.method}}</td>
+                        <td>{{choice.systemType}}</td>
                         <td>{{choice.dataType}}</td>
                         <td>{{choice.sizeX}}</td>
                         <td>{{choice.sizeY}}</td>
@@ -164,81 +268,6 @@
             <div class="text-center download-btn-block">
                 <button class="btn btn-primary btn-round btn-lg uniform-btn" @click="downloadFile">Download</button>
             </div>
-
-            <!-- 图像反查区域，移至下载按钮下方，与整体区块同背景 -->
-            <div class="image-search-area">
-                <h4 class="secondfont font-weight-bold" style="margin-bottom:20px;">实验数据图像反查</h4>
-                <!-- 上传图片按钮：使用统一样式 -->
-                <el-upload
-                        action=""
-                        :auto-upload="false"
-                        :on-change="(file) => { matchResult = null; handleFileChange(file); }"
-                        accept=".jpg,.jpeg,.png"
-                        style="margin-bottom:10px;">
-                    <el-button type="primary" class="uniform-btn btn-round btn-lg">上传实验图片</el-button>
-                </el-upload>
-                <el-select v-model="imageType" placeholder="图片类型" style="width: 200px; margin-bottom:10px;">
-                    <el-option label="TEM" value="TEM"></el-option>
-                    <el-option label="PFM" value="PFM"></el-option>
-                </el-select>
-                <el-select v-model="baseSection" placeholder="Base类型" style="width:200px; margin-bottom:10px;">
-                    <el-option label="XY" value="XY"></el-option>
-                    <el-option label="XZ" value="XZ"></el-option>
-                </el-select>
-                <div style="margin-bottom:30px;">
-                    <button class="btn btn-primary btn-round btn-lg uniform-btn" @click="matchImage">图片匹配</button>
-                </div>
-                <!-- 当匹配成功后只显示最新匹配结果（覆盖之前上传结果） -->
-                <div v-if="matchResult" style="margin-top:50px;">
-                    <h4 style="margin-top: 60px; margin-bottom: 40px;">匹配结果</h4>
-                    <table class="table table-bordered" style="margin: 0 auto; width:auto;">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>DataType</th>
-                            <th>SizeX</th>
-                            <th>SizeY</th>
-                            <th>SizeZ</th>
-                            <th>StrainX</th>
-                            <th>StrainY</th>
-                            <th>NX</th>
-                            <th>NY</th>
-                            <th>ElecX</th>
-                            <th>ElecY</th>
-                            <th>ElecZ</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>{{ matchResult.id }}</td>
-                            <td>{{ matchResult.name }}</td>
-                            <td>{{ matchResult.dataType }}</td>
-                            <td>{{ matchResult.sizeX }}</td>
-                            <td>{{ matchResult.sizeY }}</td>
-                            <td>{{ matchResult.sizeZ }}</td>
-                            <td>{{ matchResult.strainX }}</td>
-                            <td>{{ matchResult.strainY }}</td>
-                            <td>{{ matchResult.nx }}</td>
-                            <td>{{ matchResult.ny }}</td>
-                            <td>{{ matchResult.elecX }}</td>
-                            <td>{{ matchResult.elecY }}</td>
-                            <td>{{ matchResult.elecZ }}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <!-- 图像展示，只显示最新上传结果 -->
-                    <div style="text-align:center; margin-top:20px;">
-                        <img :src="matchResult.xy_Fig" alt="XY" style="width:200px; margin-right:10px;">
-                        <img :src="matchResult.xz_Fig" alt="XZ" style="width:200px; margin-right:10px;">
-                        <img :src="matchResult.xyz_Fig" alt="XYZ" style="width:200px;">
-                    </div>
-                    <!-- 图像反查下载按钮，使用统一样式 -->
-                    <div style="margin-top:20px; margin-bottom:40px;">
-                        <el-button type="primary" class="uniform-btn btn-round btn-lg" @click="downloadData(matchResult)">下载数据</el-button>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
     <!-- End 浅色背景框 -->
@@ -246,7 +275,7 @@
     <!-- 上传数据 -->
     <div class="jumbotron jumbotron-fluid mb-3 pt-0 pb-0 bg-lightblue position-relative">
         <div class="pl-4 pr-0 h-100 tofront pt-5 pb-3" style="text-align: center;">
-            <h4 class="secondfont mb-3 font-weight-bold text-center" 
+            <h4 class="secondfont mb-3 font-weight-bold text-center"
                 style="display: block; white-space: nowrap; text-align: center !important; font-size:2rem !important; margin: 0 auto;">
                 Upload
             </h4>
@@ -392,7 +421,7 @@
                         <div class="form-group row" style="text-align: left;">
                             <label class="col-sm-4 col-form-label">Data_File</label>
                             <div class="col-sm-8">
-                                <input type="file" name="file" accept="" @change="getFile($event, 'XYZ_file')">
+                                <input type="file" name="file" accept="" @change="getFile($event, 'data_file')">
                             </div>
                         </div>
                     </div>
@@ -448,102 +477,6 @@
     const app = new Vue({
         el: "#app",
         data: {
-            attriS: [
-                { value: 'id_0', label: 'DataType' },
-                { value: 'id_1', label: 'SizeX' },
-                { value: 'id_2', label: 'SizeY' },
-                { value: 'id_3', label: 'SizeZ' },
-                { value: 'id_4', label: 'StrainX' },
-                { value: 'id_5', label: 'StrainY' },
-                { value: 'id_6', label: 'NX' },
-                { value: 'id_7', label: 'NY' },
-                { value: 'id_8', label: 'ElecX' },
-                { value: 'id_9', label: 'ElecY' },
-                { value: 'id_10', label: 'ElecZ' }
-            ],
-            // 下拉列表值
-            options: [[                     // DataType, changeable
-                { value: '0', label: '0'},
-                { value: '1', label: '1'},
-                { value: '2', label: '2'},
-                { value: '3', label: '3'},
-                { value: '4', label: '4'},
-                { value: '5', label: '5'},
-                { value: '6', label: '6'},
-                { value: '7', label: '7'},
-                { value: '8', label: '8'},
-                { value: '9', label: '9'}
-            ], [                            // SizeX
-                { value: '40', label: '40'}
-            ], [                            // SizeY
-                { value: '40', label: '40'}
-            ], [                            // SizeZ, changeable
-                { value: '28.8', label: '28.8'},
-                { value: '31.2', label: '31.2'},
-                { value: '36.0', label: '36.0'},
-                { value: '38.4', label: '38.4'},
-                { value: '40.8', label: '40.8'},
-                { value: '43.2', label: '43.2'},
-                { value: '45.6', label: '45.6'},
-                { value: '48.0', label: '48.0'},
-                { value: '50.4', label: '50.4'},
-                { value: '52.8', label: '52.8'}
-            ], [                            // StrainX, changeable
-                { value: '3.80', label: '3.80'},
-                { value: '3.84', label: '3.84'},
-                { value: '3.88', label: '3.88'},
-                { value: '3.92', label: '3.92'},
-                { value: '3.96', label: '3.96'},
-                { value: '4.00', label: '4.00'}
-            ], [                            // StrainY, changeable
-                { value: '3.80', label: '3.80'},
-                { value: '3.84', label: '3.84'},
-                { value: '3.88', label: '3.88'},
-                { value: '3.92', label: '3.92'},
-                { value: '3.96', label: '3.96'},
-                { value: '4.00', label: '4.00'}
-            ], [                            // NX, changeable
-                { value: '4', label: '4'},
-                { value: '6', label: '6'},
-                { value: '8', label: '8'},
-                { value: '10', label: '10'},
-                { value: '12', label: '12'},
-                { value: '14', label: '14'},
-                { value: '16', label: '16'},
-                { value: '18', label: '18'},
-                { value: '20', label: '20'},
-                { value: '22', label: '22'},
-                { value: '24', label: '24'}
-            ], [                            // NY, changeable
-                { value: '4', label: '4'},
-                { value: '6', label: '6'},
-                { value: '8', label: '8'},
-                { value: '10', label: '10'},
-                { value: '12', label: '12'},
-                { value: '14', label: '14'},
-                { value: '16', label: '16'},
-                { value: '18', label: '18'},
-                { value: '20', label: '20'},
-                { value: '22', label: '22'},
-                { value: '24', label: '24'}
-            ], [                            // ElecX
-                { value: '0', label: '0'}
-            ], [                            // ElecY
-                { value: '0', label: '0'}
-            ], [                            // ElecZ, changeable
-                { value: '-10', label: '-10'},
-                { value: '-8', label: '-8'},
-                { value: '-6', label: '-6'},
-                { value: '-4', label: '-4'},
-                { value: '-2', label: '-2'},
-                { value: '0', label: '0'},
-                { value: '2', label: '2'},
-                { value: '4', label: '4'},
-                { value: '6', label: '6'},
-                { value: '8', label: '8'},
-                { value: '10', label: '10'}
-            ]],
-            // isShow: false,
             count: 0,
             list: [{attribute: '', value: '', val_options: [], id: this.count, flag: false}],
             // 符合筛选条件的文件
@@ -551,7 +484,9 @@
             // 勾选下载文件名
             checkedList: [],
             formObj: {
-                name: null,
+                id: 0,
+                method: null,
+                systemType: null,
                 dataType: null,
                 sizeX: null,
                 sizeY: null,
@@ -566,7 +501,48 @@
                 xy_Fig: null,
                 xz_Fig: null,
                 xyz_Fig: null,
+                data_Fig: null,
                 data_File: null
+            },
+            query: {
+                // 用于精确查询部分
+                method: "",
+                systemType: "",
+                dataType: "",
+                // 范围查询条件，若为空表示不限制
+                sizeXMin: "", sizeXMax: "",
+                sizeYMin: "", sizeYMax: "",
+                sizeZMin: "", sizeZMax: "",
+                strainXMin: "", strainXMax: "",
+                strainYMin: "", strainYMax: "",
+                nxMin: "", nxMax: "",
+                nyMin: "", nyMax: "",
+                elecXMin: "", elecXMax: "",
+                elecYMin: "", elecYMax: "",
+                elecZMin: "", elecZMax: ""
+            },
+            // 精确查询下拉框选项（参考“Data Square”写法）
+            exactOptions: {
+                method: [
+                    { value: "计算数据", label: "计算数据" },
+                    { value: "实验数据", label: "实验数据" }
+                ],
+                systemType: [
+                    { value: "PTO/STO", label: "PTO/STO" },
+                    { value: "BFO/STO", label: "BFO/STO" }
+                ],
+                dataType: [
+                    { value: "0", label: "0" },
+                    { value: "1", label: "1" },
+                    { value: "2", label: "2" },
+                    { value: "3", label: "3" },
+                    { value: "4", label: "4" },
+                    { value: "5", label: "5" },
+                    { value: "6", label: "6" },
+                    { value: "7", label: "7" },
+                    { value: "8", label: "8" },
+                    { value: "9", label: "9" }
+                ]
             },
             formData: new FormData(),
             imageType: '',      // 图片类型，例如默认空字符串或设置为 "TEM"
@@ -593,7 +569,7 @@
             downloadFile: function () {
                 axios({
                     method: "post",
-                    url: "download",
+                    url: "non_standard_download",
                     headers: { "Content-Type": "application/json" },
                     responseType: "blob", // 返回二进制数据
                     withCredentials: true,
@@ -623,29 +599,27 @@
             /**
              * 查询
              */
-            query: function () {
-                const newList = this.list.map(function (item) {
-                    const newItem = {
-                        id: item.id,
-                        attribute: item.attribute,
-                        flag: item.flag
-                    };
-                    if (item.attribute === "id_0") {
-                        newItem.value = parseInt(item.value);
-                    } else {
-                        newItem.value = parseFloat(item.value);
+            executeQuery: function () {
+                const self = this;
+                let selectValue = [];
+                // 将 query 对象转换为一个 List<Map<String,String>>
+                for (let key in this.query) {
+                    if (this.query[key] !== "") {
+                        selectValue.push({ attribute: key, value: this.query[key] });
                     }
-                    return newItem;
-                });
-                const this_vue = this;
+                }
+                // 输出转换结果以供调试
+                console.log("selectValue:", selectValue);
                 axios({
                     method: "post",
-                    url: "queryData",
+                    url: "non_standard_queryData",
                     headers: { "Content-Type": "application/json" },
                     withCredentials: true,
-                    data: newList
+                    data: selectValue
                 }).then(function (response) {
-                    this_vue.fileList = response.data;
+                    self.fileList = response.data;
+                }).catch(function (error) {
+                    console.error("查询出错：", error);
                 });
             },
             listAdd: function () {
@@ -681,13 +655,15 @@
                     data: formData
                 }).then((response) => {
                     // 当上传实验图片时，只保留最新一张
-                    if(string.toLowerCase().includes('xy')) {
+                    if(string === "XY_fig") {
                         this.formObj.xy_Fig = response.data;
-                    } else if(string.toLowerCase().includes('xz')) {
+                    } else if(string === "XZ_fig") {
                         this.formObj.xz_Fig = response.data;
-                    } else if(string.toLowerCase().includes('xyz')) {
+                    } else if(string === "XYZ_fig") {
                         this.formObj.xyz_Fig = response.data;
-                    } else {
+                    } else if(string === "data_fig") {
+                        this.formObj.data_Fig = response.data;
+                    } else if(string === "data_file"){
                         this.formObj.data_File = response.data;
                     }
                 }).catch(function (error) {
@@ -699,12 +675,13 @@
              * @param event
              */
             submitForm: function (event) {
-                // console.log(this.formObj);
+                this.formData.delete('method');
                 this.formData.delete('name');
+                this.formData.delete('systemType');
                 this.formData.delete('dataType');
-                this.formData.delete('sizeX');       //防止二次修改表单后重复添加
-                this.formData.delete('sizeY');       //防止二次修改表单后重复添加
-                this.formData.delete('sizeZ');       //防止二次修改表单后重复添加
+                this.formData.delete('sizeX');
+                this.formData.delete('sizeY');
+                this.formData.delete('sizeZ');
                 this.formData.delete('strainX');
                 this.formData.delete('strainY');
                 this.formData.delete('nx');
@@ -715,6 +692,7 @@
                 this.formData.delete('xy_Fig');
                 this.formData.delete('xz_Fig');
                 this.formData.delete('xyz_Fig');
+                this.formData.delete('data_Fig');
                 this.formData.delete('data_File');
                 for (let key in this.formObj) {
                     if (key === "id") continue;

@@ -34,7 +34,7 @@ public class ProductController {
      * @throws Exception
      */
     @GetMapping("/products")
-    public Page4Navigator<Product> list(@RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
+    public Page4Navigator<Product> list(@RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "10") int size) throws Exception {
         start = start < 0 ? 0 : start;
         //5表示导航分页最多有5个，像 [1,2,3,4,5] 这样
         return productService.list(start, size, 5);
@@ -116,12 +116,6 @@ public class ProductController {
     @DeleteMapping("/products/{id}")
     public String delete(@PathVariable("id") int id, HttpServletRequest request) throws Exception {
         productService.delete(id);
-//        File  imageFolder= new File(request.getServletContext().getRealPath("img/product"));
-//        File  fileFolder= new File(request.getServletContext().getRealPath("file/product"));
-//        File imagFile = new File(imageFolder,id+".jpg");
-//        File file = new File(fileFolder,id+".in");
-//        imagFile.delete();
-//        file.delete();
         return null;
     }
 
@@ -195,26 +189,8 @@ public class ProductController {
         bean.setXYZ_Fig(xyz_Fig);
         bean.setData_File(data_File);
 
-//        if(image!=null) {
-//            saveOrUpdateImageFile(bean, image, request);
-//        }
         productService.update(bean);
         return Result.success();
-    }
-
-    /**
-     * 上传文件
-     * @param file 文件上传所接收的就是MultipartFile，如果涉及到多文件上传，那么改为List即可。
-     * @return
-     * @throws IOException
-     */
-    @PostMapping(value = "/upload", consumes = "multipart/form-data")
-    public String upload(@RequestParam("file") MultipartFile file, @RequestParam("string") String str) throws IOException {
-        String fileName = file.getOriginalFilename();
-        String filePath = "./temp_data_fig/temp_" + str + "/" + fileName;
-        File dest = new File(filePath);
-        Files.copy(file.getInputStream(), dest.toPath());
-        return filePath;
     }
 
     // 新增接口：生成二维相图

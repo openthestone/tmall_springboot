@@ -15,8 +15,12 @@
     function pageApi() {
         window.location.assign('api');
     }
-    function pageSquare() {
-        window.location.assign('square');
+    function pageStandard() {
+        window.location.assign('standard');
+    }
+
+    function pageNonStandard() {
+        window.location.assign('non_standard');
     }
 </script>
     <!--------------------------------------NAVBAR--------------------------------------->
@@ -33,7 +37,10 @@
                         <a class="nav-link" onclick="pageApi()">REST API Docs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" onclick="pageSquare()">Data Square</a>
+                        <a class="nav-link" onclick="pageStandard()">Data Square</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="pageNonStandard()">Non-standard Data</a>
                     </li>
                 </ul>
             </div>

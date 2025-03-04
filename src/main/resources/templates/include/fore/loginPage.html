@@ -2,10 +2,10 @@
 <div th:fragment="html">
     <script>
         $(function(){
-            var data4Vue = {
-                uri:'foreLogin',
+            const data4Vue = {
+                uri: 'foreLogin',
                 result: [],
-                user:{name:'', password:''}
+                user: {name: '', password: ''}
             };
             //ViewModel
             const vue = new Vue({
@@ -18,7 +18,7 @@
                 },
                 methods: {
                     login: function () {
-                        var url = this.uri;
+                        const url = this.uri;
                         if (this.user.name.length === 0) {
                             $("span.errorMessage").html("请输入用户名");
                             $("div.loginErrorMessageDiv").css("visibility", "visible");
@@ -30,7 +30,7 @@
                             return;
                         }
                         axios.post(url, this.user).then(function (response) {
-                            var result = response.data;
+                            const result = response.data;
                             if (result.code === 0) {
                                 location.href = "home";
                             } else {
@@ -70,14 +70,18 @@
                     <span class="loginInputIcon ">
                         <span class=" glyphicon glyphicon-user"></span>
                     </span>
-                <input v-model="user.name" placeholder="手机/会员名/邮箱" type="text">
+                <label>
+                    <input v-model="user.name" placeholder="手机/会员名/邮箱" type="text">
+                </label>
             </div>
 
             <div class="loginInput ">
                     <span class="loginInputIcon ">
                         <span class=" glyphicon glyphicon-lock"></span>
                     </span>
-                <input v-model="user.password" type="password" placeholder="密码">
+                <label>
+                    <input v-model="user.password" type="password" placeholder="密码">
+                </label>
             </div>
             <div>
                 <a class="notImplementLink" href="#nowhere">忘记登录密码</a>

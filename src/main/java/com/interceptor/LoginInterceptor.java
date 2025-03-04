@@ -15,7 +15,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         HttpSession session = httpServletRequest.getSession();
         String contextPath=session.getServletContext().getContextPath();
         //存放需要登陆才能访问的路径
-        String[] requireAuthPages = new String[]{"home","square","gen","api"};
+        String[] requireAuthPages = new String[]{"home","square","non_standard","gen","api"};
         String uri = httpServletRequest.getRequestURI();
         //去掉前缀/tmall_springboot
         uri = StringUtils.remove(uri, contextPath+"/");

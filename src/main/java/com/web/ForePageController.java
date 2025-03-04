@@ -30,7 +30,6 @@ public class ForePageController {
 
     @GetMapping(value = "/registerSuccess")
     public String registerSuccess() {
-
         return "fore/registerSuccess";
     }
 
@@ -39,9 +38,13 @@ public class ForePageController {
         session.removeAttribute("user");
         return "redirect:home";
     }
-    @GetMapping(value = "/square")
-    public String square() {
+    @GetMapping(value = "/standard")
+    public String standard() {
         return "fore/square";
+    }
+    @GetMapping(value = "/non_standard")
+    public String non_standard() {
+        return "fore/nonStandard";
     }
     @GetMapping(value = "/api")
     public String api() {

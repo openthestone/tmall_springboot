@@ -38,7 +38,6 @@ public class ProductService {
 
 
     public List<Product> queryFile(List<Map<String, String>> selectValue) {
-//        Map<String, String> map = new HashMap<>();
         Integer dataType = null;
         Float sizeX = null;
         Float sizeY = null;
@@ -398,6 +397,20 @@ public class ProductService {
         }
         sc.close();
         int exitCode = process.waitFor();
+        String bestMatch = getMatch(outputBuilder, exitCode);
+
+        Product product = null;
+        if(baseSection.equals("XY"))
+            product = productDao.findByXY_Fig("./data_fig/XY_label_fig/" + bestMatch);
+        else if(baseSection.equals("XZ"))
+            product = productDao.findByXZ_Fig("./data_fig/XZ_label_fig/" + bestMatch);
+        if(product == null){
+            throw new Exception("数据库中未找到与匹配结果对应的记录");
+        }
+        return product;
+    }
+
+    private static String getMatch(StringBuilder outputBuilder, int exitCode) throws Exception {
         String output = outputBuilder.toString().trim();
 
         if(exitCode != 0 || output.startsWith("ERROR:")){
@@ -417,15 +430,6 @@ public class ProductService {
         if(bestMatch.isEmpty()){
             throw new Exception("未获得匹配结果");
         }
-
-        Product product = null;
-        if(baseSection.equals("XY"))
-            product = productDao.findByXY_Fig("./data_fig/XY_label_fig/" + bestMatch);
-        else if(baseSection.equals("XZ"))
-            product = productDao.findByXZ_Fig("./data_fig/XZ_label_fig/" + bestMatch);
-        if(product == null){
-            throw new Exception("数据库中未找到与匹配结果对应的记录");
-        }
-        return product;
+        return bestMatch;
     }
 }

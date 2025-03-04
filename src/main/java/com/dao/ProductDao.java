@@ -18,7 +18,7 @@ public interface ProductDao extends JpaRepository<Product, Integer> {
 //          Float strainY, Float nx, Float ny, Float elecX, Float elecY, Float elecZ,
 //          Pageable pageable);
 
-    @Query(value = "select * from Product where " +
+    @Query(value = "select * from product where " +
             "abs(sizeX - ?1) < 0.0001 " +
             "and abs(sizeY - ?2) < 0.0001 " +
             "and abs(sizeZ - ?3) < 0.0001 " +
@@ -35,7 +35,8 @@ public interface ProductDao extends JpaRepository<Product, Integer> {
             Float sizeX, Float sizeY, Float sizeZ, Float strainX, Float strainY,
             Float nx, Float ny, Float elecX, Float elecY, Float elecZ);
 
-    @Query(value = "select * from Product where if(?1 is not null, dataType=?1, 1=1) " +
+    @Query(value = "select * from product where " +
+            "if(?1 is not null, dataType=?1, 1=1) " +
             "and if(?2 is not null, abs(sizeX - ?2) < 0.0001, 1=1) " +
             "and if(?3 is not null, abs(sizeY - ?3) < 0.0001, 1=1) " +
             "and if(?4 is not null, abs(sizeZ - ?4) < 0.0001, 1=1) " +
@@ -63,7 +64,7 @@ public interface ProductDao extends JpaRepository<Product, Integer> {
                 Float strainX, Float strainY, Float nx, Float ny, Float elecX, Float elecY,
                 Float elecZ, String xy_Fig, String xz_Fig, String xyz_Fig, String data_File);
 
-    @Query(value = "select * from Product where " +
+    @Query(value = "select * from product where " +
             "((:fixedAttr1 = 'sizeZ' and abs(sizeZ - :fixedValue1) < 0.0001) or " +
             " (:fixedAttr1 = 'strainX' and abs(strainX - :fixedValue1) < 0.0001) or " +
             " (:fixedAttr1 = 'strainY' and abs(strainY - :fixedValue1) < 0.0001) or " +

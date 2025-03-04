@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <meta charset="UTF-8">
 <head><title> </title></head>
 <body>
@@ -17,13 +17,14 @@
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script>
     $(function () {
-        var data4Vue = {
+        const data4Vue = {
             uri: 'temp_products',
-            add_uri: 'products',
             pagination: {},
             bean: {
                 id: 0,
+                method: null,
                 name: null,
+                systemType: null,
                 dataType: null,
                 sizeX: null,
                 sizeY: null,
@@ -38,15 +39,14 @@
                 xy_Fig: null,
                 xz_Fig: null,
                 xyz_Fig: null,
+                data_Fig: null,
                 data_File: null
             },
-            beans: [],
-            //Imagfile: null,
-            // file:null,
+            beans: []
         };
 
         //ViewModel
-        var vue = new Vue({
+        const vue = new Vue({
             el: '#workingArea',
             data: data4Vue,
             mounted: function () { //mounted　表示这个 Vue 对象加载成功了
@@ -54,45 +54,30 @@
             },
             methods: {
                 list: function (start) {
-                    var url = this.uri + "?start=" + start;
+                    const url = this.uri + "?start=" + start;
                     axios.get(url).then(function (response) {
                         vue.pagination = response.data;
                         vue.beans = response.data.content;
                     });
                 },
+                //添加数据
                 add: function (id) {
-                    var url = this.uri + "/" + id;
+                    const url = this.uri + "/" + id;
                     axios.get(url).then(function (response) {
-                        vue.bean= response.data;
-                        var formData = new FormData();
-                        // bean: {id: 0, name: '', dateType:'', sizeX: '', sizeY: '', sizeZ: '', strainX:'', strainY:'',
-                        // nx:'', ny:'', elecX:'', elecY:'', elecZ:''}
-                        for(let key in vue.bean) {
-                            if(key === "id") continue;
-                            if(vue.bean[key] == null || vue.bean[key] === "") continue;
+                        vue.bean = response.data;
+                        const formData = new FormData();
+                        for (let key in vue.bean) {
+                            if (key === "id") continue;
+                            if (vue.bean[key] == null || vue.bean[key] === "") continue;
                             formData.append(key, vue.bean[key]);
                         }
-                        // formData.append("name", vue.bean.name);
-                        // formData.append("dataType", vue.bean.dataType);
-                        // formData.append("sizeX", vue.bean.sizeX);
-                        // formData.append("sizeY", vue.bean.sizeY);
-                        // formData.append("sizeZ", vue.bean.sizeZ);
-                        // formData.append("strainX", vue.bean.strainX);
-                        // formData.append("strainY", vue.bean.strainY);
-                        // formData.append("nx", vue.bean.nx);
-                        // formData.append("ny", vue.bean.ny);
-                        // formData.append("elecX", vue.bean.elecX);
-                        // formData.append("elecY", vue.bean.elecY);
-                        // formData.append("elecZ", vue.bean.elecZ);
-                        // formData.append("xy_Fig", vue.bean.xy_Fig);
-                        // formData.append("xz_Fig", vue.bean.xz_Fig);
-                        // formData.append("xyz_Fig", vue.bean.xyz_Fig);
-                        // formData.append("data_File", vue.bean.data_File);
-                        axios.post("add_products/", formData).then(function (response) {
+                        axios.post("add_non_standard_products/", formData).then(function (response) {
                             vue.list(0);
                             vue.bean = {
                                 id: 0,
+                                method: null,
                                 name: null,
+                                systemType: null,
                                 dataType: null,
                                 sizeX: null,
                                 sizeY: null,
@@ -107,8 +92,16 @@
                                 xy_Fig: null,
                                 xz_Fig: null,
                                 xyz_Fig: null,
+                                data_Fig: null,
                                 data_File: null
                             };
+                            axios.delete(url).then(function(response) {
+                                if (0 !== response.data.length) {
+                                    alert(response.data);
+                                } else {
+                                    vue.list(0);
+                                }
+                            });
                         });
                     });
                 }
@@ -117,9 +110,9 @@
                 deleteBean: function (id) {
                     if (!checkDeleteLink())
                         return;
-                    var url = this.uri + "/" + id;
+                    const url = this.uri + "/" + id;
                     axios.delete(url).then(function (response) {
-                        if (0 != response.data.length) {
+                        if (0 !== response.data.length) {
                             alert(response.data);
                         } else {
                             vue.list(0);
@@ -146,7 +139,9 @@
             <thead>
             <tr class="success">
                 <th>ID</th>
-                <th>名字</th>
+                <th>Method</th>
+                <th>Name</th>
+                <th>SystemType</th>
                 <th>DataType</th>
                 <th>SizeX</th>
                 <th>SizeY</th>
@@ -160,7 +155,7 @@
                 <th>ElecZ</th>
                 <th>图片</th>
                 <th>文件</th>
-                <th>添加至标准库</th>
+                <th>添加至非标准库</th>
                 <th>编辑</th>
                 <th>删除</th>
             </tr>
@@ -170,7 +165,13 @@
             <tr v-for="bean in beans ">
                 <td>{{bean.id}}</td>
                 <td>
+                    {{bean.method}}
+                </td>
+                <td>
                     {{bean.name}}
+                </td>
+                <td>
+                    {{bean.systemType}}
                 </td>
                 <td>
                     {{bean.dataType}}
@@ -205,7 +206,7 @@
                 <td>
                     {{bean.elecZ}}
                 </td>
-                <!--TODO  -->
+                <!--  TODO  -->
                 <td>
 
                 </td>

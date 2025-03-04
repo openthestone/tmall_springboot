@@ -15,6 +15,11 @@ public class AdminPageController {
         return "admin/listProduct";
     }
 
+    @GetMapping(value = "/admin_non_standard_product_list")
+    public String listNonStandardCategory() {
+        return "admin/listNonStandardProduct";
+    }
+
     @GetMapping(value = "/admin_temp_product_list")
     public String listTempCategory() {
         return "admin/listTempProduct";
@@ -23,6 +28,11 @@ public class AdminPageController {
     @GetMapping(value = "/admin_product_edit")
     public String editCategory() {
         return "admin/editProduct";
+    }
+
+    @GetMapping(value = "/admin_non_standard_product_edit")
+    public String editNonStandardCategory() {
+        return "admin/editNonStandardProduct";
     }
 
     @GetMapping(value = "/admin_temp_product_edit")

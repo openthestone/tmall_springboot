@@ -1,10 +1,7 @@
 <!DOCTYPE html>
-<meta charset="UTF-8">
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-
-<head>
-    <title> </title>
-</head>
+<meta charset="UTF-8">
+<head><title> </title></head>
 <body>
 <div th:include="include/admin/adminHeader::html('编辑数据')"></div>
 <div th:include="include/admin/adminNavigator::html"></div>
@@ -18,15 +15,16 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <!-- import JavaScript -->
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-
 <script>
     $(function () {
         const data4Vue = {
-            uri: 'products',
-            listURL: 'admin_product_list',
+            uri: 'non_standard_products',
+            listURL: 'admin_non_standard_product_list',
             bean: {
                 id: 0,
+                method: null,
                 name: null,
+                systemType: null,
                 dataType: null,
                 sizeX: null,
                 sizeY: null,
@@ -41,6 +39,7 @@
                 xy_Fig: null,
                 xz_Fig: null,
                 xyz_Fig: null,
+                data_Fig: null,
                 data_File: null
             },
         };
@@ -61,8 +60,6 @@
                     })
                 },
                 update: function () {
-                    // if(!checkEmpty(this.bean.name, "数据名称"))
-                    //     return;
                     const url = this.uri + "/" + this.bean.id;
                     const formData = new FormData();
                     for (let key in this.bean) {
@@ -82,7 +79,7 @@
 <div id="workingArea">
 
     <ol class="breadcrumb">
-        <li><a href="admin_product_list">所有数据</a></li>
+        <li><a href="admin_non_standard_product_list">所有数据</a></li>
         <li class="active">编辑数据</li>
     </ol>
 
@@ -91,9 +88,21 @@
         <div class="panel-body">
             <table class="editTable">
                 <tr>
-                    <td>数据名称:</td>
+                    <td>Method:</td>
+                    <td><label>
+                        <input @keyup.enter="update" v-model.trim="bean.method" type="text" class="form-control">
+                    </label></td>
+                </tr>
+                <tr>
+                    <td>Name:</td>
                     <td><label>
                         <input @keyup.enter="update" v-model.trim="bean.name" type="text" class="form-control">
+                    </label></td>
+                </tr>
+                <tr>
+                    <td>SystemType:</td>
+                    <td><label>
+                        <input @keyup.enter="update" v-model.trim="bean.systemType" type="text" class="form-control">
                     </label></td>
                 </tr>
                 <tr>
@@ -178,6 +187,12 @@
                     <td>XYZ_Fig:</td>
                     <td><label>
                         <input @keyup.enter="update" v-model.trim="bean.xyz_Fig" type="text" class="form-control">
+                    </label></td>
+                </tr>
+                <tr>
+                    <td>Data_Fig:</td>
+                    <td><label>
+                        <input @keyup.enter="update" v-model.trim="bean.data_Fig" type="text" class="form-control">
                     </label></td>
                 </tr>
                 <tr>

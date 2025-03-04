@@ -32,12 +32,6 @@ public class ForeRESTController {
     @Autowired
     UserService userService;
 
-//    @GetMapping("/fore")
-//    public Page4Navigator<Product> list(@RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
-//        start = start < 0 ? 0 : start;
-//        Page4Navigator<Product> page = productService.list(start, size, 5);  //5表示导航分页最多有5个，像 [1,2,3,4,5] 这样
-//        return page;
-//    }
     @PostMapping("/foreRegister")
     public Object register(@RequestBody User user,HttpSession session) {
         String name =  user.getName();
