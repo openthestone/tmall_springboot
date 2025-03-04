@@ -118,44 +118,96 @@ public class ProductService {
     }
 
 
-    // 上一版本下载方法：接收完整产品对象集合，打包下载对应文件
     public void downloadMulti(Collection<Product> products,
                               HttpServletRequest request,
                               HttpServletResponse response) throws Exception {
-        // 这里只以第一个产品为例，实际可扩展为多产品下载
-        Product product = products.iterator().next();
-        List<File> filesToDownload = new ArrayList<>();
-        if (product.getXY_Fig() != null && !product.getXY_Fig().isEmpty()) {
-            File xyFile = new File(product.getXY_Fig());
-            if (xyFile.exists()) {
-                filesToDownload.add(xyFile);
+        if (products == null || products.isEmpty()) {
+            throw new Exception("没有选择产品");
+        }
+
+        // 如果只选择了一条记录，采用原来的方案
+        if (products.size() == 1) {
+            Product product = products.iterator().next();
+            List<File> files = new ArrayList<>();
+            if (product.getXY_Fig() != null && !product.getXY_Fig().isEmpty()){
+                File xyFile = new File(product.getXY_Fig());
+                if (xyFile.exists()) {
+                    files.add(xyFile);
+                }
+            }
+            if (product.getXZ_Fig() != null && !product.getXZ_Fig().isEmpty()){
+                File xzFile = new File(product.getXZ_Fig());
+                if (xzFile.exists()) {
+                    files.add(xzFile);
+                }
+            }
+            if (product.getXYZ_Fig() != null && !product.getXYZ_Fig().isEmpty()){
+                File xyzFile = new File(product.getXYZ_Fig());
+                if (xyzFile.exists()) {
+                    files.add(xyzFile);
+                }
+            }
+            if (product.getData_File() != null && !product.getData_File().isEmpty()){
+                File dataFile = new File(product.getData_File());
+                if (dataFile.exists()) {
+                    files.add(dataFile);
+                }
+            }
+            if (files.isEmpty()){
+                throw new Exception("所选产品没有记录任何文件");
+            }
+            File zipFile = ZipFilesUtil.createZip(files);
+            ZipFilesUtil.downloadFile(zipFile, product.getName() + ".zip", request, response);
+            zipFile.delete();
+        } else { // 多条记录下载：生成每个产品的 ZIP，再打包成一个总的 ZIP
+            List<File> productZipFiles = new ArrayList<>();
+            for (Product product : products) {
+                List<File> files = new ArrayList<>();
+                if (product.getXY_Fig() != null && !product.getXY_Fig().isEmpty()){
+                    File xyFile = new File(product.getXY_Fig());
+                    if (xyFile.exists()){
+                        files.add(xyFile);
+                    }
+                }
+                if (product.getXZ_Fig() != null && !product.getXZ_Fig().isEmpty()){
+                    File xzFile = new File(product.getXZ_Fig());
+                    if (xzFile.exists()){
+                        files.add(xzFile);
+                    }
+                }
+                if (product.getXYZ_Fig() != null && !product.getXYZ_Fig().isEmpty()){
+                    File xyzFile = new File(product.getXYZ_Fig());
+                    if (xyzFile.exists()){
+                        files.add(xyzFile);
+                    }
+                }
+                if (product.getData_File() != null && !product.getData_File().isEmpty()){
+                    File dataFile = new File(product.getData_File());
+                    if (dataFile.exists()){
+                        files.add(dataFile);
+                    }
+                }
+                // 如果该产品有文件，生成一个小ZIP包
+                if (!files.isEmpty()){
+                    File productZip = ZipFilesUtil.createZip(files);
+                    // 可选：重命名ZIP为 product_{id}.zip
+                    File renamedZip = new File(productZip.getParent(), product.getName() + ".zip");
+                    productZip.renameTo(renamedZip);
+                    productZipFiles.add(renamedZip);
+                }
+            }
+            if (productZipFiles.isEmpty()){
+                throw new Exception("所选产品没有记录任何文件");
+            }
+            // 把所有小ZIP包再次压缩到一个大ZIP包中
+            File finalZip = ZipFilesUtil.createZip(productZipFiles);
+            ZipFilesUtil.downloadFile(finalZip, "all_files.zip", request, response);
+            finalZip.delete();
+            // 删除所有单个产品的小ZIP包
+            for (File f : productZipFiles) {
+                f.delete();
             }
         }
-        if (product.getXZ_Fig() != null && !product.getXZ_Fig().isEmpty()) {
-            File xzFile = new File(product.getXZ_Fig());
-            if (xzFile.exists()) {
-                filesToDownload.add(xzFile);
-            }
-        }
-        if (product.getXYZ_Fig() != null && !product.getXYZ_Fig().isEmpty()) {
-            File xyzFile = new File(product.getXYZ_Fig());
-            if (xyzFile.exists()) {
-                filesToDownload.add(xyzFile);
-            }
-        }
-        if (product.getData_File() != null && !product.getData_File().isEmpty()) {
-            File dataFile = new File(product.getData_File());
-            if (dataFile.exists()) {
-                filesToDownload.add(dataFile);
-            }
-        }
-        if (filesToDownload.isEmpty()) {
-            throw new Exception("所选产品没有记录任何文件");
-        }
-        // 调用工具类压缩下载
-        File zipFile = ZipFilesUtil.createZip(filesToDownload);
-        ZipFilesUtil.downloadFile(zipFile, zipFile.getName(), request, response);
-        zipFile.delete();
     }
 
     public List<Product> getProductsForPhaseDiagram(String fixedAttr1, Float fixedValue1,
@@ -236,7 +288,7 @@ public class ProductService {
         // 设置坐标区：将坐标系放在图片左下区域，占70%宽高
         int plotWidth = (int)(width * 0.70);
         int plotHeight = (int)(height * 0.70);
-        int plotX = 60;  // 左侧边距
+        int plotX = 65;  // 左侧边距
         int plotY = height - 60 - plotHeight; // 底部边距60像素
 
         // 绘制坐标系边框
@@ -311,8 +363,8 @@ public class ProductService {
 
         // 保存当前变换
         AffineTransform oldTransform = g2d.getTransform();
-        // 将坐标系平移到纵轴左侧，取坐标区域左侧距离（如 plotX - 30）和纵轴中点位置（plotY + plotHeight/2）
-        g2d.translate(plotX - 40, plotY + plotHeight/2);
+        // 将坐标系平移到纵轴左侧，取坐标区域左侧距离（如 plotX - 45）和纵轴中点位置（plotY + plotHeight/2）
+        g2d.translate(plotX - 45, plotY + plotHeight/2);
         // 逆时针旋转90度（-PI/2）
         g2d.rotate(-Math.PI/2);
         // 绘制纵轴标签，使其水平居中

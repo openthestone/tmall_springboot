@@ -103,7 +103,7 @@ public class ZipFilesUtil {
     public static void downloadFile(File file, String fileName,
                                     HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName);
         try (FileInputStream fis = new FileInputStream(file);
              OutputStream os = response.getOutputStream()) {
             byte[] buffer = new byte[1024];
