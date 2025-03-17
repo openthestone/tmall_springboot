@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+<meta charset="utf-8"/>
 <head>
-    <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <title>Mundana Template by WowThemesNet</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
@@ -31,6 +31,24 @@
             font-size: 1.2rem;
             border-radius: 30px;
         }
+        .header-title {
+            display: block !important;
+            white-space: nowrap !important;
+            text-align: center !important;
+            font-size: 2.5rem !important;
+            font-weight: bold !important;
+            margin: 0 auto 40px !important;
+            padding-top: 80px !important;
+        }
+        .upload-title {
+            display: block !important;
+            white-space: nowrap !important;
+            text-align: center !important;
+            font-size: 2.5rem !important;
+            font-weight: bold !important;
+            margin: 0 auto 30px auto !important;
+            padding-top: 20px !important;
+        }
         /* 浅色背景框 */
         .jumbotron {
             padding-top: 20px;
@@ -58,7 +76,7 @@
 <body>
 <nav class="topnav navbar navbar-expand-lg navbar-light bg-white fixed-top">
     <div class="container">
-        <a class="navbar-brand" onclick="pageIndex()"><strong>Superlattice DataBase</strong></a>
+        <a class="navbar-brand" onclick="pageIndex()"><strong>Superlattice Database</strong></a>
         <div class="navbar-collapse collapse" id="navbarColor02">
             <ul class="navbar-nav mr-auto d-flex align-items-center">
                 <li class="nav-item">
@@ -68,7 +86,7 @@
                     <a class="nav-link" onclick="pageApi()">REST API Docs</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" onclick="pageStandard()">Data Square</a>
+                    <a class="nav-link" onclick="pageStandard()">Standard Data</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" onclick="pageNonStandard()">Non-standard Data</a>
@@ -275,16 +293,22 @@
     <!-- 上传数据 -->
     <div class="jumbotron jumbotron-fluid mb-3 pt-0 pb-0 bg-lightblue position-relative">
         <div class="pl-4 pr-0 h-100 tofront pt-5 pb-3" style="text-align: center;">
-            <h4 class="secondfont mb-3 font-weight-bold text-center"
-                style="display: block; white-space: nowrap; text-align: center !important; font-size:2rem !important; margin: 0 auto;">
-                Upload
-            </h4>
+            <h4 class="header-title upload-title">Upload</h4>
             <br>
             <form action="">
                 <!-- 使用Bootstrap的row和col类分两列排列 -->
-                <div class="row">
+                <div class="row" style="margin-left: 120px;">
                     <!-- 左列：奇数项 -->
                     <div class="col-md-6">
+                        <!-- Method -->
+                        <div class="form-group row" style="text-align: left;">
+                            <label class="col-sm-4 col-form-label">数据类型</label>
+                            <div class="col-sm-8">
+                                <label>
+                                    <input type="text" class="form-control" v-model="formObj.method" style="max-width: 150px;">
+                                </label>
+                            </div>
+                        </div>
                         <!-- Name -->
                         <div class="form-group row" style="text-align: left;">
                             <label class="col-sm-4 col-form-label">Name</label>
@@ -356,6 +380,15 @@
                     </div>
                     <!-- 右列：偶数项 -->
                     <div class="col-md-6">
+                        <!-- SystemType -->
+                        <div class="form-group row" style="text-align: left;">
+                            <label class="col-sm-4 col-form-label">体系名称</label>
+                            <div class="col-sm-8">
+                                <label>
+                                    <input type="number" class="form-control" required v-model="formObj.systemType" style="max-width: 150px;">
+                                </label>
+                            </div>
+                        </div>
                         <!-- DataType -->
                         <div class="form-group row" style="text-align: left;">
                             <label class="col-sm-4 col-form-label">DataType</label>
@@ -429,8 +462,8 @@
                 <!-- 增加 clear both，以确保下方的按钮占据新的一行 -->
                 <div style="clear: both;"></div>
                 <!-- Submit按钮居中，放在输入区域下方 -->
-                <div class="form-group text-center" style="margin-top: 1.3333rem; clear: both;">
-                    <button type="button" class="btn btn-primary w-25 btn-round" @click="submitForm($event)">
+                <div class="form-group text-center" style="margin-top: 1.3333rem; margin-bottom: 3rem; clear: both;">
+                    <button type="button" class="btn btn-success btn-round btn-lg uniform-btn" @click="submitForm($event)">
                         Submit
                     </button>
                 </div>

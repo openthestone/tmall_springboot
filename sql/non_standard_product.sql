@@ -30,4 +30,4 @@ create table `non_standard_product` (
     primary key (`id`)
 ) engine=innodb charset=utf8mb4;
 insert into `non_standard_product` (`id`, `method`, `name`, `systemType`, `dataType`, `sizeX`, `sizeY`, `sizeZ`, `strainX`, `strainY`, `nx`, `ny`, `elecX`, `elecY`, `elecZ`, `xy_Fig`, `xz_Fig`, `xyz_Fig`, `data_Fig`, `data_File`)
-    values('1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','./temp_data_fig/temp_XY_fig/1.txt','./temp_data_fig/temp_XZ_fig/1.txt','./temp_data_fig/temp_XYZ_fig/1.txt','./temp_data_fig/temp_data_fig/1.txt','./temp_data_fig/temp_data_file/1.txt');
+    values('1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','./temp_data_fig/temp_XY_fig/xy.txt','./temp_data_fig/temp_XZ_fig/xz.txt','./temp_data_fig/temp_XYZ_fig/xyz.txt','./temp_data_fig/temp_data_fig/fig.txt','./temp_data_fig/temp_data_file/file.txt');
