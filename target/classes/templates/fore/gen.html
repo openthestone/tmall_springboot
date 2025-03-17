@@ -64,10 +64,7 @@
                     <a class="nav-link" onclick="pageApi()"> REST API Docs </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" onclick="pageStandard()">Data Square</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" onclick="pageNonStandard()">Non-standard Data</a>
+                    <a class="nav-link" onclick="pageSquare()"> Data Square </a>
                 </li>
             </ul>
         </div>
@@ -78,6 +75,91 @@
 
 <!--------------------------------------HEADER--------------------------------------->
 <div id="app" class="container">
+<!--    <div class="jumbotron jumbotron-fluid mb-3 pt-0 pb-4 bg-lightblue position-relative" style="text-align: center;">-->
+<!--        <div class="pl-4 pr-0 tofront" style="height:auto;">-->
+<!--            <div class="row justify-content-center">-->
+<!--                <div class="col-md-12 pt-6 pb-6 align-self-center" style="text-align: center;">-->
+<!--                    <h4 class="secondfont mb-3 font-weight-bold params-header" style="display: inline-block; white-space: nowrap; text-align: center !important;">-->
+<!--                        Parameters for Generate Initial Structure-->
+<!--                    </h4>-->
+<!--                    &lt;!&ndash; 设置 ol 为 inline-block，并加上 margin:0 auto; 使其在父容器中居中 &ndash;&gt;-->
+<!--                    <ol class="list-featured" style="display: inline-block; margin: 0 auto; text-align: left;">-->
+<!--                        <li>-->
+<!--                            <span class="font-weight-normal text-dark">-->
+<!--                                <strong> Size: </strong>-->
+<!--                                <label>-->
+<!--                                    <input type="text" placeholder="40" class="input-num" name="sizeX" v-model="formObj.sizeX"> nm *-->
+<!--                                </label>-->
+<!--                                <label>-->
+<!--                                    <input type="text" placeholder="40" class="input-num" name="sizeY" v-model="formObj.sizeY"> nm *-->
+<!--                                </label>-->
+<!--                                <label>-->
+<!--                                    <input type="text" placeholder="28.8" class="input-num" name="sizeZ" v-model="formObj.sizeZ"> nm-->
+<!--                                </label>-->
+<!--                            </span>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <span class="font-weight-normal text-dark">-->
+<!--                                <strong> StrainX: </strong>-->
+<!--                                <label>-->
+<!--                                    <input type="text" placeholder="4.0" class="input-num"-->
+<!--                                           style="margin-right: 20px;" name="strainX" v-model="formObj.strainX">-->
+<!--                                </label>-->
+<!--                                <strong> StrainY: </strong>-->
+<!--                                <label>-->
+<!--                                    <input type="text" placeholder="4.0" class="input-num"-->
+<!--                                           style="margin-right: 20px;" name="strainY" v-model="formObj.strainY">-->
+<!--                                </label>-->
+<!--                            </span>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <span class="font-weight-normal text-dark">-->
+<!--                                <strong> NX: </strong>-->
+<!--                                <label>-->
+<!--                                    <input type="text" placeholder="4" class="input-num"-->
+<!--                                           style="margin-right: 20px;" name="nx" v-model="formObj.nx">-->
+<!--                                </label>-->
+<!--                                <strong> NY: </strong>-->
+<!--                                <label>-->
+<!--                                    <input type="text" placeholder="4" class="input-num"-->
+<!--                                           style="margin-right: 20px;" name="ny" v-model="formObj.ny">-->
+<!--                                </label>-->
+<!--                            </span>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <span class="font-weight-normal text-dark">-->
+<!--                                <strong> ElecX: </strong>-->
+<!--                                <label>-->
+<!--                                    <input type="text" placeholder="0" class="input-num"-->
+<!--                                           style="margin-right: 20px;" name="elecX" v-model="formObj.elecX">-->
+<!--                                </label>-->
+<!--                                <strong> ElecY: </strong>-->
+<!--                                <label>-->
+<!--                                    <input type="text" placeholder="0" class="input-num"-->
+<!--                                           style="margin-right: 20px;" name="elecY" v-model="formObj.elecY">-->
+<!--                                </label>-->
+<!--                                <strong> ElecZ: </strong>-->
+<!--                                <label>-->
+<!--                                    <input type="text" placeholder="0" class="input-num"-->
+<!--                                           style="margin-right: 20px;" name="elecZ" v-model="formObj.elecZ">-->
+<!--                                </label>-->
+<!--                            </span>-->
+<!--                        </li>-->
+<!--                    </ol>-->
+<!--                    <div style="margin-top: 20px; display: block;">-->
+<!--                        <button class="btn btn-dark" style="display: block; margin: 0 auto;" @click="genSearch">Generate!</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            &lt;!&ndash; 图片展示 &ndash;&gt;-->
+<!--            <div v-if="products.length > 0" v-for="p in products" style="display: flex; justify-content: center; gap: 20px; margin:20px auto 40px;">-->
+<!--                <img style="width: 300px; height: auto; object-fit: cover;" :src="p.xy_Fig" alt="">-->
+<!--                <img style="width: 300px; height: auto; object-fit: cover;" :src="p.xz_Fig" alt="">-->
+<!--                <img style="width: 300px; height: auto; object-fit: cover;" :src="p.xyz_Fig" alt="">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
     <!-- 2D Phase Diagram Generator 区域 -->
     <div class="jumbotron jumbotron-fluid mb-3 pt-0 pb-4 bg-lightblue position-relative" style="text-align:center; padding-top:40px; padding-bottom:40px;">
         <div class="pl-4 pr-0 tofront" style="height:auto; padding-top:60px;">
@@ -410,12 +492,8 @@
         window.location.assign('api');
     }
 
-    function pageStandard() {
-        window.location.assign('standard');
-    }
-
-    function pageNonStandard() {
-        window.location.assign('non_standard');
+    function pageSquare() {
+        window.location.assign('square');
     }
 </script>
 </body>

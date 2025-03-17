@@ -1,0 +1,24 @@
+<meta charset="UTF-8">
+<div class="pageDiv" style="width: 100%; text-align: center; margin: 20px 20px 40px 20px !important; padding-bottom: 40px !important;" th:fragment="html">
+    <nav>
+        <ul class="pagination pagination-centered" style="display: table !important; margin: 0 auto !important; float: none !important;">
+            <li :class="{ disabled: pagination.first }">
+                <a href="#nowhere" @click="jump('first')">«</a>
+            </li>
+            <li :class="{ disabled: !pagination.hasPrevious }">
+                <a href="#nowhere" @click="jump('pre')">‹</a>
+            </li>
+            <li v-for="i in pagination.navigatepageNums">
+                <a href="#nowhere" @click="jumpByNumber(i-1)">{{i}}</a>
+            </li>
+            <li :class="{ disabled: !pagination.hasNext }">
+                <a href="#nowhere" @click="jump('next')">›</a>
+            </li>
+            <li :class="{ disabled: pagination.last }">
+                <a href="#nowhere" @click="jump('last')">»</a>
+            </li>
+        </ul>
+    </nav>
+    <!-- 插入一个占位 div，用于增加翻页栏与后续模块之间的空白 -->
+    <div style="height: 40px;"></div>
+</div>

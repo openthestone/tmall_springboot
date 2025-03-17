@@ -96,10 +96,7 @@
                     <a class="nav-link" onclick="pageApi()">REST API Docs</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" onclick="pageStandard()">Data Square</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" onclick="pageNonStandard()">Non-standard Data</a>
+                    <a class="nav-link" onclick="pageSquare()">Data Square</a>
                 </li>
             </ul>
         </div>
@@ -581,7 +578,7 @@
                 { value: '8', label: '8'},
                 { value: '10', label: '10'}
             ]],
-            // isShow: false,
+            isShow: false,
             count: 0,
             list: [{attribute: '', value: '', val_options: [], id: this.count, flag: false}],
             // 符合筛选条件的文件
@@ -635,7 +632,7 @@
                 }
                 axios({
                     method: "post",
-                    url: "download",
+                    url: "/gjw/download",
                     headers: { "Content-Type": "application/json" },
                     responseType: "blob", // 返回二进制数据
                     withCredentials: true,
@@ -939,12 +936,8 @@
         window.location.assign('api');
     }
 
-    function pageStandard() {
-        window.location.assign('standard');
-    }
-
-    function pageNonStandard() {
-        window.location.assign('non_standard');
+    function pageSquare() {
+        window.location.assign('square');
     }
 </script>
 </body>
